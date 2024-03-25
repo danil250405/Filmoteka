@@ -8,6 +8,32 @@
     <title>Document1</title>
 </head>
 <body>
-<div>{{some}}</div>
+    <form action="/logout" method="post">
+        <input type="submit" value="Sign Out"/>
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
+    </form>
+
+    <div>
+        <form action="/add" method="post">
+            <input type="text" name="text" placeholder="Enter message">
+            <input type="text" name="tag" placeholder="Tag">
+            <button type="submit">Add</button>
+            <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
+        </form>
+    </div>
+
+    <div>message List</div>
+    <form action="/filter" method="post">
+        <input type="text" name="filter">
+        <button type="submit">Find</button>
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
+    </form>
+    {{#messages}}
+        <div>
+            <b>{{id}}</b>
+            <b>{{text}}</b>
+            <b>{{tag}}</b>
+        </div>
+    {{/messages}}
 </body>
 </html>
