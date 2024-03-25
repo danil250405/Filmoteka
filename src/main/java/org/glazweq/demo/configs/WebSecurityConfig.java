@@ -43,13 +43,13 @@ public class WebSecurityConfig {
                         authorize.requestMatchers("/register/**").permitAll()
                                 .requestMatchers("/register").permitAll()
                                 .requestMatchers("/main").permitAll()
-                                .requestMatchers("/home").permitAll()
+                                .requestMatchers("/index").permitAll()
                                 .requestMatchers("/userslist").hasRole("ADMIN")
                 ).formLogin(
                         form -> form
                                 .loginPage("/login")
                                 .loginProcessingUrl("/login")
-                                .defaultSuccessUrl("/users")
+                                .defaultSuccessUrl("/userslist")
                                 .permitAll()
                 ).logout(
                         logout -> logout
