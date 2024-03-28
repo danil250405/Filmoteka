@@ -10,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,16 +32,22 @@ public class WebSecurityConfig {
 
     @Autowired
     private UserDetailsService userDetailsService;
-
+//    @Bean
+//    public WebSecurityCustomizer webSecurityCustomizer(){
+//        return (web) -> web.ignoring().requestMatchers("");
+//    }
     @Bean
     public static PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
         http
                 .authorizeHttpRequests((authorize) ->
-                        authorize.requestMatchers("/register/**").permitAll()
+
+                        authorize
+                                .requestMatchers("/register/**").permitAll()
                                 .requestMatchers("/register").permitAll()
                                 .requestMatchers("/main").permitAll()
                                 .requestMatchers("/index").permitAll()

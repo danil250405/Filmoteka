@@ -1,19 +1,102 @@
-
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Movie Library</title>
-    <link
-            rel="stylesheet"
-            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-    />
+
+    <link href="../assets/styleHome.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" >
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">-->
+<style>
+    body {
+        background-image: url('https://source.unsplash.com/random/1920x1080/?space');
+        background-size: cover;
+        background-position: center;
+        color: #ffffff;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    .navbar {
+        background-color: rgba(0, 0, 0, 0.8) !important;
+        border-bottom: 3px solid #17a2b8;
+    }
+
+    .navbar-brand {
+        font-size: 1.8rem;
+        font-weight: bold;
+    }
+
+    .navbar-nav .nav-link {
+        color: #ffffff !important;
+        font-weight: bold;
+        margin-right: 1rem;
+        transition: color 0.3s;
+    }
+
+    .navbar-nav .nav-link:hover {
+        color: #17a2b8 !important;
+    }
+
+    .card {
+        border: none;
+        transition: transform 0.3s;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        overflow: hidden;
+        background-color: rgba(0, 0, 0, 0.6);
+    }
+
+    .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    footer {
+        background-color: rgba(0, 0, 0, 0.8);
+        color: #ffffff;
+        text-align: center;
+        padding: 20px 0;
+        position: fixed;
+        width: 100%;
+        bottom: 0;
+    }
+
+    footer p {
+        margin-bottom: 0;
+    }
+
+    .btn-details {
+        background-color: #17a2b8;
+        border-color: #17a2b8;
+        transition: background-color 0.3s;
+    }
+
+    .btn-details:hover {
+        background-color: #138496;
+        border-color: #138496;
+    }
+
+    .btn-details i {
+        margin-right: 5px;
+    }
+
+    .spark-registration {
+        width: 30px;
+        height: 30px;
+        fill: #17a2b8;
+        margin-right: 10px;
+    }</style>
+
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#" th:text="${appName}">My Movie Library</a>
+    <a class="navbar-brand" href="#" >My Movie Library</a>
     <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+<!--           svg-->
+        </li>
         <li class="nav-item">
             <a class="nav-link" href="#">Home</a>
         </li>
@@ -31,30 +114,33 @@
 
 <div class="container my-5">
     <div class="row">
-        <div class="col-lg-6">
-            <h2>Popular Movies</h2>
+        <div class="col-lg-12">
+            <h2 class="mb-4">Popular Movies</h2>
             <div class="row">
-                <div class="col-md-4" th:each="movie : ${movies}">
-                    <div class="card mb-4">
-                        <img th:src="${movie.previewUrlImg}" class="card-img-top" alt="...">
+                <div class="col-md-3 mb-4" th:each="movie : ${movies}">
+                    <div class="card">
+                        <img th:src="${movie.previewUrlImg}" class="card-img-top" alt="Movie Poster">
                         <div class="card-body">
                             <h5 class="card-title" th:text="${movie.enName}">FilmName</h5>
+                            <a href="#" class="btn btn-details btn-sm">
+                                <i class="fas fa-info-circle"></i> Details
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
+    </div>
 </div>
 
-<footer class="bg-dark text-white py-3">
+
+<footer class="bg-dark text-white">
     <div class="container">
-        <p th:text="|&copy; ${appName} ${currentYear}|">&copy; My Movie Library 2023</p>
+        <p class="mb-0" >&copy; My Movie Library 2023</p>
     </div>
 </footer>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</div>
 </body>
 </html>

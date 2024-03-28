@@ -69,7 +69,7 @@ public class FilmApiService {
 
 
     public List<MovieCard> getTenMoviesList(int page) throws JsonProcessingException {
-        String urlSecondPart = "?page="+ page +"&limit=10&selectFields=id&selectFields=enName&selectFields=year&selectFields=rating&selectFields=poster&notNullFields=enName&notNullFields=poster.url&sortField=rating.kp&sortType=-1";
+        String urlSecondPart = "?page="+ page +"&limit=24&selectFields=id&selectFields=enName&selectFields=year&selectFields=rating&selectFields=poster&notNullFields=enName&notNullFields=poster.url&sortField=rating.kp&sortType=-1";
         String answerFromApi = getMoviesByRequest(urlSecondPart);
 
         JsonNode rootNode = JsonDecoderService.parse(answerFromApi);

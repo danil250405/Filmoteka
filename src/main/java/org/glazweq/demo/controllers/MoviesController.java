@@ -11,10 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,9 +25,9 @@ public class MoviesController {
     }
 
     @GetMapping("/home-page")
-    public String getCardsList(Model model) throws JsonProcessingException {
+    public String getCardsList(Model model, @RequestParam(defaultValue = "1") int page) throws JsonProcessingException {
 
-        List<MovieCard> movies = filmApiService.getTenMoviesList(1);
+        List<MovieCard> movies = filmApiService.getTenMoviesList(page);
         model.addAttribute("movies", movies);
         return "home-page";
     }
