@@ -12,18 +12,17 @@ import lombok.Setter;
 
 public class MovieCard {
 
-    @JsonProperty("name")
-    private String name;
-    @JsonProperty("type")
-    private String type;
+    @JsonProperty("enName")
+    private String enName;
+
     @JsonProperty("previewUrl")
     private String previewUrlImg;
 
 
-    public MovieCard( String name, String type, String previewUrlImg) {
+    public MovieCard( String enName, String previewUrlImg) {
 
-        this.name = name;
-        this.type = type;
+        this.enName = enName;
+
         this.previewUrlImg = previewUrlImg;
     }
 }

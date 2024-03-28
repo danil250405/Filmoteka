@@ -17,13 +17,13 @@ import java.util.List;
 @Service
 @Slf4j
 public class FilmApiService {
-    private static final  String url = "https://api.kinopoisk.dev/v1.4/movie/";
+    private static final  String url = "https://api.kinopoisk.dev/v1.4/movie";
     private static final String header1 = "H1CX9MG-T83MTC4-PPV7CQE-SYP1474";
     private static final String header2 = "application/json";
 
     @Autowired
     private RestTemplate restTemplate;
-    public String getFirstTenMovie(String filmId){
+    public String getMoviesByRequest(String request){
         try {
             //header value is set
             HttpHeaders headers = new HttpHeaders();
@@ -31,9 +31,8 @@ public class FilmApiService {
             headers.set("X-API-KEY", header1);
             headers.set("accept", header2);
             //make GET  call
-            String request = url +filmId;
-            System.out.println(request);
-            ResponseEntity<String> response = restTemplate.exchange(url + filmId, HttpMethod.GET,new HttpEntity<>(headers),String.class);
+
+            ResponseEntity<String> response = restTemplate.exchange(url + request, HttpMethod.GET,new HttpEntity<>(headers),String.class);
 
             log.info("Output from KinoApi:{}", response.getBody());
 
@@ -48,18 +47,48 @@ public class FilmApiService {
             );
         }
     }
-    public MovieCard getMovieCardById(String filmId) throws JsonProcessingException {
-        String jsonSource = getFirstTenMovie(filmId);
+
+   /* curl --request GET \
+            --url 'https://api.kinopoisk.dev/v1.4/movie?page=1&limit=10&selectFields=id&selectFields=name&selectFields=year&selectFields=rating&selectFields=poster&notNullFields=name&notNullFields=poster.url&sortField=rating.kp&sortType=-1' \
+            --header 'X-API-KEY: H1CX9MG-T83MTC4-PPV7CQE-SYP1474' \
+            --header 'accept: application/json'
+
+
+    */
+
+   /* public MovieCard getTenMovies(String request) throws JsonProcessingException {
+        String jsonSource = getMoviesByRequest(request);
         JsonNode node = JsonDecoderService.parse(jsonSource);
         String name = node.get("name").asText();
         String type = node.get("type").asText();
         String previewImg = node.get("poster").get("previewUrl").asText();
         return new MovieCard(name, type, previewImg);
     }
-    public List<MovieCard> getMoviesCardsList() throws JsonProcessingException {
-        List<MovieCard> moviesCards = Arrays.asList(
-                getMovieCardById("535341")
-        );
+
+    */
+
+
+    public List<MovieCard> getTenMoviesList(int page) throws JsonProcessingException {
+        String urlSecondPart = "?page="+ page +"&limit=10&selectFields=id&selectFields=enName&selectFields=year&selectFields=rating&selectFields=poster&notNullFields=enName&notNullFields=poster.url&sortField=rating.kp&sortType=-1";
+        String answerFromApi = getMoviesByRequest(urlSecondPart);
+
+        JsonNode rootNode = JsonDecoderService.parse(answerFromApi);
+        JsonNode docsNode = rootNode.get("docs"); // Получаем узел "docs"
+
+        List<MovieCard> moviesCards = new ArrayList<>();
+
+        if (docsNode != null && docsNode.isArray()) {
+            for (JsonNode movieNode : docsNode) {
+                String enName = movieNode.get("enName").asText();
+                String previewImg = movieNode.get("poster").get("previewUrl").asText();
+
+                moviesCards.add(new MovieCard(enName, previewImg));
+                System.out.println(enName + "--------------");
+            }
+        }
+
         return moviesCards;
     }
+
+
 }

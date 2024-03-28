@@ -30,7 +30,7 @@ public class MoviesController {
     @GetMapping("/home-page")
     public String getCardsList(Model model) throws JsonProcessingException {
 
-        List<MovieCard> movies = filmApiService.getMoviesCardsList();
+        List<MovieCard> movies = filmApiService.getTenMoviesList(1);
         model.addAttribute("movies", movies);
         return "home-page";
     }
