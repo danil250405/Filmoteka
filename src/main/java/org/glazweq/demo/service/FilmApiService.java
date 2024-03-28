@@ -1,11 +1,18 @@
 package org.glazweq.demo.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.extern.slf4j.Slf4j;
+import org.glazweq.demo.domain.MovieCard;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -16,9 +23,6 @@ public class FilmApiService {
 
     @Autowired
     private RestTemplate restTemplate;
-
-
-
     public String getFirstTenMovie(String filmId){
         try {
             //header value is set
@@ -43,5 +47,19 @@ public class FilmApiService {
                     e
             );
         }
+    }
+    public MovieCard getMovieCardById(String filmId) throws JsonProcessingException {
+        String jsonSource = getFirstTenMovie(filmId);
+        JsonNode node = JsonDecoderService.parse(jsonSource);
+        String name = node.get("name").asText();
+        String type = node.get("type").asText();
+        String previewImg = node.get("poster").get("previewUrl").asText();
+        return new MovieCard(name, type, previewImg);
+    }
+    public List<MovieCard> getMoviesCardsList() throws JsonProcessingException {
+        List<MovieCard> moviesCards = Arrays.asList(
+                getMovieCardById("535341")
+        );
+        return moviesCards;
     }
 }
