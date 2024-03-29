@@ -131,14 +131,62 @@
             </div>
         </div>
     </div>
-</div>
+</div><nav aria-label="Page navigation" >
+    <ul class="pagination justify-content-center ">
+        <!-- Ссылка на предыдущую страницу -->
+        <li th:class="${currentPage == 1} ? 'page-item disabled' : 'page-item'">
+            <a th:href="@{/home-page(page=${currentPage - 1})}" class="page-link" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Prev</span>
+            </a>
+        </li>
+
+        <!-- Ссылка на первую страницу -->
+        <li th:if="${currentPage >= 4}" th:class="${currentPage == 1} ? 'page-item active' : 'page-item'">
+            <a th:href="@{/home-page(page=1)}" class="page-link">1</a>
+        </li>
+
+        <!-- Ссылка на страницу "..." -->
+        <li th:if="${currentPage > 4}" class="page-item disabled">
+            <a href="#" class="page-link">...</a>
+        </li>
+
+        <!-- Ссылки на страницы в диапазоне currentPage +/- 2 -->
+        <li th:each="pageNum : ${#numbers.sequence(currentPage > 2 ? currentPage - 2 : 1, currentPage < totalPages - 2 ? currentPage + 2 : totalPages)}"
+            th:class="${pageNum == currentPage} ? 'page-item active' : 'page-item'">
+            <a th:href="@{/home-page(page=${pageNum})}" class="page-link" th:text="${pageNum}"></a>
+        </li>
+
+        <!-- Ссылка на страницу "..." -->
+        <li th:if="${currentPage < totalPages - 3}" class="page-item disabled">
+            <a href="#" class="page-link">...</a>
+        </li>
+
+        <!-- Ссылка на последнюю страницу -->
+        <li th:if="${currentPage < totalPages - 2}" th:class="${currentPage == totalPages} ? 'page-item active' : 'page-item'">
+            <a th:href="@{/home-page(page=${totalPages})}" class="page-link" th:text="${totalPages}"></a>
+        </li>
+
+        <!-- Ссылка на следующую страницу -->
+        <li th:class="${currentPage == totalPages} ? 'page-item disabled' : 'page-item'">
+            <a th:href="@{/home-page(page=${currentPage + 1})}" class="page-link" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span>
+            </a>
+        </li>
+    </ul>
+</nav>
 
 
-<footer class="bg-dark text-white">
-    <div class="container">
-        <p class="mb-0" >&copy; My Movie Library 2023</p>
-    </div>
-</footer>
+
+
+
+
+<!--<footer class="bg-dark text-white">-->
+<!--    <div class="container">-->
+<!--        <p class="mb-0" >&copy; My Movie Library 2023</p>-->
+<!--    </div>-->
+<!--</footer>-->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

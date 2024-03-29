@@ -11,14 +11,13 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
 @Slf4j
 public class FilmApiService {
     private static final  String url = "https://api.kinopoisk.dev/v1.4/movie";
-    private static final String header1 = "H1CX9MG-T83MTC4-PPV7CQE-SYP1474";
+    private static final String header1 = "D386SAK-6YR4GXR-KYNQ26E-0JHQX0C";
     private static final String header2 = "application/json";
 
     @Autowired
@@ -66,10 +65,18 @@ public class FilmApiService {
     }
 
     */
+    //досьаем кол фильмов из апи
+    public int totalFilmInApi() throws JsonProcessingException {
+        String urlSecondPart = "?page=1&limit=1&selectFields=id&notNullFields=enName&notNullFields=rating.kp&notNullFields=poster.url";
+        String answerFromApi = getMoviesByRequest(urlSecondPart);
+        JsonNode rootNode = JsonDecoderService.parse(answerFromApi);
+        int total = Integer.parseInt(rootNode.get("total").asText());
+        return total;
 
-
-    public List<MovieCard> getTenMoviesList(int page) throws JsonProcessingException {
-        String urlSecondPart = "?page="+ page +"&limit=24&selectFields=id&selectFields=enName&selectFields=year&selectFields=rating&selectFields=poster&notNullFields=enName&notNullFields=poster.url&sortField=rating.kp&sortType=-1";
+    }
+    //dostaem List filmov
+    public List<MovieCard> getMoviesList(int currentPage, int productPerPage) throws JsonProcessingException {
+        String urlSecondPart = "?page="+ currentPage +"&limit="+ productPerPage +"&selectFields=id&selectFields=enName&selectFields=year&selectFields=rating&selectFields=poster&notNullFields=enName&notNullFields=poster.url&sortField=rating.kp&sortType=-1";
         String answerFromApi = getMoviesByRequest(urlSecondPart);
 
         JsonNode rootNode = JsonDecoderService.parse(answerFromApi);

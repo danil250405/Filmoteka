@@ -17,6 +17,15 @@
         <java.version>21</java.version>
     </properties>
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-tx
+        @transactional -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>6.1.5</version>
+        </dependency>
+
+
         <!--Mustache-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
