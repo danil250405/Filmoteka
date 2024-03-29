@@ -17,7 +17,13 @@ import java.util.List;
 @Slf4j
 public class FilmApiService {
     private static final  String url = "https://api.kinopoisk.dev/v1.4/movie";
-    private static final String header1 = "D386SAK-6YR4GXR-KYNQ26E-0JHQX0C";
+    /*
+    keys: D386SAK-6YR4GXR-KYNQ26E-0JHQX0C seriy
+          H1CX9MG-T83MTC4-PPV7CQE-SYP1474 my
+          90T8CSE-7P34EBK-HHTP44M-DA7KSDG carhartt
+
+     */
+    private static final String header1 = "90T8CSE-7P34EBK-HHTP44M-DA7KSDG";
     private static final String header2 = "application/json";
 
     @Autowired
@@ -90,7 +96,7 @@ public class FilmApiService {
                 String previewImg = movieNode.get("poster").get("previewUrl").asText();
 
                 moviesCards.add(new MovieCard(enName, previewImg));
-                System.out.println(enName + "--------------");
+
             }
         }
 

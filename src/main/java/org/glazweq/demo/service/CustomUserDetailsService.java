@@ -22,8 +22,8 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepo.findByEmail(email);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+       User user = userRepo.findByUsername(username);
 
         if (user != null) {
             return new org.springframework.security.core.userdetails.User(user.getEmail(),
@@ -33,6 +33,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("Invalid username or password.");
         }
     }
+
 
     private Collection < ? extends GrantedAuthority> mapRolesToAuthorities(Collection <Role> roles) {
         Collection< ? extends GrantedAuthority> mapRoles = roles.stream()

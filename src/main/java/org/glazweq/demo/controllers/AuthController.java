@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import org.glazweq.demo.Dto.UserDto;
 import org.glazweq.demo.domain.User;
 import org.glazweq.demo.service.UserService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,10 +28,12 @@ public class AuthController {
     public String mainPage() {
         return "main";
     }
+
     @GetMapping("/index")
     public String home() {
         return "index";
     }
+
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
         // create model object to store form data
@@ -39,7 +42,8 @@ public class AuthController {
         System.out.println("qwe-----------------------------------------------------------------------");
         return "register";
     }
-@PostMapping("/register/save")
+
+    @PostMapping("/register/save")
     public String registration(@Valid @ModelAttribute("user") UserDto userDto,
                                BindingResult result,
                                Model model) {
@@ -47,11 +51,11 @@ public class AuthController {
 
         User existingUserByEmail = userService.findUserByEmail(userDto.getEmail());
 
-    if(result.hasErrors()){
-        model.addAttribute("user", userDto);
-        System.out.println("qwe-----------------------------------------------------------------------");
-        return "register";
-    }
+        if (result.hasErrors()) {
+            model.addAttribute("user", userDto);
+            System.out.println("qwe-----------------------------------------------------------------------");
+            return "register";
+        }
         if (existingUserByEmail != null && existingUserByEmail.getEmail() != null && !existingUserByEmail.getEmail().isEmpty()) {
             result.rejectValue("email", null,
                     "There is already an account registered with the same email");
@@ -68,26 +72,30 @@ public class AuthController {
             return "register";
         }
 
-         model.addAttribute("success", true);
+        model.addAttribute("success", true);
         userService.saveUser(userDto);
-        return "redirect:/register/save?success";
-}
+        return "redirect:/login";
+    }
 
     @GetMapping("/login")
     public String login() {
         return "login";
     }
-    @PostMapping("/login/check")
-    public String loginCheck(@RequestParam("username") String username, @RequestParam("password") String password){
-        User logUser = userService.findUserByUsername(username);
 
+    @PostMapping("/login-success")
+    public String loginCheck(@AuthenticationPrincipal UserDto userDto, @RequestParam("username") String username, @RequestParam("password") String password) {
+        System.out.println("mamamaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+       // User logUser = userService.findUserByUsername(username);
+        System.out.println("qwe---------------------------aaaaaaa--------------------------------------------");
+//
+//        if (logUser != null && passwordEncoder.matches(password, logUser.getPassword())){
+//            System.out.println("good job");
+//            return "redirect:/home";
+//        }else
+//            return "redirect:/login?error";
+//    }
+        return "redirect:/home-page";
+        // handler method to handle list of users
 
-        if (logUser != null && passwordEncoder.matches(password, logUser.getPassword())){
-            System.out.println("good job");
-            return "redirect:/home";
-        }else
-            return "redirect:/login?error";
     }
-    // handler method to handle list of users
-
 }

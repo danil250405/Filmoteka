@@ -32,10 +32,10 @@ public class WebSecurityConfig {
 
     @Autowired
     private UserDetailsService userDetailsService;
-//    @Bean
-//    public WebSecurityCustomizer webSecurityCustomizer(){
-//        return (web) -> web.ignoring().requestMatchers("");
-//    }
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer(){
+        return (web) -> web.ignoring().requestMatchers("/static/**");
+    }
     @Bean
     public static PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
@@ -47,19 +47,26 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests((authorize) ->
 
                         authorize
+                                .requestMatchers("/").permitAll()
+                                .requestMatchers("/login").permitAll()
+
                                 .requestMatchers("/register/**").permitAll()
                                 .requestMatchers("/register").permitAll()
+                                .requestMatchers("/register/**").permitAll()
                                 .requestMatchers("/main").permitAll()
                                 .requestMatchers("/index").permitAll()
                                 .requestMatchers("/home-page").permitAll()
                                 .requestMatchers("/films/movies").permitAll()
+
                                 .requestMatchers("/userslist").hasRole("ADMIN")
                 ).formLogin(
                         form -> form
+
                                 .loginPage("/login")
                                 .loginProcessingUrl("/login")
                                 .defaultSuccessUrl("/userslist")
                                 .permitAll()
+
                 ).logout(
                         logout -> logout
                                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
