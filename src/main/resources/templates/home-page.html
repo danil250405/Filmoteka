@@ -11,13 +11,22 @@
 <!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">-->
 <style>
     body {
+        position: relative;
         background-image: url('https://source.unsplash.com/random/1920x1080/?space');
         background-size: cover;
         background-position: center;
         color: #ffffff;
         font-family: 'Roboto', sans-serif;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        padding-bottom: 100px; /* Высота вашего футера */
+        box-sizing: border-box;
     }
+    main{
 
+        padding-bottom: 2.5rem; /* Дополнительный отступ от контента до футера, если нужно */
+    }
     .navbar {
         background-color: rgba(0, 0, 0, 0.8) !important;
         border-bottom: 3px solid #17a2b8;
@@ -59,8 +68,10 @@
         text-align: center;
         padding: 20px 0;
         position: fixed;
-        width: 100%;
+        left: 0;
         bottom: 0;
+        width: 100%;
+        z-index: 4;
     }
 
     footer p {
@@ -87,7 +98,17 @@
         height: 30px;
         fill: #17a2b8;
         margin-right: 10px;
-    }</style>
+
+    }
+    .pagination-container {
+        position: relative;
+        z-index: 0; /* Установите более высокий z-index, чем у футера */
+    }
+
+    .pagination .active {
+        position: relative; /* Добавьте позиционирование для элемента с классом active */
+    }
+    </style>
 
 </head>
 <body>
@@ -177,16 +198,11 @@
     </ul>
 </nav>
 
-
-
-
-
-
-<!--<footer class="bg-dark text-white">-->
-<!--    <div class="container">-->
-<!--        <p class="mb-0" >&copy; My Movie Library 2023</p>-->
-<!--    </div>-->
-<!--</footer>-->
+<footer class="bg-dark text-white">
+    <div class="container">
+        <p class="mb-0" >&copy; My Movie Library 2023</p>
+    </div>
+</footer>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
