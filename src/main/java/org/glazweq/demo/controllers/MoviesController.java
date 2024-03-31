@@ -43,12 +43,14 @@ public class MoviesController {
         //list with films
         model.addAttribute("movies", movies);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String roleAuthUser;
         if (auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
-            System.out.println("goooooodssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss");
+           roleAuthUser = "admin";
         }
         else {
-            System.out.println("lox ti");
+            roleAuthUser = "guest";
         }
+        model.addAttribute("userRole", roleAuthUser);
         //for pagination
         model.addAttribute("currentPage", page);
         model.addAttribute("totalItems", totalFilmsInApi);

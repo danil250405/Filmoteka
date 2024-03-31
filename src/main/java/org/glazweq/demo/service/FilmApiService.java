@@ -23,7 +23,7 @@ public class FilmApiService {
           90T8CSE-7P34EBK-HHTP44M-DA7KSDG carhartt
 
      */
-    private static final String header1 = "90T8CSE-7P34EBK-HHTP44M-DA7KSDG";
+    private static final String header1 = "D386SAK-6YR4GXR-KYNQ26E-0JHQX0C";
     private static final String header2 = "application/json";
 
     @Autowired
@@ -82,7 +82,7 @@ public class FilmApiService {
     }
     //dostaem List filmov
     public List<MovieCard> getMoviesList(int currentPage, int productPerPage) throws JsonProcessingException {
-        String urlSecondPart = "?page="+ currentPage +"&limit="+ productPerPage +"&selectFields=id&selectFields=enName&selectFields=year&selectFields=rating&selectFields=poster&notNullFields=enName&notNullFields=poster.url&sortField=rating.kp&sortType=-1";
+        String urlSecondPart = "?page="+ currentPage +"&limit="+ productPerPage +"&selectFields=id&selectFields=enName&selectFields=year&selectFields=rating&selectFields=poster&notNullFields=enName&notNullFields=poster.url&selectFields=votes&sortField=votes.imdb&sortType=-1";
         String answerFromApi = getMoviesByRequest(urlSecondPart);
 
         JsonNode rootNode = JsonDecoderService.parse(answerFromApi);

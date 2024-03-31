@@ -24,10 +24,6 @@ public class AuthController {
     }
 
     // handler method to handle home page request
-    @GetMapping("/main")
-    public String mainPage() {
-        return "main";
-    }
 
     @GetMapping("/index")
     public String home() {
