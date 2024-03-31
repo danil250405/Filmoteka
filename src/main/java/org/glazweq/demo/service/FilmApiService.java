@@ -53,24 +53,6 @@ public class FilmApiService {
         }
     }
 
-   /* curl --request GET \
-            --url 'https://api.kinopoisk.dev/v1.4/movie?page=1&limit=10&selectFields=id&selectFields=name&selectFields=year&selectFields=rating&selectFields=poster&notNullFields=name&notNullFields=poster.url&sortField=rating.kp&sortType=-1' \
-            --header 'X-API-KEY: H1CX9MG-T83MTC4-PPV7CQE-SYP1474' \
-            --header 'accept: application/json'
-
-
-    */
-
-   /* public MovieCard getTenMovies(String request) throws JsonProcessingException {
-        String jsonSource = getMoviesByRequest(request);
-        JsonNode node = JsonDecoderService.parse(jsonSource);
-        String name = node.get("name").asText();
-        String type = node.get("type").asText();
-        String previewImg = node.get("poster").get("previewUrl").asText();
-        return new MovieCard(name, type, previewImg);
-    }
-
-    */
     //досьаем кол фильмов из апи
     public int totalFilmInApi() throws JsonProcessingException {
         String urlSecondPart = "?page=1&limit=1&selectFields=id&notNullFields=enName&notNullFields=rating.kp&notNullFields=poster.url";
@@ -81,8 +63,8 @@ public class FilmApiService {
 
     }
     //dostaem List filmov
-    public List<MovieCard> getMoviesList(int currentPage, int productPerPage) throws JsonProcessingException {
-        String urlSecondPart = "?page="+ currentPage +"&limit="+ productPerPage +"&selectFields=id&selectFields=enName&selectFields=year&selectFields=rating&selectFields=poster&notNullFields=enName&notNullFields=poster.url&selectFields=votes&sortField=votes.imdb&sortType=-1";
+    public List<MovieCard> getMoviesList(int currentPage, int productPerPage, String requestFromController) throws JsonProcessingException {
+        String urlSecondPart = "?page="+ currentPage +"&limit="+ productPerPage +requestFromController;
         String answerFromApi = getMoviesByRequest(urlSecondPart);
 
         JsonNode rootNode = JsonDecoderService.parse(answerFromApi);
@@ -102,6 +84,7 @@ public class FilmApiService {
 
         return moviesCards;
     }
+    //get request by filter
 
 
 }

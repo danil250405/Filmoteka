@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -24,6 +25,10 @@ import java.util.List;
 public class MoviesController {
     public final int productPerPage = 24;
     private final FilmApiService filmApiService;
+
+    //requests
+    private final String defaultRequest ="&selectFields=id&selectFields=enName&selectFields=year&selectFields=rating&selectFields=poster&notNullFields=enName&notNullFields=poster.url&selectFields=votes&sortField=votes.imdb&sortType=-1";
+
     @Autowired
     public MoviesController(FilmApiService filmApiService) throws JsonProcessingException {
         this.filmApiService = filmApiService;
@@ -34,12 +39,21 @@ public class MoviesController {
     }
 
     @GetMapping("/home-page")
-    public String getCardsList(Model model, @RequestParam(defaultValue = "1") int page)
+    public String getCardsList(Model model, @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = defaultRequest) String requestUrl)
             throws JsonProcessingException {
         int totalFilmsInApi = filmApiService.totalFilmInApi();
         int pagesAmount = totalFilmsInApi/productPerPage; // 181
 
-        List<MovieCard> movies = filmApiService.getMoviesList(page, productPerPage);
+        //list with genres
+        List<String> genres = Arrays.asList(
+                "action", "adventure", "adult", "anime", "biography", "cartoon", "ceremony", "children's", "comedy", "concert", "crime",
+                "detective", "documentary", "drama", "family", "fantasy", "film noir", "game", "history", "horror", "melodrama", "music",
+                "musical", "news", "reality TV", "short film", "sport", "talk show", "thriller", "war", "western");
+
+        model.addAttribute("genres", genres);
+
+
+        List<MovieCard> movies = filmApiService.getMoviesList(page, productPerPage, requestUrl);
         //list with films
         model.addAttribute("movies", movies);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -61,4 +75,10 @@ public class MoviesController {
 
     }
 
+////    filter
+//    @PostMapping("/filter")
+//    public String filterMovies(@RequestParam("genre") String selectedGenre, Model model){
+//
+//
+//    }
 }

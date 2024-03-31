@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ru en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -69,6 +69,19 @@
 
     </div>
 </nav>
+
+
+<form th:action="@{/filter}" method="post">
+    <div class="form-group">
+        <label for="genre">Select Genre:</label>
+        <select class="form-control" id="genre" name="genre">
+            <option value="">Choose Genre</option>
+            <option th:each="genre : ${genres}" th:value="${genre}" th:text="${genre}"></option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
 
 
 <div class="container my-5">
