@@ -95,8 +95,14 @@ public class MoviesController {
 
         String baseUrl;
         // for pagination
+        if (genre.equals("any")) {
+            System.out.println("finito3wwwwwwwwwwwwwwww");
 
-        baseUrl = "/home-page?genre=" + genre + "&page=";
+            baseUrl = "/home-page?"+ "page=";
+        }
+        else {
+            baseUrl = "/home-page?genre=" + genre + "&page=";
+        }
         model.addAttribute("baseUrl", baseUrl);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalItems", totalFilmsInApi);
