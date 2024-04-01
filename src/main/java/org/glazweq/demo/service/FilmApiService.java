@@ -27,7 +27,7 @@ public class FilmApiService {
           8HK60K1-GN54HEM-NA6DYES-5HQBVWJ vitalya
           Y8EGHT0-CSZ4PGE-QZ82S6C-KN2CVA7 sonya
      */
-    private static final String header1 = "Y8EGHT0-CSZ4PGE-QZ82S6C-KN2CVA7";
+    private static final String header1 = "D386SAK-6YR4GXR-KYNQ26E-0JHQX0C";
     private static final String header2 = "application/json";
 
     @Autowired
@@ -94,24 +94,21 @@ public  String getResponseAndNotNullFields(){
     return responseFields + notNullFields;
 }
 
-    public String getUrlForApi(int currentPage, int productPerPage, String genre){
+    public String getUrlForApi(int currentPage, int productPerPage, String genre, String yearRange){
         String filmsOnPage = "?page="+ currentPage +"&limit="+ productPerPage;
         //List of fields required in the response from the model
         String sortType = "&sortType=-1";
+        String defaultRequest = "&selectFields=votes&sortField=votes.imdb" + sortType;
         String fullUrl;
+        fullUrl = firstPartUrl + filmsOnPage + getResponseAndNotNullFields();
         System.out.println("222222222222222222222"+genre);
-        if (Objects.equals(genre, "any") || genre==null) {
-            String defaultRequest = "&selectFields=votes&sortField=votes.imdb" + sortType;
-            fullUrl = firstPartUrl + filmsOnPage + getResponseAndNotNullFields() +  defaultRequest;
-            System.out.println(fullUrl);
-        }
-        else {
+        if (!Objects.equals(genre, "any") && genre != null) {
             String filterByGenre ="&genres.name=" + getRequestByGenre(genre);
-            fullUrl = firstPartUrl + filmsOnPage + getResponseAndNotNullFields() + filterByGenre;
+             fullUrl = fullUrl.concat(filterByGenre);
             System.out.println(fullUrl);
-
-
         }
+
+        fullUrl = fullUrl.concat(defaultRequest);
         return fullUrl;
     }
 

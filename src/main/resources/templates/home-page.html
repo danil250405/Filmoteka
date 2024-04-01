@@ -77,6 +77,11 @@
 
             <option th:each="genre : ${genres}" th:value="${genre}" th:selected="${genre == selectedGenre}" th:text="${genre}"></option>
         </select>
+        <label for="yearRange">Select Year Range:</label>
+        <select class="form-control" id="yearRange" name="yearRange">
+
+            <option th:each="range : ${yearRanges}" th:value="${range}" th:selected="${range == selectedYearRange}" th:text="${range}"></option>
+        </select>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
