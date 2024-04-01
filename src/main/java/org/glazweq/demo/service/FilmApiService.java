@@ -12,18 +12,22 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Slf4j
 public class FilmApiService {
-    private static final  String url = "https://api.kinopoisk.dev/v1.4/movie";
+    private static final  String firstPartUrl = "https://api.kinopoisk.dev/v1.4/movie";
     /*
-    keys: D386SAK-6YR4GXR-KYNQ26E-0JHQX0C seriy
+    keys: D386SAK-6YR4GXR-KYNQ26E-0JHQX0C batya
           H1CX9MG-T83MTC4-PPV7CQE-SYP1474 my
           90T8CSE-7P34EBK-HHTP44M-DA7KSDG carhartt
-
+          27AG916-69D40PB-N6WACS4-H90QVSE kolyan
+          H659JZ2-ZV64B13-QQK91XR-T33YW3Q mama
+          8HK60K1-GN54HEM-NA6DYES-5HQBVWJ vitalya
+          Y8EGHT0-CSZ4PGE-QZ82S6C-KN2CVA7 sonya
      */
-    private static final String header1 = "D386SAK-6YR4GXR-KYNQ26E-0JHQX0C";
+    private static final String header1 = "Y8EGHT0-CSZ4PGE-QZ82S6C-KN2CVA7";
     private static final String header2 = "application/json";
 
     @Autowired
@@ -36,8 +40,7 @@ public class FilmApiService {
             headers.set("X-API-KEY", header1);
             headers.set("accept", header2);
             //make GET  call
-
-            ResponseEntity<String> response = restTemplate.exchange(url + request, HttpMethod.GET,new HttpEntity<>(headers),String.class);
+            ResponseEntity<String> response = restTemplate.exchange(request, HttpMethod.GET,new HttpEntity<>(headers),String.class);
 
             log.info("Output from KinoApi:{}", response.getBody());
 
@@ -55,17 +58,17 @@ public class FilmApiService {
 
     //досьаем кол фильмов из апи
     public int totalFilmInApi() throws JsonProcessingException {
-        String urlSecondPart = "?page=1&limit=1&selectFields=id&notNullFields=enName&notNullFields=rating.kp&notNullFields=poster.url";
-        String answerFromApi = getMoviesByRequest(urlSecondPart);
+        String urlSecondPart = "?page=1&limit=1" + getResponseAndNotNullFields();
+        String answerFromApi = getMoviesByRequest(firstPartUrl+urlSecondPart);
         JsonNode rootNode = JsonDecoderService.parse(answerFromApi);
         int total = Integer.parseInt(rootNode.get("total").asText());
         return total;
 
     }
-    //dostaem List filmov
-    public List<MovieCard> getMoviesList(int currentPage, int productPerPage, String requestFromController) throws JsonProcessingException {
-        String urlSecondPart = "?page="+ currentPage +"&limit="+ productPerPage +requestFromController;
-        String answerFromApi = getMoviesByRequest(urlSecondPart);
+    //dostaem List filmov тут dеlаем page
+    public List<MovieCard> getMoviesList( String requestFromController) throws JsonProcessingException {
+//        String urlSecondPart = "?page="+ currentPage +"&limit="+ productPerPage +requestFromController;
+        String answerFromApi = getMoviesByRequest(requestFromController);
 
         JsonNode rootNode = JsonDecoderService.parse(answerFromApi);
         JsonNode docsNode = rootNode.get("docs"); // Получаем узел "docs"
@@ -74,17 +77,83 @@ public class FilmApiService {
 
         if (docsNode != null && docsNode.isArray()) {
             for (JsonNode movieNode : docsNode) {
-                String enName = movieNode.get("enName").asText();
+                String name = movieNode.get("name").asText();
                 String previewImg = movieNode.get("poster").get("previewUrl").asText();
 
-                moviesCards.add(new MovieCard(enName, previewImg));
+                moviesCards.add(new MovieCard(name, previewImg));
 
             }
         }
 
         return moviesCards;
     }
-    //get request by filter
 
+public  String getResponseAndNotNullFields(){
+    String responseFields = "&selectFields=enName&selectFields=name&selectFields=releaseYears&selectFields=poster";
+    String notNullFields = "&notNullFields=name&notNullFields=poster.url";
+    return responseFields + notNullFields;
+}
+
+    public String getUrlForApi(int currentPage, int productPerPage, String genre){
+        String filmsOnPage = "?page="+ currentPage +"&limit="+ productPerPage;
+        //List of fields required in the response from the model
+        String sortType = "&sortType=-1";
+        String fullUrl;
+        System.out.println("222222222222222222222"+genre);
+        if (Objects.equals(genre, "any") || genre==null) {
+            String defaultRequest = "&selectFields=votes&sortField=votes.imdb" + sortType;
+            fullUrl = firstPartUrl + filmsOnPage + getResponseAndNotNullFields() +  defaultRequest;
+            System.out.println(fullUrl);
+        }
+        else {
+            String filterByGenre ="&genres.name=" + getRequestByGenre(genre);
+            fullUrl = firstPartUrl + filmsOnPage + getResponseAndNotNullFields() + filterByGenre;
+            System.out.println(fullUrl);
+
+
+        }
+        return fullUrl;
+    }
+
+    //get request by genre
+    public String getRequestByGenre(String genre){
+        return switch (genre) {
+            case "any" -> "any";
+            case "action" -> "боевик";
+            case "adventure" -> "приключения";
+            case "adult" -> "для взрослых";
+            case "anime" -> "аниме";
+            case "biography" -> "биография";
+            case "cartoon" -> "мультфильм";
+            case "ceremony" -> "церемония";
+            case "children's" -> "детский";
+            case "comedy" -> "комедия";
+            case "concert" -> "концерт";
+            case "crime" -> "криминал";
+            case "detective" -> "детектив";
+            case "documentary" -> "документальный";
+            case "drama" -> "драма";
+            case "family" -> "семейный";
+            case "fantasy" -> "фэнтези";
+            case "film noir" -> "фильм-нуар";
+            case "game" -> "игра";
+            case "history" -> "история";
+            case "horror" -> "ужасы";
+            case "melodrama" -> "мелодрама";
+            case "music" -> "музыка";
+            case "musical" -> "мюзикл";
+            case "news" -> "новости";
+            case "reality TV" -> "реальное ТВ";
+            case "short film" -> "короткометражка";
+            case "sport" -> "спорт";
+            case "talk show" -> "ток-шоу";
+            case "thriller" -> "триллер";
+            case "war" -> "военный";
+            case "western" -> "вестерн";
+            default -> "Неизвестный жанр";
+        };
+
+
+    }
 
 }
