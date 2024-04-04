@@ -136,38 +136,34 @@ footer p {
 .modal-content{
     color: grey;
 }
-/* Стили для модального окна */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
+/* Стилі для модального вікна */
+.modal-dialog {
+    width: 90%; /* Задати ширину модального вікна (90% від ширини вікна перегляду) */
+    max-width: 900px; /* Максимальна ширина модального вікна */
 }
 
+/* Стилі для зображення в модальному вікні */
+.film-img {
+    height: auto; /* Автоматична висота зображення */
+    display: block; /* Встановити як блочний елемент для коректного відображення */
+    float: left; /* Розмістити зображення ліворуч */
+    margin-right: 20px; /* Додати більший відступ праворуч для тексту */
+    max-width: 300px; /* Збільшити максимальну ширину зображення */
+    max-height: 400px; /* Збільшити максимальну висоту зображення */
+}
 .modal-content {
-    background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
+    width: 800px; /* Задати більшу ширину модального вікна */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
+/* Стилі для зображення в модальному вікні */
+.film-img {
 
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
+}
+/* Стилі для блоку тексту в модальному вікні */
+.modal-body .film-description {
+    overflow: hidden; /* Запобігає виходженню тексту за межі зображення */
 }
 

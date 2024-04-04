@@ -1,6 +1,7 @@
 package org.glazweq.demo.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.Gson;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Getter;
@@ -37,4 +38,5 @@ public class MovieCard {
         this.imdbRating = imdbRating;
         this.year = year;
     }
+
 }
