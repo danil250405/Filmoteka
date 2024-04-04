@@ -1,6 +1,7 @@
 package org.glazweq.demo.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.servlet.http.HttpServletRequest;
 import org.glazweq.demo.domain.MovieCard;
 
@@ -45,16 +46,26 @@ public class MoviesController {
 
 
     @Cacheable(value = "totalFilmsInApiCache")
-    public int getTotalFilmsInApi() throws JsonProcessingException {
-        return filmApiService.totalFilmInApi();
+    public int getTotalFilmsInApi(JsonNode jsonNode) throws JsonProcessingException {
+        return filmApiService.getTotalFilmInApi(jsonNode);
     }
+    @PostMapping("/home-page")
+    public String postHomePage(@RequestParam(defaultValue = "1") int page, @RequestParam("genre") String selectedGenre,
+                              @RequestParam("yearRange") String selectedYearRange,  Model model){
+
+        return "redirect:/home-page?genre=" + selectedGenre + "&year=" + selectedYearRange;
+
+    }
+
+
     @GetMapping("/home-page")
+
     public String getCardsList(Model model, @RequestParam(defaultValue = "1") int page, HttpServletRequest request)
             throws JsonProcessingException {
-
+        System.out.println("now works getCardsList");
         // Получение значения параметра genre из URL
         String selectedGenre = request.getParameter("genre");
-        String selectedYearRange = request.getParameter("genre");
+        String selectedYearRange = request.getParameter("year");
 
         // проверка если наши фильтры не заданы то будут равны нулю
         if (selectedGenre == null || selectedGenre.isEmpty()) {
@@ -66,8 +77,7 @@ public class MoviesController {
 
         model.addAttribute("selectedYearRange", selectedYearRange);
         model.addAttribute("selectedGenre", selectedGenre);
-        int totalFilmsInApi = filmApiService.totalFilmInApi();
-        int pagesAmount = getTotalFilmsInApi() / productPerPage;
+
 
         // list with genres
         List<String> genres = Arrays.asList(
@@ -85,29 +95,40 @@ public class MoviesController {
         }
         model.addAttribute("yearRanges", yearRanges);
 
-
         String requestUrl;
         if ((selectedGenre == null || selectedGenre.equals("any")) && (selectedYearRange == null || selectedYearRange.equals("any"))) {
             // Если ни жанр, ни диапазон лет не заданы, получаем список всех фильмов без фильтрации
             requestUrl = filmApiService.getUrlForApi(page, productPerPage, null, null);
-        } else if (selectedGenre != null && !selectedGenre.equals("any")) {
+            System.out.println("1");
+        } else if ((selectedGenre != null || !selectedGenre.equals("any")) && (selectedYearRange == null || selectedYearRange.equals("any"))) {
             // Если задан жанр, но не задан диапазон лет
             requestUrl = filmApiService.getUrlForApi(page, productPerPage, selectedGenre, null);
-        } else if (selectedYearRange != null && !selectedYearRange.equals("any")) {
+            System.out.println("2");
+        } else if ((selectedGenre == null || selectedGenre.equals("any")) && (selectedYearRange != null || !selectedYearRange.equals("any"))) {
             // Если не задан жанр, но задан диапазон лет
             requestUrl = filmApiService.getUrlForApi(page, productPerPage, null, selectedYearRange);
+            System.out.println("3");
         } else {
             // Если заданы и жанр, и диапазон лет
             requestUrl = filmApiService.getUrlForApi(page, productPerPage, selectedGenre, selectedYearRange);
+            System.out.println("4");
         }
 
+        //take full json from api
+        JsonNode responseJson = filmApiService.getResponseFromApi(requestUrl);
+        //take just branch total = how many films by this request in the api
+        int totalFilmsInApi = getTotalFilmsInApi(responseJson);
+        int pagesAmount = totalFilmsInApi / productPerPage;
 
-        List<MovieCard> movies = filmApiService.getMoviesList(requestUrl);
 
+
+        //take just branch docs = take card with movie
+        List<MovieCard> movies = filmApiService.getMoviesList(responseJson);
 
         // list with films
         model.addAttribute("movies", movies);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        //just check role user
         String roleAuthUser;
         if (auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
             roleAuthUser = "admin";
@@ -116,23 +137,16 @@ public class MoviesController {
         }
         model.addAttribute("userRole", roleAuthUser);
 
-        String baseUrl="/home-page";
-        int countFilters = 0;
+        //generate url
+        String baseUrl = "/home-page?";
         if (!selectedGenre.equals("any")) {
-            System.out.println("finito3wwwwwwwwwwwwwwww");
-            baseUrl = baseUrl.concat("?genre=" + selectedGenre);
-            baseUrl = "/home-page?" + "page=";
-            countFilters++;
+            baseUrl += "genre=" + selectedGenre + "&";
         }
         if (!selectedYearRange.equals("any")) {
-            if (countFilters == 0){
-                baseUrl = baseUrl.concat("?year="+ selectedYearRange);//добавим ? если  жанр любой
-            }
-            else {
-                baseUrl = baseUrl.concat("&year="+ selectedYearRange);// если нет то &
-            }
+            baseUrl += "year=" + selectedYearRange + "&";
         }
-        // for pagination
+        baseUrl += "page=";
+
         model.addAttribute("baseUrl", baseUrl);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalItems", totalFilmsInApi);
@@ -140,50 +154,4 @@ public class MoviesController {
         model.addAttribute("totalPages", pagesAmount); // max page
         return "home-page";
     }
-    @PostMapping("/home-page")
-    public String handleFilters( @RequestParam(defaultValue = "1") int page, @RequestParam("genre") String selectedGenre,
-                                 @RequestParam("yearRange") String selectedYearRange,  Model model) throws JsonProcessingException {
-        System.out.println("qqqqqqqqqqqqqq"+ selectedGenre);
-        int totalFilmsInApi = filmApiService.totalFilmInApi();
-        int pagesAmount = getTotalFilmsInApi()/productPerPage;
-
-
-        System.out.println("Selected year range: " + selectedYearRange);
-        //list with genres
-        List<String> genres = Arrays.asList(
-                "any", "action", "adventure", "adult", "anime", "biography", "cartoon", "ceremony", "children's", "comedy", "concert", "crime",
-                "detective", "documentary", "drama", "family", "fantasy", "film noir", "game", "history", "horror", "melodrama", "music",
-                "musical", "news", "reality TV", "short film", "sport", "talk show", "thriller", "war", "western");
-
-        model.addAttribute("genres", genres);
-    model.addAttribute("selectedGenre", selectedGenre);
-       String requestUrl = filmApiService.getUrlForApi(page, productPerPage, selectedGenre, selectedYearRange);
-
-        List<MovieCard> movies = filmApiService.getMoviesList(requestUrl);
-        //list with films
-        model.addAttribute("movies", movies);
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String roleAuthUser;
-        if (auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
-            roleAuthUser = "admin";
-        }
-        else {
-            roleAuthUser = "guest";
-        }
-        model.addAttribute("userRole", roleAuthUser);
-        //for pagination
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalItems", totalFilmsInApi);
-        model.addAttribute("pageSize", productPerPage);
-        model.addAttribute("totalPages", pagesAmount);//max page
-        return "redirect:/home-page?genre=" + selectedGenre;
-
-
-    }
-//    filter
-//    @PostMapping("/filter")
-//    public String filterMovies(@RequestParam("genre") String selectedGenre, Model model){
-//        String urlResponse = filmApiService.getUrlForApi()
-//        return "home-page";
-//    }
 }

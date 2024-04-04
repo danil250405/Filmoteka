@@ -27,7 +27,7 @@ public class FilmApiService {
           8HK60K1-GN54HEM-NA6DYES-5HQBVWJ vitalya
           Y8EGHT0-CSZ4PGE-QZ82S6C-KN2CVA7 sonya
      */
-    private static final String header1 = "D386SAK-6YR4GXR-KYNQ26E-0JHQX0C";
+    private static final String header1 = "H1CX9MG-T83MTC4-PPV7CQE-SYP1474";
     private static final String header2 = "application/json";
 
     @Autowired
@@ -57,20 +57,22 @@ public class FilmApiService {
     }
 
     //досьаем кол фильмов из апи
-    public int totalFilmInApi() throws JsonProcessingException {
-        String urlSecondPart = "?page=1&limit=1" + getResponseAndNotNullFields();
-        String answerFromApi = getMoviesByRequest(firstPartUrl+urlSecondPart);
-        JsonNode rootNode = JsonDecoderService.parse(answerFromApi);
-        int total = Integer.parseInt(rootNode.get("total").asText());
-        return total;
+    public int getTotalFilmInApi(JsonNode rootNode) throws JsonProcessingException {
+        //String urlSecondPart = getUrlForApi();
+        return Integer.parseInt(rootNode.get("total").asText());
 
     }
-    //dostaem List filmov тут dеlаем page
-    public List<MovieCard> getMoviesList( String requestFromController) throws JsonProcessingException {
-//        String urlSecondPart = "?page="+ currentPage +"&limit="+ productPerPage +requestFromController;
+    public JsonNode getResponseFromApi(String requestFromController) throws JsonProcessingException {
         String answerFromApi = getMoviesByRequest(requestFromController);
+        return JsonDecoderService.parse(answerFromApi);
+    }
 
-        JsonNode rootNode = JsonDecoderService.parse(answerFromApi);
+    //dostaem List filmov тут dеlаем page
+    public List<MovieCard> getMoviesList( JsonNode rootNode) throws JsonProcessingException {
+//        String urlSecondPart = "?page="+ currentPage +"&limit="+ productPerPage +requestFromController;
+//        String answerFromApi = getMoviesByRequest(requestFromController);
+//
+//        JsonNode rootNode = JsonDecoderService.parse(answerFromApi);
         JsonNode docsNode = rootNode.get("docs"); // Получаем узел "docs"
 
         List<MovieCard> moviesCards = new ArrayList<>();
@@ -89,7 +91,7 @@ public class FilmApiService {
     }
 
 public  String getResponseAndNotNullFields(){
-    String responseFields = "&selectFields=enName&selectFields=name&selectFields=releaseYears&selectFields=poster";
+    String responseFields = "&selectFields=enName&selectFields=name&selectFields=releaseYears&selectFields=poster&selectFields=year";
     String notNullFields = "&notNullFields=name&notNullFields=poster.url";
     return responseFields + notNullFields;
 }
@@ -102,13 +104,21 @@ public  String getResponseAndNotNullFields(){
         String fullUrl;
         fullUrl = firstPartUrl + filmsOnPage + getResponseAndNotNullFields();
         System.out.println("222222222222222222222"+genre);
+        System.out.println("year:"+ yearRange);
         if (!Objects.equals(genre, "any") && genre != null) {
             String filterByGenre ="&genres.name=" + getRequestByGenre(genre);
              fullUrl = fullUrl.concat(filterByGenre);
-            System.out.println(fullUrl);
+
+        }
+        if (!Objects.equals(yearRange, "any") && yearRange != null) {
+            String filterByYears ="&year=" + yearRange;
+            fullUrl = fullUrl.concat(filterByYears);
+            System.out.println(filterByYears);
+
         }
 
         fullUrl = fullUrl.concat(defaultRequest);
+        System.out.println(fullUrl);
         return fullUrl;
     }
 
