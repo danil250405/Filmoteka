@@ -57,9 +57,13 @@ public class MoviesController {
 
     }
 
+    @PostMapping("/movie/details")
+    public String showMovieDetails(@ModelAttribute MovieCard movie, Model model) {
 
+        model.addAttribute("movieDescription", movie);
+        return "home-page"; // Имя представления (HTML-шаблона)
+    }
     @GetMapping("/home-page")
-
     public String getCardsList(Model model, @RequestParam(defaultValue = "1") int page, HttpServletRequest request)
             throws JsonProcessingException {
         System.out.println("now works getCardsList");
@@ -152,6 +156,12 @@ public class MoviesController {
         model.addAttribute("totalItems", totalFilmsInApi);
         model.addAttribute("pageSize", productPerPage);
         model.addAttribute("totalPages", pagesAmount); // max page
+
+        // Добавление атрибутов модели для дополнительной информации о фильме
+//        model.addAttribute("year", movie.getYear());
+//        model.addAttribute("kinopoiskRating", movie.getKinopoiskRating());
+//        model.addAttribute("imdbRating", movie.getImdbRating());
+//        model.addAttribute("description", movie.getDescription());
         return "home-page";
     }
 }

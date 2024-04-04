@@ -79,10 +79,14 @@ public class FilmApiService {
 
         if (docsNode != null && docsNode.isArray()) {
             for (JsonNode movieNode : docsNode) {
+                int id = movieNode.get("id").asInt();
                 String name = movieNode.get("name").asText();
                 String previewImg = movieNode.get("poster").get("previewUrl").asText();
-
-                moviesCards.add(new MovieCard(name, previewImg));
+                String ratingKinopoisk = movieNode.get("rating").get("kp").asText();
+                String ratingImdb = movieNode.get("rating").get("imdb").asText();
+                String description = movieNode.get("description").asText();
+                String reliesYear = movieNode.get("year").asText();
+                moviesCards.add(new MovieCard(id, name, previewImg, ratingKinopoisk, ratingImdb, description , reliesYear));
 
             }
         }
@@ -91,7 +95,7 @@ public class FilmApiService {
     }
 
 public  String getResponseAndNotNullFields(){
-    String responseFields = "&selectFields=enName&selectFields=name&selectFields=releaseYears&selectFields=poster&selectFields=year";
+    String responseFields = "&selectFields=id&selectFields=description&selectFields=rating&selectFields=enName&selectFields=name&selectFields=releaseYears&selectFields=poster&selectFields=year";
     String notNullFields = "&notNullFields=name&notNullFields=poster.url";
     return responseFields + notNullFields;
 }
