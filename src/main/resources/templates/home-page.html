@@ -118,7 +118,6 @@
                                         this.getAttribute('data-movie-ratingImdb'),
                                         this.getAttribute('data-movie-year'))">Details</button>
                             </form>
-<!--                            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Details</button>-->
                         </div>
                     </div>
                 </div>
@@ -130,7 +129,7 @@
 <!-- Modal -->
 
 <div class="container">
-    <h2>Modal Example</h2>
+
     <!-- Trigger the modal with a button -->
 
     <!-- Modal -->
@@ -140,7 +139,6 @@
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Modal Header</h4>
                 </div>
                 <div class="modal-body">
@@ -163,7 +161,7 @@
 
 
 
-<nav aria-label="Page navigation">
+<nav th:if="${totalItems > 24}" aria-label="Page navigation">
     <ul class="pagination justify-content-center">
         <!-- Ссылка на предыдущую страницу -->
         <li th:class="${currentPage == 1} ? 'page-item disabled' : 'page-item'">
@@ -190,7 +188,7 @@
         </li>
 
         <!-- Ссылка на страницу "..." -->
-        <li th:if="${currentPage < totalPages - 3}" class="page-item disabled">
+        <li th:if="${currentPage < totalPages - 3} " class="page-item disabled">
             <a href="#" class="page-link">...</a>
         </li>
 
