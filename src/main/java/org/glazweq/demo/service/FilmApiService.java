@@ -27,7 +27,7 @@ public class FilmApiService {
           8HK60K1-GN54HEM-NA6DYES-5HQBVWJ vitalya
           Y8EGHT0-CSZ4PGE-QZ82S6C-KN2CVA7 sonya
      */
-    private static final String header1 = "H1CX9MG-T83MTC4-PPV7CQE-SYP1474";
+    private static final String header1 = "90T8CSE-7P34EBK-HHTP44M-DA7KSDG";
     private static final String header2 = "application/json";
 
     @Autowired
