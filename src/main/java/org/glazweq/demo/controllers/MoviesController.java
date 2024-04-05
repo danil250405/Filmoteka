@@ -57,15 +57,25 @@ public class MoviesController {
         return "redirect:/home-page?genre=" + selectedGenre + "&year=" + selectedYearRange;
 
     }
-    @GetMapping("/movie/page/id={id}")
+    @GetMapping("/movieId={id}")
     public String showMoviePage(@PathVariable("id") Long movieId, Model model) throws JsonProcessingException {
         String urlFindById = "https://api.kinopoisk.dev/v1.4/movie/" + movieId;
         JsonNode jsonResponse = filmApiService.getResponseFromApi(urlFindById);
         MoviePage moviePage = filmApiService.getMoviePage(jsonResponse);
         model.addAttribute("moviePage", moviePage);
         model.addAttribute("backImg", moviePage.getBackdrop());
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String roleAuthUser;
+        if (auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+            roleAuthUser = "admin";
+        } else {
+            roleAuthUser = "guest";
+        }
+        model.addAttribute("userRole", roleAuthUser);
         return "movie-page"; // Имя представления (HTML-шаблона)
     }
+
     @GetMapping("/home-page")
     public String getCardsList(Model model, @RequestParam(defaultValue = "1") int page, HttpServletRequest request)
             throws JsonProcessingException {

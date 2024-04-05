@@ -11,6 +11,7 @@ public class MvcConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/**")
+
                 .addResourceLocations("classpath:/static/");
     }
     public void addViewControllers(ViewControllerRegistry registry) {

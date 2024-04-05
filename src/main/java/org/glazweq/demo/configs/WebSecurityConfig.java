@@ -40,6 +40,7 @@ public class WebSecurityConfig {
     public static PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
@@ -56,8 +57,11 @@ public class WebSecurityConfig {
                                 .requestMatchers("/main").permitAll()
                                 .requestMatchers("/index").permitAll()
                                 .requestMatchers("/home-page").permitAll()
-                                .requestMatchers("/films/movies").permitAll()
-                                .requestMatchers("/movie/page/**").permitAll()
+                                .requestMatchers("/movie").permitAll()
+                                .requestMatchers("/movie/page/{id}").permitAll()
+                                .requestMatchers("/movieId={id}").permitAll()
+
+
                                 .requestMatchers("/userslist").hasRole("ADMIN")
                 ).formLogin(
                         form -> form
