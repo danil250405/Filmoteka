@@ -1,17 +1,15 @@
 package org.glazweq.demo.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.gson.Gson;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
-public class MovieCard {
+public class MoviePage {
 
     @JsonProperty("name")
     private String name;
@@ -20,6 +18,8 @@ public class MovieCard {
     private String previewUrlImg;
     @JsonProperty("kinopoiskRating")
     private double kinopoiskRating;
+    @JsonProperty("backdrop")
+    private String backdrop ;
     @JsonProperty("description")
     private String description ;
     @JsonProperty("imdbRating")
@@ -31,7 +31,7 @@ public class MovieCard {
     @JsonProperty("id")
     private int id;
 
-    public MovieCard(int id, String name, String previewUrlImg, double kinopoiskRating, double imdbRating, String description, int year) {
+    public MoviePage(int id, String name, String previewUrlImg, double kinopoiskRating, double imdbRating, String description, int year, String backdrop) {
         this.id = id;
         this.name = name;
         this.previewUrlImg = previewUrlImg;
@@ -39,10 +39,22 @@ public class MovieCard {
         this.description = description;
         this.imdbRating = imdbRating;
         this.year = year;
+        this.backdrop = backdrop;
     }
 
-    public MovieCard() {
+    public MoviePage() {
     }
-
+    @Override
+    public String toString() {
+        return "MoviePage{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", previewImg='" + previewUrlImg + '\'' +
+                ", ratingKinopoisk=" + kinopoiskRating +
+                ", ratingImdb=" + imdbRating +
+                ", description='" + description + '\'' +
+                ", releaseYear=" + year +
+                '}';
+    }
 
 }

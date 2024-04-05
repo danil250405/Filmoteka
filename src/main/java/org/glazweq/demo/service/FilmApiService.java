@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.extern.slf4j.Slf4j;
 import org.glazweq.demo.domain.MovieCard;
+import org.glazweq.demo.domain.MoviePage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -32,7 +33,7 @@ public class FilmApiService {
 
     @Autowired
     private RestTemplate restTemplate;
-    public String getMoviesByRequest(String request){
+    public String getResponceByRequest(String request){
         try {
             //header value is set
             HttpHeaders headers = new HttpHeaders();
@@ -63,16 +64,24 @@ public class FilmApiService {
 
     }
     public JsonNode getResponseFromApi(String requestFromController) throws JsonProcessingException {
-        String answerFromApi = getMoviesByRequest(requestFromController);
+        String answerFromApi = getResponceByRequest(requestFromController);
         return JsonDecoderService.parse(answerFromApi);
     }
+    public MoviePage getMoviePage(JsonNode movieNode){
 
+        int id = movieNode.get("id").asInt();
+        String name = movieNode.get("name").asText();
+        String previewImg = movieNode.get("poster").get("previewUrl").asText();
+        String backdropImg = movieNode.get("backdrop").get("url").asText();
+        double ratingKinopoisk = movieNode.get("rating").get("kp").asDouble();
+        double ratingImdb = movieNode.get("rating").get("imdb").asDouble();
+        String description = movieNode.get("description").asText();
+        int reliesYear = movieNode.get("year").asInt();
+        MoviePage moviePage = new MoviePage(id, name, previewImg, ratingKinopoisk, ratingImdb, description , reliesYear, backdropImg);
+        return  moviePage;
+    }
     //dostaem List filmov тут dеlаем page
     public List<MovieCard> getMoviesList( JsonNode rootNode) throws JsonProcessingException {
-//        String urlSecondPart = "?page="+ currentPage +"&limit="+ productPerPage +requestFromController;
-//        String answerFromApi = getMoviesByRequest(requestFromController);
-//
-//        JsonNode rootNode = JsonDecoderService.parse(answerFromApi);
         JsonNode docsNode = rootNode.get("docs"); // Получаем узел "docs"
 
         List<MovieCard> moviesCards = new ArrayList<>();
@@ -82,10 +91,10 @@ public class FilmApiService {
                 int id = movieNode.get("id").asInt();
                 String name = movieNode.get("name").asText();
                 String previewImg = movieNode.get("poster").get("previewUrl").asText();
-                String ratingKinopoisk = movieNode.get("rating").get("kp").asText();
-                String ratingImdb = movieNode.get("rating").get("imdb").asText();
+                double ratingKinopoisk = movieNode.get("rating").get("kp").asDouble();
+                double ratingImdb = movieNode.get("rating").get("imdb").asDouble();
                 String description = movieNode.get("description").asText();
-                String reliesYear = movieNode.get("year").asText();
+                int reliesYear = movieNode.get("year").asInt();
                 moviesCards.add(new MovieCard(id, name, previewImg, ratingKinopoisk, ratingImdb, description , reliesYear));
 
             }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.servlet.http.HttpServletRequest;
 import org.glazweq.demo.domain.MovieCard;
 
+import org.glazweq.demo.domain.MoviePage;
 import org.glazweq.demo.service.FilmApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -56,12 +57,14 @@ public class MoviesController {
         return "redirect:/home-page?genre=" + selectedGenre + "&year=" + selectedYearRange;
 
     }
-
-    @PostMapping("/movie/details")
-    public String showMovieDetails(@ModelAttribute MovieCard movie, Model model) {
-
-        model.addAttribute("movieDescription", movie);
-        return "home-page"; // Имя представления (HTML-шаблона)
+    @GetMapping("/movie/page/id={id}")
+    public String showMoviePage(@PathVariable("id") Long movieId, Model model) throws JsonProcessingException {
+        String urlFindById = "https://api.kinopoisk.dev/v1.4/movie/" + movieId;
+        JsonNode jsonResponse = filmApiService.getResponseFromApi(urlFindById);
+        MoviePage moviePage = filmApiService.getMoviePage(jsonResponse);
+        model.addAttribute("moviePage", moviePage);
+        model.addAttribute("backImg", moviePage.getBackdrop());
+        return "movie-page"; // Имя представления (HTML-шаблона)
     }
     @GetMapping("/home-page")
     public String getCardsList(Model model, @RequestParam(defaultValue = "1") int page, HttpServletRequest request)

@@ -57,7 +57,7 @@ public class WebSecurityConfig {
                                 .requestMatchers("/index").permitAll()
                                 .requestMatchers("/home-page").permitAll()
                                 .requestMatchers("/films/movies").permitAll()
-
+                                .requestMatchers("/movie/page/**").permitAll()
                                 .requestMatchers("/userslist").hasRole("ADMIN")
                 ).formLogin(
                         form -> form
