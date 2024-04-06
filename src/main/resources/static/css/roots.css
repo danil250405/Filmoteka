@@ -1,4 +1,8 @@
 :root{
     --main-bg-color: #1E1E1E;
-
+    --accent-color: #E50000;
+    --text-color: #ffff;
+    --accent-second-color: #FF1919;
+    --dark-shade-25 :#404040;
+    --dark-shade-08: #141414;
 }

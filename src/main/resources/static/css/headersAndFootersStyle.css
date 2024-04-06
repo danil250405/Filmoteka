@@ -1,7 +1,149 @@
-root{
-    --bg-color: #1E1E1E;
-}
+
 
 header{
-    background-color: #88abab;
+    background-color: rgba(0, 0, 0, 0.4);
+    color: var(--text-color);
 }
+body{
+    background-color: var(--main-bg-color);
+}
+a{
+    text-decoration: none;
+}
+ul{
+    list-style: none;
+}
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 3px solid var(--accent-color);
+}
+
+.navbar-myBrand {
+    display: flex;
+    align-items: center;
+    color: var(--text-color);
+    font-size: 1.8rem;
+    font-weight: bold;
+    font-family: "Times New Roman";
+}
+
+.brand-img {
+    margin-right: 20px;
+}
+
+.brand-link {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-navigation {
+    display: flex;
+    margin: 0 120px 0 0;
+    border-radius: 5px;
+    border: 2px solid #383838; /* Пример границы шириной 2 пикселя и белого цвета */
+    padding: 10px 20px;
+    background-color: #1A1A1A;
+}
+
+.nav-item:not(:first-child) {
+    margin-left: 20px;
+}
+
+.nav-link {
+    color: var(--text-color);
+    font-weight: bold;
+    padding: .5rem 1rem;
+    transition: color 0.3s, background-color 0.3s; /* Добавляем анимацию для цвета текста и цвета фона */
+}
+
+.nav-link:hover {
+    color: var(--accent-color);
+
+}
+
+.nav-link:focus {
+    color: var(--text-color);
+    background-color: var(--dark-shade-08);
+    border-radius: 5px;
+}
+.nav-link path{
+    fill: white;
+    transition: fill 0.3s;
+}
+.nav-link:hover path {
+    fill: var(--accent-color);
+    transition: fill 0.3s;
+}
+.navbar-toggler {
+    display: none;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.navbar-toggler-icon {
+    display: block;
+    width: 30px;
+    height: 30px;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+.search-and-profile {
+    display: flex;
+    align-items: center;
+}
+.search-icon svg,
+.profile-icon svg {
+    width: 24px;
+    height: 24px;
+}
+@media (max-width: 1200px) {
+    .navbar-navigation {
+        margin: 0;
+    }
+}
+
+@media (max-width: 992px) {
+    .navbar-navigation {
+        display: none;
+    }
+
+    .navbar-toggler {
+        display: block;
+    }
+
+    .navbar-navigation.show {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: #fff;
+        padding: 20px;
+        z-index: 1;
+    }
+
+    .nav-item {
+        margin-left: 0;
+        margin-bottom: 10px;
+    }
+}
+
+
+
+
+/*.nav-link path {*/
+/*    fill: white !important;*/
+/*    transition: fill 0.3s;*/
+/*}*/
+
+/*.navbar-nav .nav-link {*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*}*/
+/*.navbar-nav .nav-link svg {*/
+/*    margin-right: 0.5rem;*/
+/*}*/
