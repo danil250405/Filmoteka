@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import lombok.extern.slf4j.Slf4j;
 import org.glazweq.demo.domain.MovieCard;
 import org.glazweq.demo.domain.MoviePage;
+import org.glazweq.demo.domain.MoviePoster;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import java.util.Objects;
 @Service
 @Slf4j
 public class FilmApiService {
+    private static final  String apiName = "https://api.kinopoisk.dev/v1.4/";
     private static final  String firstPartUrl = "https://api.kinopoisk.dev/v1.4/movie";
     /*
     keys: D386SAK-6YR4GXR-KYNQ26E-0JHQX0C batya
@@ -134,6 +136,26 @@ public  String getResponseAndNotNullFields(){
         System.out.println(fullUrl);
         return fullUrl;
     }
+
+
+//    for home
+    public String get27PostersUrl(){
+        String url = apiName + "movie?page=1&limit=27&selectFields=poster&lists=top250";
+        return url;
+    }
+    public List<MoviePoster> getPostersList(JsonNode rootNode){
+        JsonNode docsNode = rootNode.get("docs"); // Получаем узел "docs"
+
+        List<MoviePoster> moviesPosters = new ArrayList<>();
+        if (docsNode != null && docsNode.isArray()) {
+            for (JsonNode movieNode : docsNode) {
+                String previewImg = movieNode.get("poster").get("previewUrl").asText();
+                moviesPosters.add(new MoviePoster(previewImg));
+            }
+        }
+        return moviesPosters;
+    }
+
 
     //get request by genre
     public String getRequestByGenre(String genre){

@@ -1,0 +1,82 @@
+.container-fluid-absolute {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+
+
+    position: relative;
+    top: -110px;
+    left: -1px;
+    z-index: -2;
+
+
+}
+
+/* Стили для header */
+.container-fluid-absolute::before {
+    position: absolute;
+    top: 0;
+    left: -1px;
+    content: "";
+    height: 100%;
+    width: 100%;
+    background: rgb(20,20,16);
+    background: linear-gradient(0deg, rgba(20,20,16,1) 0%, rgba(20,20,20,0.4598214285714286) 50%, rgba(20,20,20,1) 100%);
+}
+.poster-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+}
+
+
+
+.logo-hero {
+    max-width: 20vw; /* Начальный размер логотипа - 30% от ширины viewport */
+    height: auto;
+    margin-top: 80px;
+    position: absolute;
+    top: 110px;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: max-width 0.3s ease;
+}
+
+.posters-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.posters-list li {
+    margin: 5px; /* Отступ между постерами */
+    flex: 0 0 calc(11.1% - 10px); /* Ширина каждого постера (1/9 ширины контейнера с отступом между ними) */
+}
+
+.posters-list li img {
+    width: 100%; /* Растягиваем изображение по ширине */
+    border-radius: 20px;
+    height: auto;
+}
+.start-watching {
+    display: flex;
+    justify-content: center;
+    margin-top: -170px;
+    color: var(--text-color);
+    /*transform: translateX(-50%);*/
+}
+
+
+footer {
+    display: none;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}

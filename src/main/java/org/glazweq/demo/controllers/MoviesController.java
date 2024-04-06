@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.glazweq.demo.domain.MovieCard;
 
 import org.glazweq.demo.domain.MoviePage;
+import org.glazweq.demo.domain.MoviePoster;
 import org.glazweq.demo.service.FilmApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -75,6 +76,18 @@ public class MoviesController {
         model.addAttribute("userRole", roleAuthUser);
         return "movie-page"; // Имя представления (HTML-шаблона)
     }
+
+    @GetMapping("/home")
+    public String home(Model model) throws JsonProcessingException {
+        System.out.println("now works 'home' method");
+//        take 34 posters from api
+        String requestUrl = filmApiService.get27PostersUrl();
+        JsonNode responseJson = filmApiService.getResponseFromApi(requestUrl);
+        List<MoviePoster> posters = filmApiService.getPostersList(responseJson);
+        model.addAttribute("posters", posters);
+        return "home";
+    }
+
 
     @GetMapping("/home-page")
     public String getCardsList(Model model, @RequestParam(defaultValue = "1") int page, HttpServletRequest request)
@@ -169,12 +182,6 @@ public class MoviesController {
         model.addAttribute("totalItems", totalFilmsInApi);
         model.addAttribute("pageSize", productPerPage);
         model.addAttribute("totalPages", pagesAmount); // max page
-
-        // Добавление атрибутов модели для дополнительной информации о фильме
-//        model.addAttribute("year", movie.getYear());
-//        model.addAttribute("kinopoiskRating", movie.getKinopoiskRating());
-//        model.addAttribute("imdbRating", movie.getImdbRating());
-//        model.addAttribute("description", movie.getDescription());
         return "home-page";
     }
 }
