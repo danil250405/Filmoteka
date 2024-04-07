@@ -24,7 +24,7 @@
 
 <main>
 
-        <div class="container-fluid-absolute">
+    <div class="container-fluid-absolute">
             <div class="poster-container">
                 <ul class="posters-list">
                     <th:block th:each="poster : ${posters}">
@@ -55,46 +55,29 @@
     <!--section genres-->
     <div class="container categories-section">
         <div class="categories-top-section">
-        <div class="info-container categories-info">
-            <h2>Explore our wide variety of categories</h2>
-            <p>Whether you're looking for a comedy to make you laugh, a drama to make you think, or a documentary to learn something new</p>
-        </div>
-
-        <div class="navigation-bar">
-            <button type="submit" class="pag-btn prev-btn">
-                <svg viewBox="0 0 512 512" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 512 512"><path d="M189.3 128.4 89 233.4c-6 5.8-9 13.7-9 22.4s3 16.5 9 22.4l100.3 105.4c11.9 12.5 31.3 12.5 43.2 0 11.9-12.5 11.9-32.7 0-45.2L184.4 288h217c16.9 0 30.6-14.3 30.6-32s-13.7-32-30.6-32h-217l48.2-50.4c11.9-12.5 11.9-32.7 0-45.2-12-12.5-31.3-12.5-43.3 0z" fill="#ffffff" class="fill-000000"></path></svg>            </button>
-            <div class="progress-indicator">
-                <span class="progress-item active">
-                    <svg viewBox="0 0 512 512" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 512 512"><path d="M417.4 224H94.6C77.7 224 64 238.3 64 256s13.7 32 30.6 32h322.8c16.9 0 30.6-14.3 30.6-32s-13.7-32-30.6-32z" fill="#333333" class="fill-000000"></path></svg>
-                </span>
-                <span class="progress-item">
-                    <svg viewBox="0 0 512 512" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 512 512"><path d="M417.4 224H94.6C77.7 224 64 238.3 64 256s13.7 32 30.6 32h322.8c16.9 0 30.6-14.3 30.6-32s-13.7-32-30.6-32z" fill="#333333" class="fill-000000"></path></svg>
-                </span>
-                <span class="progress-item">
-                    <svg viewBox="0 0 512 512" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 512 512"><path d="M417.4 224H94.6C77.7 224 64 238.3 64 256s13.7 32 30.6 32h322.8c16.9 0 30.6-14.3 30.6-32s-13.7-32-30.6-32z" fill="#333333" class="fill-000000"></path></svg>
-
-                </span>
-                <span class="progress-item ">
-                    <svg viewBox="0 0 512 512" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 512 512"><path d="M417.4 224H94.6C77.7 224 64 238.3 64 256s13.7 32 30.6 32h322.8c16.9 0 30.6-14.3 30.6-32s-13.7-32-30.6-32z" fill="#333333" class="fill-000000"></path></svg>
-
-                </span>
-                <span class="progress-item">
-                    <svg viewBox="0 0 512 512" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 512 512"><path d="M417.4 224H94.6C77.7 224 64 238.3 64 256s13.7 32 30.6 32h322.8c16.9 0 30.6-14.3 30.6-32s-13.7-32-30.6-32z" fill="#333333" class="fill-000000"></path></svg>
-
-                </span>
-
+            <div class="info-container categories-info">
+                <h2>Explore our wide variety of categories</h2>
+                <p>Whether you're looking for a comedy to make you laugh, a drama to make you think, or a documentary to learn something new</p>
             </div>
-            <button type="submit" class="pag-btn next-btn">
-                <svg viewBox="0 0 512 512" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 512 512"><path d="m322.7 128.4 100.3 105c6 5.8 9 13.7 9 22.4s-3 16.5-9 22.4L322.7 383.6c-11.9 12.5-31.3 12.5-43.2 0-11.9-12.5-11.9-32.7 0-45.2l48.2-50.4h-217c-17 0-30.7-14.3-30.7-32s13.7-32 30.6-32h217l-48.2-50.4c-11.9-12.5-11.9-32.7 0-45.2 12-12.5 31.3-12.5 43.3 0z" fill="#ffffff" class="fill-000000"></path></svg>            </button>
+            <div class="navigation-bar">
+                <button type="button" class="pag-btn prev-btn">
+                    <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M189.3 128.4 89 233.4c-6 5.8-9 13.7-9 22.4s3 16.5 9 22.4l100.3 105.4c11.9 12.5 31.3 12.5 43.2 0 11.9-12.5 11.9-32.7 0-45.2L184.4 288h217c16.9 0 30.6-14.3 30.6-32s-13.7-32-30.6-32h-217l48.2-50.4c11.9-12.5 11.9-32.7 0-45.2-12-12.5-31.3-12.5-43.3 0z" fill="#fff"/>
+                    </svg>
+                </button>
+                <div class="progress-indicator"></div>
+                <button type="button" class="pag-btn next-btn">
+                    <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                        <path d="m322.7 128.4 100.3 105c6 5.8 9 13.7 9 22.4s-3 16.5-9 22.4L322.7 383.6c-11.9 12.5-31.3 12.5-43.2 0-11.9-12.5-11.9-32.7 0-45.2l48.2-50.4h-217c-17 0-30.7-14.3-30.7-32s13.7-32 30.6-32h217l-48.2-50.4c-11.9-12.5-11.9-32.7 0-45.2 12-12.5 31.3-12.5 43.3 0z" fill="#fff"/>
+                    </svg>
+                </button>
+            </div>
         </div>
+        <div class="categories-list-container">
+            <div class="categories-list">
+                <div th:each="genre : ${genres}" th:text="${genre}" class="categories-item"></div>
+            </div>
         </div>
-        <ul class="categories-list">
-            <li class="categories-item">Action</li>
-            <li class="categories-item">Drama</li>
-            <li class="categories-item">Anime</li>
-            <li class="categories-item">Horror</li>
-            <li class="categories-item">Comedy</li>
-        </ul>
     </div>
     <!--section device-->
     <div class="container device-section">
@@ -186,7 +169,7 @@
         </div>
 <!--        faq-->
         <div class="faqs-lists">
-        <ul class="faq-container">
+        <ul class="faq-container faq-container1">
             <li class="faq-item">
                 <div class="faq-question">
                     <div class="num-name">
@@ -311,8 +294,8 @@
                 <h4>Basic Plan</h4>
                 <p>Enjoy an extensive library of movies and shows, featuring a range of content, including recently released titles.</p>
                 <p>
-                    <span class="cost">$9.99</span>
-                    <span>/month</span>
+                    <span class="cost" data-monthly="9.99" data-yearly="99.90">$9.99</span>
+                    <span class="period">/month</span>
                 </p>
                 <button class="btn-primary btn free-btn">Start Free Trial</button>
                 <button class="btn-primary btn">Choose Plan</button>
@@ -321,8 +304,8 @@
                 <h4>Standard Plan</h4>
                 <p>Access to a wider selection of movies and shows, including most new releases and exclusive content</p>
                 <p>
-                    <span class="cost">$12.99</span>
-                    <span>/month</span>
+                    <span class="cost" data-monthly="12.99" data-yearly="129.90">$12.99</span>
+                    <span class="period">/month</span>
                 </p>
                 <button class="btn-primary btn free-btn">Start Free Trial</button>
                 <button class="btn-primary btn">Choose Plan</button>
@@ -331,8 +314,8 @@
                 <h4>Premium Plan</h4>
                 <p>Access to a widest selection of movies and shows, including all new releases and Offline Viewing</p>
                 <p>
-                    <span class="cost">$14.99</span>
-                    <span>/month</span>
+                    <span class="cost" data-monthly="14.99" data-yearly="149.90">$14.99</span>
+                    <span class="period">/month</span>
                 </p>
                 <button class="btn-primary btn free-btn">Start Free Trial</button>
                 <button class="btn-primary btn">Choose Plan</button>
@@ -349,11 +332,9 @@
     </div>
 </main>
 
-<footer class="bg-dark text-white">
-    <div class="container">
-        <p class="mb-0" >&copy; Filmoteka 2024</p>
-    </div>
-</footer>
+<!--import header-->
+<div th:replace="~{fragments/footer.html :: footer}"></div>
+
 
 <script>
 

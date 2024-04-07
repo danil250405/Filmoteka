@@ -15,7 +15,6 @@ public class MovieCard {
 
     @JsonProperty("name")
     private String name;
-
     @JsonProperty("previewUrl")
     private String previewUrlImg;
     @JsonProperty("kinopoiskRating")

@@ -8,7 +8,9 @@ import org.glazweq.demo.domain.MovieCard;
 import org.glazweq.demo.domain.MoviePage;
 import org.glazweq.demo.domain.MoviePoster;
 import org.glazweq.demo.service.FilmApiService;
+import org.glazweq.demo.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.data.domain.Page;
@@ -33,14 +35,19 @@ import java.util.Objects;
 public class MoviesController {
     public final int productPerPage = 24;
     private final FilmApiService filmApiService;
+    private final  ImageService imageService;
+
+     @Autowired
+     public MoviesController(@Qualifier("imageService") ImageService imageService,
+                @Qualifier("filmApiService") FilmApiService filmApiService) {
+            this.imageService = imageService;
+            this.filmApiService = filmApiService;
+        }
 
     //requests
     private final String defaultRequest ="&selectFields=id&selectFields=enName&selectFields=year&selectFields=rating&selectFields=poster&notNullFields=enName&notNullFields=poster.url&selectFields=votes&sortField=votes.imdb&sortType=-1";
 
-    @Autowired
-    public MoviesController(FilmApiService filmApiService) throws JsonProcessingException {
-        this.filmApiService = filmApiService;
-    }
+
     @GetMapping("/")
     public String redirectToHomePage() {
         return "redirect:/home-page";
@@ -81,11 +88,27 @@ public class MoviesController {
     @GetMapping("/home")
     public String home(Model model) throws JsonProcessingException {
         System.out.println("now works 'home' method");
-//        take 34 posters from api
+//        take 27 posters from api
         String requestUrl = filmApiService.get27PostersUrl();
         JsonNode responseJson = filmApiService.getResponseFromApi(requestUrl);
         List<MoviePoster> posters = filmApiService.getPostersList(responseJson);
         model.addAttribute("posters", posters);
+
+//        get genres list here full genres
+//        List<String> genres = Arrays.asList(
+//                "any", "action", "adventure", "anime", "biography", "cartoon", "ceremony", "children's", "comedy", "concert", "crime",
+//                "detective", "documentary", "drama", "family", "fantasy", "film noir", "game", "history", "horror", "melodrama", "music",
+//                "musical", "reality TV", "short film", "sport", "talk show", "thriller", "war", "western");
+
+//              get genres list
+        List<String> genres = Arrays.asList(
+                 "action", "adventure", "anime", "biography", "cartoon", "comedy", "crime",
+                "detective", "documentary", "drama", "family", "fantasy", "history", "horror", "melodrama",
+                "musical", "sport", "thriller", "war", "western");
+        model.addAttribute("genres", genres);
+
+
+
         return "home";
     }
 

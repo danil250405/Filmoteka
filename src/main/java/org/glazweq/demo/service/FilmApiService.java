@@ -73,6 +73,7 @@ public class FilmApiService {
         System.out.println("get Response from api");
         return JsonDecoderService.parse(answerFromApi);
     }
+
     public MoviePage getMoviePage(JsonNode movieNode){
 
         int id = movieNode.get("id").asInt();
@@ -109,7 +110,7 @@ public class FilmApiService {
         return moviesCards;
     }
 
-public  String getResponseAndNotNullFields(){
+    public  String getResponseAndNotNullFields(){
     String responseFields = "&selectFields=id&selectFields=description&selectFields=rating&selectFields=enName&selectFields=name&selectFields=releaseYears&selectFields=poster&selectFields=year";
     String notNullFields = "&notNullFields=name&notNullFields=poster.url";
     return responseFields + notNullFields;

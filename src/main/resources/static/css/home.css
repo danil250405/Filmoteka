@@ -320,11 +320,12 @@ margin-right: 30px;
     padding: 10px;
 }
 .faq-container {
+    max-width: calc(50% - 40px);
     margin: 0 auto;
 }
 .faqs-lists{
     display: flex;
-    width: calc(100% - 30px);
+
     margin-top: 80px;
 }
 .num-name{
@@ -469,8 +470,5 @@ margin-right: 30px;
 
 
 footer {
-    display: none;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
+
 }
