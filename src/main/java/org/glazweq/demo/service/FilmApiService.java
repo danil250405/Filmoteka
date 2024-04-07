@@ -7,6 +7,7 @@ import org.glazweq.demo.domain.MovieCard;
 import org.glazweq.demo.domain.MoviePage;
 import org.glazweq.demo.domain.MoviePoster;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -15,6 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @Slf4j
@@ -65,8 +67,10 @@ public class FilmApiService {
         return Integer.parseInt(rootNode.get("total").asText());
 
     }
+    @Cacheable(cacheNames = "apiResponseCache", key = "#requestFromController")
     public JsonNode getResponseFromApi(String requestFromController) throws JsonProcessingException {
         String answerFromApi = getResponceByRequest(requestFromController);
+        System.out.println("get Response from api");
         return JsonDecoderService.parse(answerFromApi);
     }
     public MoviePage getMoviePage(JsonNode movieNode){
@@ -139,12 +143,15 @@ public  String getResponseAndNotNullFields(){
 
 
 //    for home
+
     public String get27PostersUrl(){
-        String url = apiName + "movie?page=1&limit=27&selectFields=poster&lists=top250";
-        return url;
+        return apiName + "movie?page=1&limit=27&selectFields=poster&lists=top250";
     }
+    @Cacheable(cacheNames = "posterCache", key = "#rootNode")
     public List<MoviePoster> getPostersList(JsonNode rootNode){
         JsonNode docsNode = rootNode.get("docs"); // Получаем узел "docs"
+        System.out.println("posters cache");
+
 
         List<MoviePoster> moviesPosters = new ArrayList<>();
         if (docsNode != null && docsNode.isArray()) {

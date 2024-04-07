@@ -32,12 +32,6 @@
             <version>2.10.1</version>
         </dependency>
 
-
-        <!--Mustache-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-mustache</artifactId>
-        </dependency>
         <!--thymeleaf-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -108,6 +102,17 @@
             <groupId>net.thauvin.erik.httpstatus</groupId>
             <artifactId>httpstatus</artifactId>
             <version>1.0.3</version>
+        </dependency>
+<!--        cache-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>6.0.13</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+            <version>3.1.5</version>
         </dependency>
     </dependencies>
 

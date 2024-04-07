@@ -10,6 +10,7 @@ import org.glazweq.demo.domain.MoviePoster;
 import org.glazweq.demo.service.FilmApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -28,7 +29,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Controller
-
+@EnableCaching
 public class MoviesController {
     public final int productPerPage = 24;
     private final FilmApiService filmApiService;
