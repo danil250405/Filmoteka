@@ -7,6 +7,7 @@ import org.glazweq.demo.domain.MovieCard;
 
 import org.glazweq.demo.domain.MoviePage;
 import org.glazweq.demo.domain.MoviePoster;
+import org.glazweq.demo.service.ApiKinopoiskDevService;
 import org.glazweq.demo.service.FilmApiService;
 import org.glazweq.demo.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,12 +37,14 @@ public class MoviesController {
     public final int productPerPage = 24;
     private final FilmApiService filmApiService;
     private final  ImageService imageService;
-
+    private final ApiKinopoiskDevService apiKinopoiskDevService;
      @Autowired
      public MoviesController(@Qualifier("imageService") ImageService imageService,
-                @Qualifier("filmApiService") FilmApiService filmApiService) {
+                             @Qualifier("filmApiService") FilmApiService filmApiService,
+                             @Qualifier("apiKinopoiskDevService") ApiKinopoiskDevService apiKinopoiskDevService) {
             this.imageService = imageService;
             this.filmApiService = filmApiService;
+            this.apiKinopoiskDevService = apiKinopoiskDevService;
         }
 
     //requests
@@ -69,7 +72,7 @@ public class MoviesController {
     @GetMapping("/movieId={id}")
     public String showMoviePage(@PathVariable("id") Long movieId, Model model) throws JsonProcessingException {
         String urlFindById = "https://api.kinopoisk.dev/v1.4/movie/" + movieId;
-        JsonNode jsonResponse = filmApiService.getResponseFromApi(urlFindById);
+        JsonNode jsonResponse = apiKinopoiskDevService.getResponseFromApi(urlFindById);
         MoviePage moviePage = filmApiService.getMoviePage(jsonResponse);
         model.addAttribute("moviePage", moviePage);
         model.addAttribute("backImg", moviePage.getBackdrop());
@@ -90,7 +93,7 @@ public class MoviesController {
         System.out.println("now works 'home' method");
 //        take 27 posters from api
         String requestUrl = filmApiService.get27PostersUrl();
-        JsonNode responseJson = filmApiService.getResponseFromApi(requestUrl);
+        JsonNode responseJson = apiKinopoiskDevService.getResponseFromApi(requestUrl);
         List<MoviePoster> posters = filmApiService.getPostersList(responseJson);
         model.addAttribute("posters", posters);
 
@@ -106,7 +109,7 @@ public class MoviesController {
                 "detective", "documentary", "drama", "family", "fantasy", "history", "horror", "melodrama",
                 "musical", "sport", "thriller", "war", "western");
         model.addAttribute("genres", genres);
-
+        imageService.getUrlForApi(4, genres);
 
 
         return "home";
@@ -169,7 +172,7 @@ public class MoviesController {
         }
 
         //take full json from api
-        JsonNode responseJson = filmApiService.getResponseFromApi(requestUrl);
+        JsonNode responseJson = apiKinopoiskDevService.getResponseFromApi(requestUrl);
         //take just branch total = how many films by this request in the api
         int totalFilmsInApi = getTotalFilmsInApi(responseJson);
         int pagesAmount = totalFilmsInApi / productPerPage;
