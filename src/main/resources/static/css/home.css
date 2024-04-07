@@ -1,3 +1,6 @@
+h3{
+    color: white;
+}
 .container-fluid-absolute {
     width: 100%;
 
@@ -66,12 +69,146 @@
     height: auto;
 }
 .start-watching {
-    display: flex;
-    justify-content: center;
-    margin-top: -170px;
+    display: block;
+    text-align: center; /* Выравниваем текст по центру */
+    max-width: 1096px; /* Ограничиваем максимальную ширину */
+    /* Центрируем контейнер по горизонтали */
+    margin: -160px auto 0;
     color: var(--text-color);
     /*transform: translateX(-50%);*/
 }
+.start-watching h2{
+    font-family: "Times New Roman";
+    font-weight: bold;
+}
+.start-watching h2,
+.start-watching p {
+    margin-left: auto; /* Сбрасываем левый отступ для центрирования */
+    margin-right: auto; /* Сбрасываем правый отступ для центрирования */
+}
+
+.btn-primary {
+    font-size: 20px;
+    padding: 15px;
+    background-color: var(--accent-color);
+    border-color: var(--accent-second-color);
+    transition: background-color 0.3s, color 0.3s;
+
+}
+.btn-primary:hover {
+    background-color: var(--accent-second-color);
+    color: black;
+    border-color: black;
+    transition: background-color 0.3s, color 0.3s;
+
+}
+.btn-primary path{
+    fill: white;
+    transition: fill 0.3s;
+}
+.btn-primary:hover path{
+    fill: black;
+    transition: fill 0.3s;
+}
+/*genres*/
+.container-genres{
+    margin-top: 233px;
+}
+.navigation-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #000;
+    padding: 10px;
+}
+
+.prev-btn, .next-btn {
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.categories-section {
+
+    padding-top: 233px;
+
+    color: #fff;
+}
+
+.categories-top-section{
+    display: flex;
+    justify-content: space-between;
+}
+.categories-list {
+    margin-top: 80px;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+
+    margin-bottom: 30px;
+}
+.categories-item{
+    background-color: var(--bg-item-color);
+    padding: 15px 65px;
+    border-radius: 7px;
+    border: var(--border-color) 2px solid;
+}
+
+
+/* Стили для навигационной панели */
+.navigation-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: var(--bg-pagination-color);
+    border-radius: 10px;
+    border: var(--border-color) 2px solid;
+    padding: 0 10px;
+}
+.pag-btn svg {
+    width: 30px; /* Ширина SVG */
+     /* Автоматический расчет высоты для сохранения пропорций */
+
+
+}
+
+.pag-btn {
+    padding: 2px 5px;
+    background-color: var(--bg-item-color);
+    display: grid;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+    border-radius: 10px;
+    border: var(--border-color) 2px solid;
+}
+.pag-btn:hover path{
+    fill: var(--accent-color);
+    transition: fill 0.3s;
+}
+.pag-btn path{
+    fill: white;
+    transition: fill 0.3s;
+}
+.progress-indicator {
+    display: flex;
+    margin: 0 20px;
+}
+
+.progress-item {
+    width: 20px;
+    height: auto;
+
+    margin: 0 2px;
+}
+
+.progress-item.active path{
+    fill: var(--accent-color);
+}
+
 
 
 footer {
