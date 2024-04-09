@@ -6,12 +6,32 @@
 </head>
 <body>
 <!--import header-->
-<div th:replace="~{fragments/headerBase.html :: header}"></div>
+<!--<div th:replace="~{fragments/headerBase.html :: header}"></div>-->
 <main>
+<!--    <form th:action="@{/movies}" th:class="filter-movies" method="post" class="row">-->
+<!--        <div class="form-group col-md-6">-->
+<!--            <label for="genre">Select Genre:</label>-->
+<!--            <select class="form-control" id="genre" name="genre">-->
+<!--                <option th:each="genre : ${genres}" th:value="${genre}" th:selected="${genre == selectedGenre}" th:text="${genre}"></option>-->
+<!--            </select>-->
+<!--        </div>-->
+<!--        <div class="form-group col-md-6">-->
+<!--            <label for="yearRange">Select Year Range:</label>-->
+<!--            <select class="form-control" id="yearRange" name="yearRange">-->
+<!--                <option th:each="range : ${yearRanges}" th:value="${range}" th:selected="${range == selectedYearRange}" th:text="${range}"></option>-->
+<!--            </select>-->
+<!--        </div>-->
+<!--        <div class="form-group col-md-12">-->
+<!--            <button type="submit" class="btn  btn-info  filter-btn">Submit</button>-->
+<!--        </div>-->
+<!--    </form>-->
+
+
+
     <h1>Filtered Movies</h1>
     <ul>
         <li th:each="movie : ${movies}">
-            <span th:text="${movie.title}"></span>
+            <span th:text="${movie.name}"></span>
         </li>
     </ul>
 </main>

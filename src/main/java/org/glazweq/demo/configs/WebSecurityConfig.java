@@ -57,6 +57,7 @@ public class WebSecurityConfig {
                                 .requestMatchers("/main").permitAll()
                                 .requestMatchers("/index").permitAll()
                                 .requestMatchers("/home-page").permitAll()
+                                .requestMatchers("/movies").permitAll()
                                 .requestMatchers("/movie").permitAll()
                                 .requestMatchers("/movie/page/{id}").permitAll()
                                 .requestMatchers("/movieId={id}").permitAll()

@@ -6,43 +6,45 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.glazweq.demo.domain.MovieCard;
 
 import org.glazweq.demo.domain.MoviePage;
-import org.glazweq.demo.domain.MoviePoster;
 import org.glazweq.demo.domain.Poster;
 import org.glazweq.demo.service.ApiKinopoiskDevService;
-import org.glazweq.demo.service.FilmApiService;
+import org.glazweq.demo.service.FiltersMovieService;
 import org.glazweq.demo.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.*;
 
 @Controller
 @EnableCaching
 public class MoviesController {
-    public final int productPerPage = 24;
-    private final FilmApiService filmApiService;
+    public int productPerPage = 24;
+    private final FiltersMovieService filtersMovieService;
     private final  ImageService imageService;
     private final ApiKinopoiskDevService apiKinopoiskDevService;
 //    constructor
+    public List<String> getAllGenres(){
+        List<String> genres = Arrays.asList(
+                "Action", "Adventure", "Anime", "Biography", "Cartoon", "Comedy", "Concert", "Crime",
+                "Detective", "Drama", "Fantasy",  "History", "Horror", "Melodrama", "Music",
+                "Musical", "Sport","Thriller", "War", "Western"
+
+        );
+        return genres;
+    }
      @Autowired
      public MoviesController(@Qualifier("imageService") ImageService imageService,
-                             @Qualifier("filmApiService") FilmApiService filmApiService,
+                             @Qualifier("filtersMovieService") FiltersMovieService filtersMovieService,
                              @Qualifier("apiKinopoiskDevService") ApiKinopoiskDevService apiKinopoiskDevService) {
             this.imageService = imageService;
-            this.filmApiService = filmApiService;
+            this.filtersMovieService = filtersMovieService;
             this.apiKinopoiskDevService = apiKinopoiskDevService;
         }
     @GetMapping("/")
@@ -51,7 +53,7 @@ public class MoviesController {
     }
     @Cacheable(value = "totalFilmsInApiCache")
     public int getTotalFilmsInApi(JsonNode jsonNode) throws JsonProcessingException {
-        return filmApiService.getTotalFilmInApi(jsonNode);
+        return filtersMovieService.getTotalFilmInApi(jsonNode);
     }
     @PostMapping("/home-page")
     public String postHomePage(@RequestParam(defaultValue = "1") int page, @RequestParam("genre") String selectedGenre,
@@ -64,7 +66,7 @@ public class MoviesController {
     public String showMoviePage(@PathVariable("id") Long movieId, Model model) throws JsonProcessingException {
         String urlFindById = "https://api.kinopoisk.dev/v1.4/movie/" + movieId;
         JsonNode jsonResponse = apiKinopoiskDevService.getResponseFromApi(urlFindById);
-        MoviePage moviePage = filmApiService.getMoviePage(jsonResponse);
+        MoviePage moviePage = filtersMovieService.getMoviePage(jsonResponse);
         model.addAttribute("moviePage", moviePage);
         model.addAttribute("backImg", moviePage.getBackdrop());
 
@@ -88,12 +90,8 @@ public class MoviesController {
         model.addAttribute("postersForHero", postersForHero);
 
 //        get genres list here full genres
-        List<String> genres = Arrays.asList(
-                "Action", "Adventure", "Anime", "Biography", "Cartoon", "Comedy", "Concert", "Crime",
-                "Detective", "Drama", "Fantasy",  "History", "Horror", "Melodrama", "Music",
-                "Musical", "Sport","Thriller", "War", "Western"
+        List<String> genres = getAllGenres();
 
-        );
         model.addAttribute("genres", genres);
         List<Poster> postersByGenres =  imageService.getPostersByKeyword(4, genres,"genre");
         model.addAttribute("postersByGenres", postersByGenres);
@@ -101,13 +99,17 @@ public class MoviesController {
     }
 
     @GetMapping("/movies")
-    public String getFilteredMovies(@RequestParam("genre") String genre, Model model) {
+    public String getFilteredMovies( @RequestParam(defaultValue = "1") int page, @RequestParam("genre") String genre, Model model) throws JsonProcessingException {
         // Здесь вы должны реализовать логику для получения фильмов по выбранному жанру
-        List<Movie> filteredMovies = // Получение списка фильмов по жанру
+        String requestUrl = null;
+        productPerPage=4;
 
-                // Добавляем список фильтрованных фильмов в модель
-                model.addAttribute("movies", filteredMovies);
-
+        filtersMovieService.getMoviesByFilters(page, productPerPage, genre, null);
+//        requestUrl = filtersMovieService.getUrlForApi(page, productPerPage, genre, null);
+//        JsonNode responseJson = apiKinopoiskDevService.getResponseFromApi(requestUrl);
+//        List<MovieCard> filteredMovies = filtersMovieService.getMoviesList(responseJson);
+//                 Добавляем список фильтрованных фильмов в модель
+//                model.addAttribute("movies", filteredMovies);
         // Возвращаем имя представления (шаблона) для отображения отфильтрованных фильмов
         return "filters-page";
     }
@@ -150,19 +152,19 @@ public class MoviesController {
         String requestUrl;
         if ((selectedGenre == null || selectedGenre.equals("any")) && (selectedYearRange == null || selectedYearRange.equals("any"))) {
             // Если ни жанр, ни диапазон лет не заданы, получаем список всех фильмов без фильтрации
-            requestUrl = filmApiService.getUrlForApi(page, productPerPage, null, null);
+            requestUrl = filtersMovieService.getUrlForApi(page, productPerPage, null, null);
             System.out.println("1");
         } else if ((selectedGenre != null || !selectedGenre.equals("any")) && (selectedYearRange == null || selectedYearRange.equals("any"))) {
             // Если задан жанр, но не задан диапазон лет
-            requestUrl = filmApiService.getUrlForApi(page, productPerPage, selectedGenre, null);
+            requestUrl = filtersMovieService.getUrlForApi(page, productPerPage, selectedGenre, null);
             System.out.println("2");
         } else if ((selectedGenre == null || selectedGenre.equals("any")) && (selectedYearRange != null || !selectedYearRange.equals("any"))) {
             // Если не задан жанр, но задан диапазон лет
-            requestUrl = filmApiService.getUrlForApi(page, productPerPage, null, selectedYearRange);
+            requestUrl = filtersMovieService.getUrlForApi(page, productPerPage, null, selectedYearRange);
             System.out.println("3");
         } else {
             // Если заданы и жанр, и диапазон лет
-            requestUrl = filmApiService.getUrlForApi(page, productPerPage, selectedGenre, selectedYearRange);
+            requestUrl = filtersMovieService.getUrlForApi(page, productPerPage, selectedGenre, selectedYearRange);
             System.out.println("4");
         }
 
@@ -175,7 +177,7 @@ public class MoviesController {
 
 
         //take just branch docs = take card with movie
-        List<MovieCard> movies = filmApiService.getMoviesList(responseJson);
+        List<MovieCard> movies = filtersMovieService.getMoviesList(responseJson);
 
         // list with films
         model.addAttribute("movies", movies);
