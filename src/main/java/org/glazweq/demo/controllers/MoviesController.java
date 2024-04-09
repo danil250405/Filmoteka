@@ -7,6 +7,7 @@ import org.glazweq.demo.domain.MovieCard;
 
 import org.glazweq.demo.domain.MoviePage;
 import org.glazweq.demo.domain.MoviePoster;
+import org.glazweq.demo.domain.Poster;
 import org.glazweq.demo.service.ApiKinopoiskDevService;
 import org.glazweq.demo.service.FilmApiService;
 import org.glazweq.demo.service.ImageService;
@@ -26,10 +27,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Controller
 @EnableCaching
@@ -38,6 +36,7 @@ public class MoviesController {
     private final FilmApiService filmApiService;
     private final  ImageService imageService;
     private final ApiKinopoiskDevService apiKinopoiskDevService;
+//    constructor
      @Autowired
      public MoviesController(@Qualifier("imageService") ImageService imageService,
                              @Qualifier("filmApiService") FilmApiService filmApiService,
@@ -46,18 +45,10 @@ public class MoviesController {
             this.filmApiService = filmApiService;
             this.apiKinopoiskDevService = apiKinopoiskDevService;
         }
-
-    //requests
-    private final String defaultRequest ="&selectFields=id&selectFields=enName&selectFields=year&selectFields=rating&selectFields=poster&notNullFields=enName&notNullFields=poster.url&selectFields=votes&sortField=votes.imdb&sortType=-1";
-
-
     @GetMapping("/")
-    public String redirectToHomePage() {
-        return "redirect:/home-page";
+    public String redirectToHome() {
+        return "redirect:/home";
     }
-
-
-
     @Cacheable(value = "totalFilmsInApiCache")
     public int getTotalFilmsInApi(JsonNode jsonNode) throws JsonProcessingException {
         return filmApiService.getTotalFilmInApi(jsonNode);
@@ -92,30 +83,34 @@ public class MoviesController {
     public String home(Model model) throws JsonProcessingException {
         System.out.println("now works 'home' method");
 //        take 27 posters from api
-        String requestUrl = filmApiService.get27PostersUrl();
-        JsonNode responseJson = apiKinopoiskDevService.getResponseFromApi(requestUrl);
-        List<MoviePoster> posters = filmApiService.getPostersList(responseJson);
-        model.addAttribute("posters", posters);
+        System.out.println("pered vchodom v250top");
+        List<Poster> postersForHero =  imageService.getPostersByKeyword(27, "top250","top250");
+        model.addAttribute("postersForHero", postersForHero);
 
 //        get genres list here full genres
-//        List<String> genres = Arrays.asList(
-//                "any", "action", "adventure", "anime", "biography", "cartoon", "ceremony", "children's", "comedy", "concert", "crime",
-//                "detective", "documentary", "drama", "family", "fantasy", "film noir", "game", "history", "horror", "melodrama", "music",
-//                "musical", "reality TV", "short film", "sport", "talk show", "thriller", "war", "western");
-
-//              get genres list
         List<String> genres = Arrays.asList(
-                 "action", "adventure", "anime", "biography", "cartoon", "comedy", "crime",
-                "detective", "documentary", "drama", "family", "fantasy", "history", "horror", "melodrama",
-                "musical", "sport", "thriller", "war", "western");
+                "Action", "Adventure", "Anime", "Biography", "Cartoon", "Comedy", "Concert", "Crime",
+                "Detective", "Drama", "Fantasy",  "History", "Horror", "Melodrama", "Music",
+                "Musical", "Sport","Thriller", "War", "Western"
+
+        );
         model.addAttribute("genres", genres);
-        imageService.getUrlForApi(4, genres);
-
-
+        List<Poster> postersByGenres =  imageService.getPostersByKeyword(4, genres,"genre");
+        model.addAttribute("postersByGenres", postersByGenres);
         return "home";
     }
 
+    @GetMapping("/movies")
+    public String getFilteredMovies(@RequestParam("genre") String genre, Model model) {
+        // Здесь вы должны реализовать логику для получения фильмов по выбранному жанру
+        List<Movie> filteredMovies = // Получение списка фильмов по жанру
 
+                // Добавляем список фильтрованных фильмов в модель
+                model.addAttribute("movies", filteredMovies);
+
+        // Возвращаем имя представления (шаблона) для отображения отфильтрованных фильмов
+        return "filters-page";
+    }
     @GetMapping("/home-page")
     public String getCardsList(Model model, @RequestParam(defaultValue = "1") int page, HttpServletRequest request)
             throws JsonProcessingException {

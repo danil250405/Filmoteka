@@ -22,7 +22,7 @@ public class ApiKinopoiskDevService {
           8HK60K1-GN54HEM-NA6DYES-5HQBVWJ vitalya
           Y8EGHT0-CSZ4PGE-QZ82S6C-KN2CVA7 sonya
      */
-    private static final String header1 = "D386SAK-6YR4GXR-KYNQ26E-0JHQX0C";
+    private static final String header1 = "H1CX9MG-T83MTC4-PPV7CQE-SYP1474";
     private static final String header2 = "application/json";
 
     @Autowired
@@ -38,7 +38,8 @@ public class ApiKinopoiskDevService {
             ResponseEntity<String> response = restTemplate.exchange(request, HttpMethod.GET,new HttpEntity<>(headers),String.class);
 
             log.info("Output from KinoApi:{}", response.getBody());
-
+            System.out.println("REQUEST: "+ request);
+            System.out.println("RESPONSE: "+ response);
             return response.getBody();
 
         }catch (Exception e){
@@ -53,7 +54,7 @@ public class ApiKinopoiskDevService {
     @Cacheable(cacheNames = "apiResponseCache", key = "#requestFromController")
     public JsonNode getResponseFromApi(String requestFromController) throws JsonProcessingException {
         String answerFromApi = getResponceByRequest(requestFromController);
-        System.out.println("get Response from api");
+        System.out.println("get Response from api:" + answerFromApi);
         return JsonDecoderService.parse(answerFromApi);
     }
 

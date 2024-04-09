@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Filter Page</title>
+</head>
+<body>
+<!--import header-->
+<div th:replace="~{fragments/headerBase.html :: header}"></div>
+<main>
+    <h1>Filtered Movies</h1>
+    <ul>
+        <li th:each="movie : ${movies}">
+            <span th:text="${movie.title}"></span>
+        </li>
+    </ul>
+</main>
+</body>
+</html>

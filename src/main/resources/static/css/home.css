@@ -164,7 +164,7 @@ p{
     display: flex;
     justify-content: space-between;
 }
-.categories-list {
+.categories-card-list {
     margin-top: 80px;
     padding: 0;
     display: flex;
@@ -172,14 +172,64 @@ p{
 
     margin-bottom: 30px;
 }
-.categories-item{
+.categories-card{
+    max-width: 250px;
     background-color: var(--bg-item-color);
-    padding: 15px 65px;
+    z-index: 0;
+    transition: transform 0.3s;
     border-radius: 7px;
     border: var(--border-color) 2px solid;
 }
+.categories-card:hover{
+    transform: translateY(-10px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+.link-categories-wrap{
+    padding: 20px;
+
+    /*background: rgb(245,0,0);*/
+    /*background: linear-gradient(0deg, rgba(245,0,0,1) 0%, rgba(255,0,0,0.5886729691876751) 51%, rgba(26,26,26,0) 100%);*/
+    background: rgb(26,26,26);
+    background: linear-gradient(0deg, rgba(26,26,26,1) 0%, rgba(26,26,26,0.8295693277310925) 40%, rgba(26,26,26,0.3981967787114846) 100%);
+    z-index: 1;
+}
+.down-wrap-genres{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.down-wrap-genres svg{
+    width: 30px;
+}
+.link-categories-wrap p{
+    z-index: 2;
+    color: white;
+    margin: 0;
+}
+.categories-img-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 
 
+}
+
+.categories-img-list .movie-item {
+    z-index: -1;
+    max-width: calc(50% - 10px);
+    text-align: center;
+    margin-bottom: 5px;
+}
+.categories-img-list .movie-item:nth-child(odd) {
+    margin-right: 10px;
+}
+.img-genre {
+
+    border-radius: 10px;
+    max-width: 100px;
+    height: auto;
+
+}
 /* Стили для навигационной панели */
 .navigation-bar {
     display: flex;

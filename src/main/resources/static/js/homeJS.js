@@ -91,7 +91,7 @@ toggleOptions.forEach(option => {
 
 // genres
 const categoriesContainer = document.querySelector('.categories-list-container');
-const categoriesList = categoriesContainer.querySelector('.categories-list');
+const categoriesList = categoriesContainer.querySelector('.categories-card-list');
 const prevBtn = document.querySelector('.prev-btn');
 const nextBtn = document.querySelector('.next-btn');
 
@@ -100,7 +100,7 @@ const itemsPerPage = 5; // Количество жанров, отображае
 
 // Функция для отображения жанров на странице
 function showCategories(startIndex, endIndex) {
-    const categoryItems = categoriesList.querySelectorAll('.categories-item');
+    const categoryItems = categoriesList.querySelectorAll('.categories-card');
     const containerWidth = categoriesContainer.offsetWidth;
     const itemWidth = categoryItems[0].offsetWidth + categoryItems[0].offsetMargin;
     const translateX = -(startIndex * itemWidth);

@@ -27,17 +27,15 @@
     <div class="container-fluid-absolute">
             <div class="poster-container">
                 <ul class="posters-list">
-                    <th:block th:each="poster : ${posters}">
+                    <th:block th:each="posterForHero : ${postersForHero}">
                         <li>
-                            <img th:src="${poster.previewUrlImg}" alt="Movie Poster">
+                            <img th:src="${posterForHero.getPosterUrl()}" alt="Movie Poster">
                         </li>
                     </th:block>
                 </ul>
             </div>
             <img class="logo-hero" src="../static/img/Vectorlogo.svg" alt="logo">
         </div>
-
-
     <div class="start-watching">
         <h2>The Best Streaming Experience</h2>
         <p class="info-start-watching">StreamVibe is the best streaming experience for watching your favorite movies and
@@ -74,9 +72,25 @@
             </div>
         </div>
         <div class="categories-list-container">
-            <div class="categories-list">
-                <div th:each="genre : ${genres}" th:text="${genre}" class="categories-item"></div>
-            </div>
+            <ul class="categories-card-list">
+                <li th:each="genre : ${genres}" class="categories-card">
+                    <a th:href="@{/movies(genre=${genre})}">
+                        <div class="link-categories-wrap">
+                        <ul class="categories-img-list">
+                            <li th:each="posterOdject : ${postersByGenres}" class="movie-item" th:if="${posterOdject.getEnKeyword() == genre}">
+                                <img class="img-genre" th:src="${posterOdject.posterUrl}" alt="Poster Image"/> <!-- Выводим изображение постера -->
+                            </li>
+                        </ul>
+                            <div class="down-wrap-genres">
+                                <p th:text="${genre}"></p>
+                                <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                                     <path d="m322.7 128.4 100.3 105c6 5.8 9 13.7 9 22.4s-3 16.5-9 22.4L322.7 383.6c-11.9 12.5-31.3 12.5-43.2 0-11.9-12.5-11.9-32.7 0-45.2l48.2-50.4h-217c-17 0-30.7-14.3-30.7-32s13.7-32 30.6-32h217l-48.2-50.4c-11.9-12.5-11.9-32.7 0-45.2 12-12.5 31.3-12.5 43.3 0z" fill="#fff"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
     <!--section device-->

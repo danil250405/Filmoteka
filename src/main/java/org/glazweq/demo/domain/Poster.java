@@ -1,23 +1,45 @@
 package org.glazweq.demo.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
+import org.springframework.context.annotation.Bean;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-@Entity
-@Getter
+import java.util.ArrayList;
+import java.util.List;
+
 @Setter
-
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name="poster")
 public class Poster {
-    @jakarta.persistence.Id
+
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String genre;
-    private String imageUrl;
+    @Column()
+    private int filmId;
+    @Column()
+    private String posterUrl;
+    @Column()
+    private String keyword;
+    @Column()
+    private String enKeyword;
+    public Poster(int filmId, String posterUrl, String keyword, String enKeyword) {
+        this.filmId = filmId;
+        this.posterUrl = posterUrl;
+        this.keyword = keyword;
+        this.enKeyword = enKeyword;
+    }
 
     // Getters, setters, constructors
 }
+
