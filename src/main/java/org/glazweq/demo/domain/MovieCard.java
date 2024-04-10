@@ -17,8 +17,7 @@ public class MovieCard {
 
     @JsonProperty("name")
     private String name;
-    @JsonProperty("genre")
-    private String genre;
+
     @JsonProperty("previewUrl")
     private String previewUrlImg;
     @JsonProperty("kinopoiskRating")
@@ -30,18 +29,16 @@ public class MovieCard {
     private double imdbRating;
     @JsonProperty("year")
     private int year;
+    @JsonProperty("genres")
+    private String genres;
     @Setter
     @Id
     @JsonProperty("id")
     private int id;
-    @ManyToMany
-    @JoinTable(name = "movie_genre",
-            joinColumns = @JoinColumn(name = "movie_id"),
-            inverseJoinColumns = @JoinColumn(name = "genre_id"))
-    private List<Genre> genres;
-    public MovieCard(String name, String genre, String previewUrlImg, double kinopoiskRating, String description, double imdbRating, int year, int id) {
+
+    public MovieCard(String name, String previewUrlImg, double kinopoiskRating, String description, double imdbRating, int year, int id) {
         this.name = name;
-        this.genre = genre;
+
         this.previewUrlImg = previewUrlImg;
         this.kinopoiskRating = kinopoiskRating;
         this.description = description;

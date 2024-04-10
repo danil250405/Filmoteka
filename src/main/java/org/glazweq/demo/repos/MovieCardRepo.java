@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface MovieCardRepo extends CrudRepository<MovieCard, Long> {
-    List<MovieCard> findByGenresName(String genreName);
+//    List<MovieCard> findByGenresName(String genreName);
 }

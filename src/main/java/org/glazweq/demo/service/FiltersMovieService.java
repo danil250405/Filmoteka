@@ -127,7 +127,7 @@ public class FiltersMovieService {
         }
         return moviesPosters;
     }
-
+/*
     public List<MovieCard> getMoviesByFilters(int currentPage,int limit, String notParseGenre, String yearRange) throws JsonProcessingException {
         List<MovieCard> allMoviesCard = new ArrayList<>();
         String keywordForDB = null;
@@ -151,9 +151,11 @@ public class FiltersMovieService {
 //      w  https://api.kinopoisk.dev/v1.4/movie?page=1&limit=4&selectFields=id&selectFields=description&selectFields=rating&selectFields=enName&selectFields=name&selectFields=releaseYears&selectFields=poster&selectFields=year&notNullFields=name&notNullFields=poster.url&genres.name=приключения&selectFields=votes&sortField=votes.imdb&sortType=-1
         return allMoviesCard;
 
-    }
-    private List<MovieCard> movieCardsRequestAndSaveInDB(int page, int limit, String keywordGenre, List<MovieCard> allMoviesCard, String enKeyword) throws JsonProcessingException {
+    }*/
 
+    @Cacheable(cacheNames = "movieCards", key = "#page + '-' + #limit + '-' + #enGenre")
+    public JsonNode getJsonByFilter(int page, int limit, String enGenre) throws JsonProcessingException {
+        String keywordGenre = getGoodGenre(enGenre);
         String requestUrl = UriComponentsBuilder.fromHttpUrl(firstPartUrl)
                 .queryParam("page", page)
                 .queryParam("limit", limit)
@@ -171,19 +173,21 @@ public class FiltersMovieService {
                 .toUriString();
 
 
-            requestUrl = requestUrl.concat("&genres.name=" + keywordGenre);
-            System.out.println("genres--------------    ");
+        requestUrl = requestUrl.concat("&genres.name=" + keywordGenre);
+        System.out.println("genres--------------    ");
 
-//        if (keyword.equals("top250")) {
-//            requestUrl = UriComponentsBuilder.fromUriString(requestUrl)
-//                    .queryParam("lists", keywordForDB)
-//                    .toUriString();
-//        }
         System.out.println(requestUrl);
         JsonNode jsonNode = apiKinopoiskDevService.getResponseFromApi(requestUrl);
-
+        return jsonNode;
+    }
+    public int getTotalMoviesByFilters(JsonNode jsonNode){
+        return jsonNode.get("total").asInt();
+    }
+    @Cacheable(cacheNames = "#jsonNode")
+    public List<MovieCard> getMoviesCardsByFilter(JsonNode jsonNode) throws JsonProcessingException {
         JsonNode docsNode = jsonNode.get("docs"); // Получаем узел "docs"
-
+        List<MovieCard> allMoviesCard = new ArrayList<>();
+        int totalFilmByRequest =jsonNode.get("total").asInt();
         for (JsonNode movieCardNode : docsNode) {
             int movieId = movieCardNode.get("id").asInt();
             String name = movieCardNode.get("name").asText();
@@ -197,23 +201,18 @@ public class FiltersMovieService {
 
 
             MovieCard movieCard = new MovieCard(movieId, name, posterUrl, ratingKinopoisk, ratingImdb, description , reliesYear);
-            List<Genre> genres = new ArrayList<>();
+            List<String> genres = new ArrayList<>();
             for (JsonNode genreNode : genresNode) {
                 String genreName = genreNode.get("name").asText();
-                Genre genre = genreRepo.findByName(genreName);
-                if (genre == null) {
-                    genre = new Genre();
-                    genre.setName(genreName);
-                    genreRepo.save(genre);
-                }
-                genres.add(genre);
+                genres.add(genreName);
+
             }
-            movieCard.setGenres(genres);
+            String genresString = String.join(", ", genres);
+            movieCard.setGenres(genresString);
             System.out.println("Сохранение фильма...");
-            movieCardRepo.save(movieCard);
+//            movieCardRepo.save(movieCard);
             allMoviesCard.add(movieCard);
         }
-
 
 
 

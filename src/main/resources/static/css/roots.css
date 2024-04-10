@@ -10,3 +10,38 @@
     --bg-pagination-color: #0f0f0f;
     --p-color: #999999;
 }
+.btn-primary {
+    font-size: 20px;
+    padding: 15px;
+    color: white;
+    background-color: var(--accent-color);
+    border-color: #2c0000;
+    transition: background-color 0.3s, color 0.3s;
+
+}
+.btn-primary:hover {
+    background-color: #be0000;
+
+    border-color: black;
+    transition: background-color 0.3s, color 0.3s;
+
+}
+
+.btn-primary:active{
+    background-color: #be0000 !important;
+    border-color: black !important;
+    box-shadow: 0 3px black;
+    transform: translateY(4px);
+}
+.btn-primary:focus{
+    background-color: var(--accent-color);
+
+}
+.btn-primary path{
+    fill: white;
+    transition: fill 0.3s;
+}
+.btn-primary:hover path{
+    fill: black;
+    transition: fill 0.3s;
+}

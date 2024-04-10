@@ -39,6 +39,14 @@ public class MoviesController {
         );
         return genres;
     }
+    public List<String> getAllYearRanges(){
+        List<String> yearRanges = new ArrayList<>();
+        for (int year = 1960; year <= 2020; year += 10) {
+            int endYear = year + 9;
+            yearRanges.add(year + "-" + endYear);
+        }
+        return  yearRanges;
+    }
      @Autowired
      public MoviesController(@Qualifier("imageService") ImageService imageService,
                              @Qualifier("filtersMovieService") FiltersMovieService filtersMovieService,
@@ -97,22 +105,42 @@ public class MoviesController {
         model.addAttribute("postersByGenres", postersByGenres);
         return "home";
     }
-
+    @PostMapping("/movies")
+    public String postMoviesPage( @RequestParam("genre") String selectedGenre,
+                                  @RequestParam("yearRange") String selectedYearRange){
+        return "redirect:/movies?genre=" + selectedGenre;
+    }
     @GetMapping("/movies")
-    public String getFilteredMovies( @RequestParam(defaultValue = "1") int page, @RequestParam("genre") String genre, Model model) throws JsonProcessingException {
+    public String getFilteredMovies(HttpServletRequest request, @RequestParam(defaultValue = "1") int page, @RequestParam("genre") String genre, Model model) throws JsonProcessingException {
         // Здесь вы должны реализовать логику для получения фильмов по выбранному жанру
-        String requestUrl = null;
-        productPerPage=4;
-
-      List<MovieCard> filteredMovies = filtersMovieService.getMoviesByFilters(page, productPerPage, genre, null);
+        List<String> genres = getAllGenres();
+        List<String> yearRanges = getAllYearRanges();
+        String selectedGenre = request.getParameter("genre");
+        String selectedYearRange = request.getParameter("year");
+        model.addAttribute("selectedYearRange", selectedYearRange);
+        model.addAttribute("selectedGenre", selectedGenre);
+        JsonNode jsonNode = filtersMovieService.getJsonByFilter(page, productPerPage, genre);
+      List<MovieCard> filteredMovies = filtersMovieService.getMoviesCardsByFilter(jsonNode);
+        int totalFilmsInApi = filtersMovieService.getTotalMoviesByFilters(jsonNode);
         model.addAttribute("movies", filteredMovies);
+        model.addAttribute("genres", genres);
+        model.addAttribute("yearRanges", yearRanges);
 
-//        requestUrl = filtersMovieService.getUrlForApi(page, productPerPage, genre, null);
-//        JsonNode responseJson = apiKinopoiskDevService.getResponseFromApi(requestUrl);
-//        List<MovieCard> filteredMovies = filtersMovieService.getMoviesList(responseJson);
-//                 Добавляем список фильтрованных фильмов в модель
-//                model.addAttribute("movies", filteredMovies);
-        // Возвращаем имя представления (шаблона) для отображения отфильтрованных фильмов
+//        for pagination
+        String baseUrl = "/movies?";
+        if (!selectedGenre.equals("---")) {
+            baseUrl += "genre=" + selectedGenre + "&";
+        }
+//        if (!selectedYearRange.equals("---")) {
+//            baseUrl += "year=" + selectedYearRange + "&";
+//        }
+        baseUrl += "page=";
+        int pagesAmount = totalFilmsInApi / productPerPage;
+        model.addAttribute("baseUrl", baseUrl);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalItems", totalFilmsInApi);
+        model.addAttribute("pageSize", productPerPage);
+        model.addAttribute("totalPages", pagesAmount); // max page
         return "filters-page";
     }
     @GetMapping("/home-page")
