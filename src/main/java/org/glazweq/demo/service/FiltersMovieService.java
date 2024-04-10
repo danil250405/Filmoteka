@@ -148,8 +148,9 @@ public class FiltersMovieService {
             int numberOfPostersNeeded = limit - countFindMovies;
             allMoviesCard = movieCardsRequestAndSaveInDB(currentPage ,numberOfPostersNeeded, keywordGenre, allMoviesCard, notParseGenre);
         }
-//        https://api.kinopoisk.dev/v1.4/movie?page=1&limit=4&selectFields=id&selectFields=description&selectFields=rating&selectFields=enName&selectFields=name&selectFields=releaseYears&selectFields=poster&selectFields=year&notNullFields=name&notNullFields=poster.url&genres.name=приключения&selectFields=votes&sortField=votes.imdb&sortType=-1
+//      w  https://api.kinopoisk.dev/v1.4/movie?page=1&limit=4&selectFields=id&selectFields=description&selectFields=rating&selectFields=enName&selectFields=name&selectFields=releaseYears&selectFields=poster&selectFields=year&notNullFields=name&notNullFields=poster.url&genres.name=приключения&selectFields=votes&sortField=votes.imdb&sortType=-1
         return allMoviesCard;
+
     }
     private List<MovieCard> movieCardsRequestAndSaveInDB(int page, int limit, String keywordGenre, List<MovieCard> allMoviesCard, String enKeyword) throws JsonProcessingException {
 
