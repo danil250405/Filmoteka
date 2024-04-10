@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class MovieCard {
     @JsonProperty("kinopoiskRating")
     private double kinopoiskRating;
     @JsonProperty("description")
+    @Column(length = 15000)
     private String description ;
     @JsonProperty("imdbRating")
     private double imdbRating;

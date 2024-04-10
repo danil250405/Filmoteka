@@ -149,7 +149,7 @@ public class FiltersMovieService {
             allMoviesCard = movieCardsRequestAndSaveInDB(currentPage ,numberOfPostersNeeded, keywordGenre, allMoviesCard, notParseGenre);
         }
 //        https://api.kinopoisk.dev/v1.4/movie?page=1&limit=4&selectFields=id&selectFields=description&selectFields=rating&selectFields=enName&selectFields=name&selectFields=releaseYears&selectFields=poster&selectFields=year&notNullFields=name&notNullFields=poster.url&genres.name=приключения&selectFields=votes&sortField=votes.imdb&sortType=-1
-        return null;
+        return allMoviesCard;
     }
     private List<MovieCard> movieCardsRequestAndSaveInDB(int page, int limit, String keywordGenre, List<MovieCard> allMoviesCard, String enKeyword) throws JsonProcessingException {
 
@@ -157,12 +157,16 @@ public class FiltersMovieService {
                 .queryParam("page", page)
                 .queryParam("limit", limit)
                 .queryParam("selectFields", "id")
-                .queryParam("selectFields", "genres")
+                .queryParam("selectFields", "name")
                 .queryParam("selectFields", "genres")
                 .queryParam("selectFields", "poster")
                 .queryParam("selectFields", "rating")
                 .queryParam("selectFields", "description")
-                .queryParam("selectFields", "releaseYears")
+                .queryParam("selectFields", "year")
+                .queryParam("notNullFields", "poster.url")
+                .queryParam("notNullFields", "rating.kp")
+                .queryParam("notNullFields", "description")
+                .queryParam("notNullFields", "year")
                 .toUriString();
 
 
@@ -189,6 +193,8 @@ public class FiltersMovieService {
             String description = movieCardNode.get("description").asText();
             int reliesYear = movieCardNode.get("year").asInt();
 
+
+
             MovieCard movieCard = new MovieCard(movieId, name, posterUrl, ratingKinopoisk, ratingImdb, description , reliesYear);
             List<Genre> genres = new ArrayList<>();
             for (JsonNode genreNode : genresNode) {
@@ -209,18 +215,8 @@ public class FiltersMovieService {
 
 
 
-//        JsonNode jsonNode = apiKinopoiskDevService.getResponseFromApi(requestUrl);
-//
-//        JsonNode docsNode = jsonNode.get("docs"); // Получаем узел "docs"
-//        for (JsonNode posterNode : docsNode) {
-//            int idMovie = posterNode.get("id").asInt();
-//            String previewImg = posterNode.get("poster").get("previewUrl").asText();
-//            Poster poster = new Poster(idMovie, previewImg, keywordForDB, enKeyword);
-//            System.out.println("poster saving...");
-//            posterRepo.save(poster);
-//            allPosters.add(poster);
-//        }
-        return null;
+
+        return allMoviesCard;
     }
 
 

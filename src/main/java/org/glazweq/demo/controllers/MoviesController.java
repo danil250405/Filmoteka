@@ -104,7 +104,9 @@ public class MoviesController {
         String requestUrl = null;
         productPerPage=4;
 
-        filtersMovieService.getMoviesByFilters(page, productPerPage, genre, null);
+      List<MovieCard> filteredMovies = filtersMovieService.getMoviesByFilters(page, productPerPage, genre, null);
+        model.addAttribute("movies", filteredMovies);
+
 //        requestUrl = filtersMovieService.getUrlForApi(page, productPerPage, genre, null);
 //        JsonNode responseJson = apiKinopoiskDevService.getResponseFromApi(requestUrl);
 //        List<MovieCard> filteredMovies = filtersMovieService.getMoviesList(responseJson);
