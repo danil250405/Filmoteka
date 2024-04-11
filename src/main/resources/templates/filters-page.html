@@ -19,12 +19,7 @@
 <div th:replace="~{fragments/headerBase.html :: header}"></div>
 
 <main>
-<!--    filter form-->
-
-
-
-
-<!--    <h2>Filtered Movies</h2>-->
+    <!--    filter form-->
     <section class="container filtered-movies-container">
         <form th:action="@{/movies}" th:class="filter-fields" method="post" class="row">
             <div class="form-group-filters">
@@ -41,11 +36,19 @@
                     <option th:each="range : ${yearRanges}" th:value="${range}" th:selected="${range == selectedYearRange}" th:text="${range}"></option>
                 </select>
             </div>
+            <div class="form-group-filters">
+                <label for="sortType">Sorting:</label>
+                <select class="form-control" id="sortType" name="sortType">
+                    <option>---</option>
+                    <option th:each="sortType : ${sortTypes}" th:value="${sortType}" th:selected="${sortType == selectedSortType}" th:text="${sortType}"></option>
+                </select>
+            </div>
+
                 <button type="submit" class="filters-btn btn btn-primary">Submit</button>
         </form>
 
 
-
+        <!--Movies  cards-->
         <ul class="filtered-movies-list">
             <li class="filtered-movies-item" th:each="movie : ${movies}">
                 <a href="#">

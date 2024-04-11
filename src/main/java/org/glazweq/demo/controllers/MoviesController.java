@@ -47,6 +47,12 @@ public class MoviesController {
         }
         return  yearRanges;
     }
+    public List<String> getAllSortTypes(){
+        List<String> sortTypes = Arrays.asList(
+                "Kinopoisk", "Top250", "Imdb"
+        );
+        return sortTypes;
+    }
      @Autowired
      public MoviesController(@Qualifier("imageService") ImageService imageService,
                              @Qualifier("filtersMovieService") FiltersMovieService filtersMovieService,
@@ -107,33 +113,55 @@ public class MoviesController {
     }
     @PostMapping("/movies")
     public String postMoviesPage( @RequestParam("genre") String selectedGenre,
-                                  @RequestParam("yearRange") String selectedYearRange){
-        return "redirect:/movies?genre=" + selectedGenre;
+                                  @RequestParam("yearRange") String selectedYearRange,
+                                  @RequestParam("sortType") String selectedSortType){
+        String url = "movies";
+        if (!selectedGenre.equals("---") || !selectedYearRange.equals("---")){
+            url = url.concat("?");
+            if (!selectedGenre.equals("---")) url = url.concat("genre=" + selectedGenre + "&");
+            if (!selectedYearRange.equals("---")) url = url.concat("yearRange=" + selectedYearRange + "&");
+            if (!selectedSortType.equals("---")) url = url.concat("sortType=" + selectedSortType + "&");
+        }
+        return "redirect:/" + url;
     }
     @GetMapping("/movies")
-    public String getFilteredMovies(HttpServletRequest request, @RequestParam(defaultValue = "1") int page, @RequestParam("genre") String genre, Model model) throws JsonProcessingException {
+    public String getFilteredMovies(HttpServletRequest request, @RequestParam(defaultValue = "1") int page,
+                                      Model model) throws JsonProcessingException {
         // Здесь вы должны реализовать логику для получения фильмов по выбранному жанру
         List<String> genres = getAllGenres();
         List<String> yearRanges = getAllYearRanges();
+        List<String> sortTypes = getAllSortTypes();
         String selectedGenre = request.getParameter("genre");
-        String selectedYearRange = request.getParameter("year");
+        String selectedYearRange = request.getParameter("yearRange");
+        String selectedSortType = request.getParameter("sortType");
+        if (selectedGenre == null || selectedGenre.isEmpty())  selectedGenre = "notIndicated";
+        if (selectedYearRange == null || selectedYearRange.isEmpty()) selectedYearRange = "notIndicated";
+        if (selectedSortType == null || selectedSortType.isEmpty()) selectedSortType = "notIndicated";
+
+
+        model.addAttribute("selectedSortType", selectedSortType);
         model.addAttribute("selectedYearRange", selectedYearRange);
         model.addAttribute("selectedGenre", selectedGenre);
-        JsonNode jsonNode = filtersMovieService.getJsonByFilter(page, productPerPage, genre);
+        JsonNode jsonNode = filtersMovieService.getJsonByFilter(page, productPerPage, selectedGenre, selectedYearRange ,selectedSortType);
       List<MovieCard> filteredMovies = filtersMovieService.getMoviesCardsByFilter(jsonNode);
         int totalFilmsInApi = filtersMovieService.getTotalMoviesByFilters(jsonNode);
         model.addAttribute("movies", filteredMovies);
+
         model.addAttribute("genres", genres);
         model.addAttribute("yearRanges", yearRanges);
+        model.addAttribute("sortTypes", sortTypes);
 
 //        for pagination
         String baseUrl = "/movies?";
-        if (!selectedGenre.equals("---")) {
+        if (!selectedGenre.equals("notIndicated")) {
             baseUrl += "genre=" + selectedGenre + "&";
         }
-//        if (!selectedYearRange.equals("---")) {
-//            baseUrl += "year=" + selectedYearRange + "&";
-//        }
+        if (!selectedYearRange.equals("notIndicated")) {
+            baseUrl += "yearRange=" + selectedYearRange + "&";
+        }
+        if (!selectedSortType.equals("notIndicated")) {
+            baseUrl += "sortType=" + selectedSortType + "&";
+        }
         baseUrl += "page=";
         int pagesAmount = totalFilmsInApi / productPerPage;
         model.addAttribute("baseUrl", baseUrl);

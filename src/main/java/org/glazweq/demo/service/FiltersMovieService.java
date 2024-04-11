@@ -153,8 +153,8 @@ public class FiltersMovieService {
 
     }*/
 
-    @Cacheable(cacheNames = "movieCards", key = "#page + '-' + #limit + '-' + #enGenre")
-    public JsonNode getJsonByFilter(int page, int limit, String enGenre) throws JsonProcessingException {
+    @Cacheable(cacheNames = "movieCards", key = "#page + '-' + #limit + '-' + #enGenre + '-' + #yearRange + '-' + #sortType")
+    public JsonNode getJsonByFilter(int page, int limit, String enGenre, String yearRange, String sortType) throws JsonProcessingException {
         String keywordGenre = getGoodGenre(enGenre);
         String requestUrl = UriComponentsBuilder.fromHttpUrl(firstPartUrl)
                 .queryParam("page", page)
@@ -172,10 +172,19 @@ public class FiltersMovieService {
                 .queryParam("notNullFields", "year")
                 .toUriString();
 
-
-        requestUrl = requestUrl.concat("&genres.name=" + keywordGenre);
+        if (!Objects.equals(keywordGenre, "Неизвестный жанр")) {
+            requestUrl = requestUrl.concat("&genres.name=" + keywordGenre);
+        }
         System.out.println("genres--------------    ");
-
+        if (!yearRange.equals("notIndicated")) {
+            requestUrl = requestUrl.concat("&year=" + yearRange);
+        }
+        if (!sortType.equals("notIndicated")) {
+//            sortField=votes.kp&sortType=-1
+            if (sortType.equals("Kinopoisk"))  requestUrl = requestUrl.concat("&sortField=votes.kp&sortType=-1");
+            if (sortType.equals("Imdb"))  requestUrl = requestUrl.concat("&sortField=votes.imdb&sortType=-1");
+            if (sortType.equals("Top250"))  requestUrl = requestUrl.concat("&sortField=top250&sortType=-1");
+        }
         System.out.println(requestUrl);
         JsonNode jsonNode = apiKinopoiskDevService.getResponseFromApi(requestUrl);
         return jsonNode;
@@ -187,7 +196,6 @@ public class FiltersMovieService {
     public List<MovieCard> getMoviesCardsByFilter(JsonNode jsonNode) throws JsonProcessingException {
         JsonNode docsNode = jsonNode.get("docs"); // Получаем узел "docs"
         List<MovieCard> allMoviesCard = new ArrayList<>();
-        int totalFilmByRequest =jsonNode.get("total").asInt();
         for (JsonNode movieCardNode : docsNode) {
             int movieId = movieCardNode.get("id").asInt();
             String name = movieCardNode.get("name").asText();
@@ -209,8 +217,6 @@ public class FiltersMovieService {
             }
             String genresString = String.join(", ", genres);
             movieCard.setGenres(genresString);
-            System.out.println("Сохранение фильма...");
-//            movieCardRepo.save(movieCard);
             allMoviesCard.add(movieCard);
         }
 
