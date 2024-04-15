@@ -2,8 +2,19 @@ function setMovieData(name, description, img, ratingKp, ratingImdb, year) {
     document.querySelector('.modal-title').textContent = name;
     document.querySelector('.modal-body .film-description').textContent = description;
     document.querySelector('.modal-body .film-img').src = img;
-    document.querySelector('.modal-body .rating-imdb').textContent = ratingImdb;
-    document.querySelector('.modal-body .rating-kp').textContent = ratingKp;
+    const ratingImdbElement = document.querySelector('.modal-body .rating-imdb');
+    ratingImdbElement.classList.add('rating-imdb');
+    const ratingImdbPercent = (ratingImdb / 10) * 100;
+    ratingImdbElement.style.setProperty('--percent', `${ratingImdbPercent}%`);
+    const valueImdb = document.getElementById("imdb-value-rating");
+    valueImdb.innerHTML = ratingImdb;
+
+    const ratingKpElement = document.querySelector('.modal-body .rating-kp');
+    ratingKpElement.classList.add('rating-kp');
+    const ratingKpPercent = (ratingKp / 10) * 100;
+    ratingKpElement.style.setProperty('--percent', `${ratingKpPercent}%`);
+    const valueKp = document.getElementById("imdb-kp-rating");
+    valueKp.innerHTML = ratingKp;
     document.querySelector('.modal-body .year').textContent = year;
 
 }
