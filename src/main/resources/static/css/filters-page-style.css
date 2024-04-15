@@ -5,7 +5,9 @@ ul, section{
 .btn{
     padding: 7px 12px !important;
 }
-
+h3{
+    color: white;
+}
 
 /*Filters*/
 .filter-fields{
@@ -91,11 +93,9 @@ ul, section{
 
 /*modal*/
 
-.modal-title{
-    color:  black;
-}
+
 .modal-content{
-    color: grey;
+    color: #bbb0b0;
 }
 /* Стилі для модального вікна */
 .modal-dialog {
@@ -117,8 +117,12 @@ ul, section{
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: var(--back-item-1f);
 }
 
+.film-description{
+    height: 400px;
+}
 /* Стилі для зображення в модальному вікні */
 .film-img {
 
@@ -127,7 +131,9 @@ ul, section{
 .modal-body .film-description {
     overflow: hidden; /* Запобігає виходженню тексту за межі зображення */
 }
-
+.btn-default{
+    color: white;
+}
 /*pagination*/
 .page-link{
     background-color: var(--bg-pagination-color);

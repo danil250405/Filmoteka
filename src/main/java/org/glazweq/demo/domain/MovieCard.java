@@ -1,5 +1,6 @@
 package org.glazweq.demo.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.Gson;
 import jakarta.persistence.*;
@@ -36,22 +37,13 @@ public class MovieCard {
     @JsonProperty("id")
     private int id;
 
-    public MovieCard(String name, String previewUrlImg, double kinopoiskRating, String description, double imdbRating, int year, int id) {
-        this.name = name;
 
-        this.previewUrlImg = previewUrlImg;
-        this.kinopoiskRating = kinopoiskRating;
-        this.description = description;
-        this.imdbRating = imdbRating;
-        this.year = year;
-        this.id = id;
-    }
 
     public MovieCard(int id, String name, String previewUrlImg, double kinopoiskRating, double imdbRating, String description, int year) {
         this.id = id;
         this.name = name;
         this.previewUrlImg = previewUrlImg;
-        this.kinopoiskRating = kinopoiskRating;
+        this.kinopoiskRating = Math.round(kinopoiskRating * 10.0) / 10.0;
         this.description = description;
         this.imdbRating = imdbRating;
         this.year = year;

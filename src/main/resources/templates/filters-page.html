@@ -61,7 +61,7 @@
                         <input type="hidden" name="id" th:value="${movie.id}" />
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"
                             th:attr="data-movie-name=${movie.name}, data-movie-description=${movie.description},
-                                                 data-movie-img=${movie.previewUrlImg}, data-movie-ratingKp=${movie.imdbRating},
+                                                 data-movie-img=${movie.previewUrlImg}, data-movie-ratingKp=${movie.kinopoiskRating},
                                                  data-movie-ratingImdb=${movie.imdbRating}, data-movie-year=${movie.year}"
                             onclick="setMovieData(
                                         this.getAttribute('data-movie-name'),
@@ -132,13 +132,12 @@
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
 
-            <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Modal Header</h4>
+                    <h3 class="modal-title">Modal Header</h3>
                 </div>
                 <div class="modal-body">
-                    <h5 class="card-title film-title">Film Name</h5>
+
                     <img class="card-img-top film-img" src="#" alt="Film Image">
                     <p class="film-description"></p>
                     <p>IMDb Rating: <span class="rating-imdb"></span></p>
