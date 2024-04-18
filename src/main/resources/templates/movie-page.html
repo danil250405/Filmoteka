@@ -99,6 +99,7 @@
                               method="post"
                               role="form"
                               th:action="@{/add-review}">
+                            <input type="hidden" id="movieId" name="movieId" th:value="${moviePage.id}">
                             <label for="reviewText">Your Review:</label><br>
                             <textarea id="reviewText" name="reviewText" rows="4" cols="50"></textarea><br>
                             <label for="reviewScore">Your Score:</label><br>
