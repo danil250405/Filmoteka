@@ -10,6 +10,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,7 +30,9 @@ public class ReviewController {
     @PostMapping("/add-review")
     public String addReview(@RequestParam("movieId") int movieId,
                             @RequestParam("reviewText") String reviewText,
-                            @RequestParam("reviewScore") double reviewScore) {
+                            @RequestParam("reviewScore") double reviewScore,
+                            Model model
+                            ) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String roleAuthUser;
         if (auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
@@ -39,7 +43,10 @@ public class ReviewController {
         // Проверяем, был ли введен текст отзыва
         if (reviewText.trim().isEmpty()) {
             // Если текст отзыва пустой, возвращаем сообщение об ошибке
-            return "redirect:/home-page";
+
+            model.addAttribute("wrong", "Fill on fields please");
+
+
         } else {
             // Иначе сохраняем отзыв в базе данных (или выполняем другие действия)
             // Здесь должен быть код сохранения отзыва в базе данных
@@ -51,7 +58,8 @@ public class ReviewController {
             User authUser = userServiceImpl.findUserByEmail(userMail);
             if (authUser != null) reviewService.saveReviewInDB(reviewText, reviewScore, movieId, authUser);
 //            if (roleAuthUser.equals("admin"))
-            return "redirect:/home";
+
         }
+        return "redirect:/movieId=" + movieId;
     }
 }

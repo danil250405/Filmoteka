@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ru en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ru en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -89,8 +90,13 @@
                 </ul>
             </div>
             <div class="movie-page-section reviews-container">
-                <button id="addReviewButton">Add Your Review</button>
-
+                <div th:if="${userRole == 'admin'}">
+                    <button id="addReviewButton">Add Your Review</button>
+                </div>
+                <div th:if="${userRole == 'guest'}">
+                    <p>You can't add review. <a href="/login">Log in</a></p>
+                </div>
+              <p th:text="${wrong}"></p>
                 <div id="myModal" class="modal">
                     <div class="modal-content">
                         <span class="close">&times;</span>
@@ -104,10 +110,12 @@
                             <textarea id="reviewText" name="reviewText" rows="4" cols="50"></textarea><br>
                             <label for="reviewScore">Your Score:</label><br>
                             <input type="number" id="reviewScore" name="reviewScore" min="1" max="10"><br>
+
                             <button type="submit">Submit Review</button>
                         </form>
                     </div>
                 </div>
+                <div></div>
 
             </div>
         </div>
