@@ -175,3 +175,4 @@ nextBtn.addEventListener('click', handleNextClick);
 // Первоначальная загрузка жанров
 showCategories(0, itemsPerPage);
 updateProgressIndicator(1, Math.ceil(categoriesList.children.length / itemsPerPage));
+

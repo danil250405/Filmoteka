@@ -6,9 +6,11 @@ import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
-@Entity
+
 public class MoviePage {
 
     @JsonProperty("name")
@@ -26,12 +28,17 @@ public class MoviePage {
     private double imdbRating;
     @JsonProperty("year")
     private int year;
+    @JsonProperty("shortDescription")
+    private String shortDescription;
     @Setter
     @Id
     @JsonProperty("id")
     private int id;
+    private List<ManFromMovie> manFromMovieList;
 
-    public MoviePage(int id, String name, String previewUrlImg, double kinopoiskRating, double imdbRating, String description, int year, String backdrop) {
+    public MoviePage(int id, String name, String previewUrlImg, double kinopoiskRating,
+                     double imdbRating, String description, int year, String backdrop,
+                     String shortDescription, List<ManFromMovie> manFromMovieList) {
         this.id = id;
         this.name = name;
         this.previewUrlImg = previewUrlImg;
@@ -40,8 +47,9 @@ public class MoviePage {
         this.imdbRating = imdbRating;
         this.year = year;
         this.backdrop = backdrop;
+        this.shortDescription = shortDescription;
+        this.manFromMovieList = manFromMovieList;
     }
-
     public MoviePage() {
     }
     @Override

@@ -51,7 +51,7 @@
         <!--Movies  cards-->
         <ul class="filtered-movies-list">
             <li class="filtered-movies-item" th:each="movie : ${movies}">
-                <a href="#">
+                <a  th:href="@{|/movieId=${movie.id}|}">
                     <img class="filtered-movies-img" th:src="${movie.previewUrlImg}" alt="movie-img">
                 </a>
                 <div class="filtered-movies-info-container">

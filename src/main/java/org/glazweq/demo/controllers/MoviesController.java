@@ -29,6 +29,8 @@ public class MoviesController {
     private final FiltersMovieService filtersMovieService;
     private final  ImageService imageService;
     private final ApiKinopoiskDevService apiKinopoiskDevService;
+
+
 //    constructor
     public List<String> getAllGenres(){
         List<String> genres = Arrays.asList(
@@ -53,6 +55,16 @@ public class MoviesController {
         );
         return sortTypes;
     }
+    public void getAndSetUserRole(Model model){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String roleAuthUser;
+        if (auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+            roleAuthUser = "admin";
+        } else {
+            roleAuthUser = "guest";
+        }
+        model.addAttribute("userRole", roleAuthUser);
+    }
      @Autowired
      public MoviesController(@Qualifier("imageService") ImageService imageService,
                              @Qualifier("filtersMovieService") FiltersMovieService filtersMovieService,
@@ -60,7 +72,8 @@ public class MoviesController {
             this.imageService = imageService;
             this.filtersMovieService = filtersMovieService;
             this.apiKinopoiskDevService = apiKinopoiskDevService;
-        }
+
+     }
     @GetMapping("/")
     public String redirectToHome() {
         return "redirect:/home";
@@ -77,21 +90,15 @@ public class MoviesController {
 
     }
     @GetMapping("/movieId={id}")
-    public String showMoviePage(@PathVariable("id") Long movieId, Model model) throws JsonProcessingException {
-        String urlFindById = "https://api.kinopoisk.dev/v1.4/movie/" + movieId;
-        JsonNode jsonResponse = apiKinopoiskDevService.getResponseFromApi(urlFindById);
-        MoviePage moviePage = filtersMovieService.getMoviePage(jsonResponse);
+    public String showMoviePage(@PathVariable("id") int movieId, Model model) throws JsonProcessingException {
+
+        MoviePage moviePage = filtersMovieService.getMovieById(movieId);
         model.addAttribute("moviePage", moviePage);
         model.addAttribute("backImg", moviePage.getBackdrop());
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String roleAuthUser;
-        if (auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
-            roleAuthUser = "admin";
-        } else {
-            roleAuthUser = "guest";
-        }
-        model.addAttribute("userRole", roleAuthUser);
+
+        getAndSetUserRole(model);
+
         return "movie-page"; // Имя представления (HTML-шаблона)
     }
 
@@ -105,7 +112,7 @@ public class MoviesController {
 
 //        get genres list here full genres
         List<String> genres = getAllGenres();
-
+        getAndSetUserRole(model);
         model.addAttribute("genres", genres);
         List<Poster> postersByGenres =  imageService.getPostersByKeyword(4, genres,"genre");
         model.addAttribute("postersByGenres", postersByGenres);
@@ -138,6 +145,7 @@ public class MoviesController {
         if (selectedYearRange == null || selectedYearRange.isEmpty()) selectedYearRange = "notIndicated";
         if (selectedSortType == null || selectedSortType.isEmpty()) selectedSortType = "notIndicated";
 
+        getAndSetUserRole(model);
 
         model.addAttribute("selectedSortType", selectedSortType);
         model.addAttribute("selectedYearRange", selectedYearRange);

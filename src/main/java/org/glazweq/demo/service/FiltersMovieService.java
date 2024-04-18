@@ -24,8 +24,9 @@ public class FiltersMovieService {
     private MovieCardRepo movieCardRepo;
     private GenreRepo genreRepo;
     private ApiKinopoiskDevService apiKinopoiskDevService;
+
     @Autowired
-    public void FilmApiService(ObjectMapper objectMapper, MovieCardRepo movieCardRepo, ApiKinopoiskDevService apiKinopoiskDevService, GenreRepo genreRepo) {
+    public void FilmApiService( ObjectMapper objectMapper, MovieCardRepo movieCardRepo, ApiKinopoiskDevService apiKinopoiskDevService, GenreRepo genreRepo) {
 
         this.objectMapper = objectMapper;
         this.movieCardRepo = movieCardRepo;
@@ -43,19 +44,19 @@ public class FiltersMovieService {
         return Integer.parseInt(rootNode.get("total").asText());
 
     }
-    public MoviePage getMoviePage(JsonNode movieNode){
-
-        int id = movieNode.get("id").asInt();
-        String name = movieNode.get("name").asText();
-        String previewImg = movieNode.get("poster").get("previewUrl").asText();
-        String backdropImg = movieNode.get("backdrop").get("url").asText();
-        double ratingKinopoisk = movieNode.get("rating").get("kp").asDouble();
-        double ratingImdb = movieNode.get("rating").get("imdb").asDouble();
-        String description = movieNode.get("description").asText();
-        int reliesYear = movieNode.get("year").asInt();
-        MoviePage moviePage = new MoviePage(id, name, previewImg, ratingKinopoisk, ratingImdb, description , reliesYear, backdropImg);
-        return  moviePage;
-    }
+//    public MoviePage getMoviePage(JsonNode movieNode){
+//
+//        int id = movieNode.get("id").asInt();
+//        String name = movieNode.get("name").asText();
+//        String previewImg = movieNode.get("poster").get("previewUrl").asText();
+//        String backdropImg = movieNode.get("backdrop").get("url").asText();
+//        double ratingKinopoisk = movieNode.get("rating").get("kp").asDouble();
+//        double ratingImdb = movieNode.get("rating").get("imdb").asDouble();
+//        String description = movieNode.get("description").asText();
+//        int reliesYear = movieNode.get("year").asInt();
+//        MoviePage moviePage = new MoviePage(id, name, previewImg, ratingKinopoisk, ratingImdb, description , reliesYear, backdropImg);
+//        return  moviePage;
+//    }
     //dostaem List filmov тут dеlаем page
     public List<MovieCard> getMoviesList( JsonNode rootNode) throws JsonProcessingException {
         JsonNode docsNode = rootNode.get("docs"); // Получаем узел "docs"
@@ -127,31 +128,7 @@ public class FiltersMovieService {
         }
         return moviesPosters;
     }
-/*
-    public List<MovieCard> getMoviesByFilters(int currentPage,int limit, String notParseGenre, String yearRange) throws JsonProcessingException {
-        List<MovieCard> allMoviesCard = new ArrayList<>();
-        String keywordForDB = null;
-//            parse keywords
 
-           String keywordGenre = getGoodGenre(notParseGenre);
-            System.out.println("genre LIST: "+ keywordGenre);
-
-        //достать нужное кол из дб
-        int countFindMovies = 0;
-        List<MovieCard> movieCards = movieCardRepo.findByGenresName(keywordGenre);
-        for (MovieCard movieCard : movieCards) {
-            countFindMovies++;
-            allMoviesCard.add(movieCard);
-        }
-        System.out.println(countFindMovies + "------------------");
-        if (countFindMovies < limit) {
-            int numberOfPostersNeeded = limit - countFindMovies;
-            allMoviesCard = movieCardsRequestAndSaveInDB(currentPage ,numberOfPostersNeeded, keywordGenre, allMoviesCard, notParseGenre);
-        }
-//      w  https://api.kinopoisk.dev/v1.4/movie?page=1&limit=4&selectFields=id&selectFields=description&selectFields=rating&selectFields=enName&selectFields=name&selectFields=releaseYears&selectFields=poster&selectFields=year&notNullFields=name&notNullFields=poster.url&genres.name=приключения&selectFields=votes&sortField=votes.imdb&sortType=-1
-        return allMoviesCard;
-
-    }*/
 
     @Cacheable(cacheNames = "movieCards", key = "#page + '-' + #limit + '-' + #enGenre + '-' + #yearRange + '-' + #sortType")
     public JsonNode getJsonByFilter(int page, int limit, String enGenre, String yearRange, String sortType) throws JsonProcessingException {
@@ -224,7 +201,35 @@ public class FiltersMovieService {
 
         return allMoviesCard;
     }
+    public MoviePage getMovieById(int movieId) throws JsonProcessingException {
+        String urlFindById = "https://api.kinopoisk.dev/v1.4/movie/" + movieId;
+        JsonNode movieNode = apiKinopoiskDevService.getResponseFromApi(urlFindById);
+        int id = movieNode.get("id").asInt();
 
+        String previewImg = movieNode.get("poster").get("previewUrl").asText();
+        String backdropImg = movieNode.get("backdrop").get("url").asText();
+        double ratingKinopoisk = movieNode.get("rating").get("kp").asDouble();
+        double ratingImdb = movieNode.get("rating").get("imdb").asDouble();
+        String description = movieNode.get("description").asText();
+        String shortDescription = movieNode.get("shortDescription").asText();
+        int reliesYear = movieNode.get("year").asInt();
+        String name = movieNode.get("name").asText();
+        List<ManFromMovie> peopleFromMovieList = new ArrayList<>();
+        JsonNode personsNode = movieNode.get("persons");
+        if (personsNode != null && personsNode.isArray()){
+            for (JsonNode personNode : personsNode){
+                int personId = personNode.get("id").asInt();
+                String personName = personNode.get("enName").asText();
+                if (personName.equals("null")) personName = personNode.get("name").asText();
+                String profession  = personNode.get("enProfession").asText();
+                if (profession.equals("null")) profession = personNode.get("profession").asText();
+                String personPhoto = personNode.get("photo").asText();
+                peopleFromMovieList.add(new ManFromMovie(personId, personName, personPhoto, profession));
+            }
+        }
+        MoviePage moviePage = new MoviePage(id, name, previewImg, ratingKinopoisk, ratingImdb, description , reliesYear, backdropImg, shortDescription, peopleFromMovieList);
+        return  moviePage;
+    }
 
 
 

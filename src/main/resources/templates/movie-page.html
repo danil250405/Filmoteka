@@ -3,105 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Movie Library</title>
 
-
-
+    <title>Filter Page</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="../static/css/styleMoviePage.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../../static/css/roots.css">
+    <link rel="stylesheet" href="../../static/css/headersAndFootersStyle.css">
 
 
-
-    <!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">-->
-    <script src="../static/js/homeJS.js"></script>
-    <script>
-
-    </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 
 <body >
-<nav class="navbar navbar-expand-lg navbar-dark">
-    <a class="navbar-brand" href="/home-page">Filmoteka</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <!-- ваше содержимое -->
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Movies</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Cartons</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Serials</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">About</a>
-            </li>
-        </ul>
+<!--import header-->
+<div th:replace="~{fragments/headerBase.html :: header}"></div>
 
-
-        <!--        if user guest-->
-        <th:block th:if="${userRole == 'guest'}">
-            <ul class="navbar-nav" style="margin-left: auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/login">
-                        <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" class="mr-2 spark-registration">
-                            <path d="M256 112c-48.6 0-88 39.4-88 88s39.4 88 88 88 88-39.4 88-88-39.4-88-88-88zm0 128c-22.06 0-40-17.95-40-40 0-22.1 17.9-40 40-40s40 17.94 40 40c0 22.1-17.9 40-40 40zm0-240C114.6 0 0 114.6 0 256s114.6 256 256 256 256-114.6 256-256S397.4 0 256 0zm0 464c-46.73 0-89.76-15.68-124.5-41.79C148.8 389 182.4 368 220.2 368h71.69c37.75 0 71.31 21.01 88.68 54.21C345.8 448.3 302.7 464 256 464zm160.2-75.5c-27-42.2-73-68.5-124.4-68.5h-71.6c-51.36 0-97.35 26.25-124.4 68.48C65.96 352.5 48 306.3 48 256c0-114.7 93.31-208 208-208s208 93.31 208 208c0 50.3-18 96.5-47.8 132.5z" fill="#e8e8e8" class="fill-000000"></path>
-
-                        </svg>
-                        Log In
-                    </a>
-                </li>
-            </ul>
-        </th:block>
-        <!--        if user admin-->
-        <th:block th:if="${userRole == 'admin'}">
-            <ul class="navbar-nav" style="margin-left: auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/logout">
-                        <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" class="mr-2 spark-registration">
-                            <path d="M256 112c-48.6 0-88 39.4-88 88s39.4 88 88 88 88-39.4 88-88-39.4-88-88-88zm0 128c-22.06 0-40-17.95-40-40 0-22.1 17.9-40 40-40s40 17.94 40 40c0 22.1-17.9 40-40 40zm0-240C114.6 0 0 114.6 0 256s114.6 256 256 256 256-114.6 256-256S397.4 0 256 0zm0 464c-46.73 0-89.76-15.68-124.5-41.79C148.8 389 182.4 368 220.2 368h71.69c37.75 0 71.31 21.01 88.68 54.21C345.8 448.3 302.7 464 256 464zm160.2-75.5c-27-42.2-73-68.5-124.4-68.5h-71.6c-51.36 0-97.35 26.25-124.4 68.48C65.96 352.5 48 306.3 48 256c0-114.7 93.31-208 208-208s208 93.31 208 208c0 50.3-18 96.5-47.8 132.5z" fill="#e8e8e8" class="fill-000000"></path>
-                        </svg>
-                        Log out
-                    </a>
-                </li>
-            </ul>
-        </th:block>
-
-    </div>
-</nav>
 <main>
-    <section class="section-with-bg">
-    <div class="item-bg" th:style="'background-image:url(' + ${moviePage.backdrop} + ');'">
-    </div>
-    <!-- Вставьте информацию о фильме -->
-    <h2 th:text="${moviePage.name}">Название фильма</h2>
-<!--    <img th:src="${moviePage.previewUrlImg}" class="card-img-top" alt="Постер фильма">-->
-    <p th:text="${moviePage.description}">Описание фильма</p>
-    <h3>Актеры:</h3>
-<!--    <ul>-->
-<!--        <li th:each="actor : ${movie.actors}" th:text="${actor.name}"></li>-->
-<!--    </ul>-->
-<!--    <div th:text="${moviePage.description}">Описание</div>-->
-    <p><strong>Год выпуска:</strong> <span th:text="${moviePage.year}">Год выпуска</span></p>
-<!--    <p><strong>Режиссер:</strong> <span th:text="${movie.director}">Режиссер</span></p>-->
-<!--    <p><strong>Жанр:</strong> <span th:text="${moviePage.genre}">Жанр</span></p>-->
-    <!-- Другие детали фильма -->
+    <section class="container hero-section">
+        <div class="bg-gradient-hero">
+            <div class="img-wrap-hero">
+                <img class="bg-img-hero" th:src="${moviePage.backdrop}" alt="backdrop">
+            </div>
+            <h1 th:text="${moviePage.name}">Название фильма</h1>
+            <p class="short-description" th:text="${moviePage.shortDescription}"></p>
+            <div class="second-line-hero">
+                <button type="submit" class="btn btn-primary btn-play" >
+                    <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M0.75 2.59479C0.75 0.930971 2.53383 -0.123757 3.9917 0.678068L17.4557 8.08328C18.9668 8.91436 18.9668 11.0856 17.4557 11.9167L3.9917 19.3219C2.53383 20.1238 0.75 19.069 0.75 17.4052V2.59479Z" fill="white"/>
+                    </svg>
+                    Play now
+                </button>
+                <button class="hero-possibility">
+                    <svg viewBox="0 0 32 32" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 32 32">
+                        <path d="M28 14H18V4a2 2 0 0 0-4 0v10H4a2 2 0 0 0 0 4h10v10a2 2 0 0 0 4 0V18h10a2 2 0 0 0 0-4z" fill="#ffffff" class="fill-000000"></path>
+                    </svg>
+
+                </button>
+                <button class="hero-possibility">
+                    <svg viewBox="0 0 32 32" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-rule="evenodd" fill="#ffffff" fill-rule="evenodd" class="fill-333333"><path d="M29.164 10.472c-1.25-.328-4.189-.324-8.488-.438.203-.938.25-1.784.25-3.286C20.926 3.16 18.312 0 16 0c-1.633 0-2.979 1.335-3 2.977-.022 2.014-.645 5.492-4 7.256-.246.13-.95.477-1.053.522L8 10.8c-.525-.453-1.253-.8-2-.8H3c-1.654 0-3 1.346-3 3v16c0 1.654 1.346 3 3 3h3c1.19 0 2.186-.719 2.668-1.727.012.004.033.01.047.012l.239.062.046.012c.576.143 1.685.408 4.055.953.508.116 3.192.688 5.972.688h5.467c1.666 0 2.867-.641 3.582-1.928.01-.02.24-.469.428-1.076a3.33 3.33 0 0 0 .023-1.76c1.074-.738 1.42-1.854 1.645-2.58.377-1.191.264-2.086.002-2.727.604-.57 1.119-1.439 1.336-2.766a3.757 3.757 0 0 0-.389-2.372c.566-.636.824-1.436.854-2.176l.012-.209c.007-.131.013-.212.013-.5 0-1.263-.875-2.874-2.836-3.434zM7 29a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V13a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v16zm22.977-14.465C29.957 15.029 29.75 16 28 16h-2a.5.5 0 1 0 0 1h1.938c1.5 0 1.697 1.244 1.6 1.844-.124.746-.474 2.156-2.163 2.156H25a.499.499 0 1 0 0 1h1.969c1.688 0 1.539 1.287 1.297 2.055-.319 1.009-.514 1.945-2.641 1.945h-1.631a.499.499 0 1 0 0 1h1.568c1.094 0 1.145 1.035 1.031 1.406-.125.406-.273.707-.279.721-.302.545-.789.873-1.82.873h-5.467c-2.746 0-5.47-.623-5.54-.639-4.154-.957-4.373-1.031-4.634-1.105 0 0-.846-.143-.846-.881L8 13.563c0-.469.299-.893.794-1.042.062-.024.146-.05.206-.075 4.568-1.892 5.959-6.04 6-9.446.006-.479.375-1 1-1 1.057 0 2.926 2.122 2.926 4.748 0 2.371-.096 2.781-.926 5.252 10 0 9.93.144 10.812.375 1.094.313 1.188 1.219 1.188 1.531 0 .343-.01.293-.023.629z"></path><path d="M4.5 26a1.5 1.5 0 1 0 .001 3.001A1.5 1.5 0 0 0 4.5 26zm0 2c-.275 0-.5-.225-.5-.5s.225-.5.5-.5.5.225.5.5-.225.5-.5.5z"></path></g>
+                    </svg>
+                </button>
+                <button class="hero-possibility">
+                    <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M264 416.19a23.92 23.92 0 0 1-14.21-4.69l-.66-.51-91.46-75H88a24 24 0 0 1-24-24V200a24 24 0 0 1 24-24h69.65l91.46-75 .66-.51A24 24 0 0 1 288 119.83v272.34a24 24 0 0 1-24 24ZM352 336a16 16 0 0 1-14.29-23.18c9.49-18.9 14.3-38 14.3-56.82 0-19.36-4.66-37.92-14.25-56.73a16 16 0 0 1 28.5-14.54C378.2 208.16 384 231.47 384 256c0 23.83-6 47.78-17.7 71.18A16 16 0 0 1 352 336Z" fill="#ffffff" class="fill-000000"></path><path d="M400 384a16 16 0 0 1-13.87-24C405 327.05 416 299.45 416 256c0-44.12-10.94-71.52-29.83-103.95A16 16 0 0 1 413.83 136C434.92 172.16 448 204.88 448 256c0 50.36-13.06 83.24-34.12 120a16 16 0 0 1-13.88 8Z" fill="#ffffff" class="fill-000000"></path>
+                    </svg>
+
+                </button>
+            </div>
+        </div>
     </section>
+
+    <section class="container main-section">
+        <div class="left-side-containers">
+            <div class="movie-page-section description-container">
+                <h2>Description</h2>
+                <p th:text="${moviePage.description}">Описание фильма</p>
+            </div>
+            <div class="movie-page-section cast-container">
+                <div class="navigation-cast">
+                    <h2>Cast</h2>
+                    <div>
+                <button id="prevBtn">
+                    <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M189.3 128.4 89 233.4c-6 5.8-9 13.7-9 22.4s3 16.5 9 22.4l100.3 105.4c11.9 12.5 31.3 12.5 43.2 0 11.9-12.5 11.9-32.7 0-45.2L184.4 288h217c16.9 0 30.6-14.3 30.6-32s-13.7-32-30.6-32h-217l48.2-50.4c11.9-12.5 11.9-32.7 0-45.2-12-12.5-31.3-12.5-43.3 0z" fill="#fff"/>
+                    </svg>
+                </button>
+                <button id="nextBtn">
+                    <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                        <path d="m322.7 128.4 100.3 105c6 5.8 9 13.7 9 22.4s-3 16.5-9 22.4L322.7 383.6c-11.9 12.5-31.3 12.5-43.2 0-11.9-12.5-11.9-32.7 0-45.2l48.2-50.4h-217c-17 0-30.7-14.3-30.7-32s13.7-32 30.6-32h217l-48.2-50.4c-11.9-12.5-11.9-32.7 0-45.2 12-12.5 31.3-12.5 43.3 0z" fill="#fff"/>
+                    </svg>
+                </button>
+                    </div>
+                </div>
+                <ul class="cast-list">
+
+                    <li class="cast-item" th:each="manFromMovie : ${moviePage.manFromMovieList}">
+
+                        <img th:src="${manFromMovie.photo}" alt="dude photo">
+                        <p th:text="${manFromMovie.name}"></p>
+                        <p th:text="${manFromMovie.profession}"></p>
+
+                    </li>
+                </ul>
+            </div>
+            <div class="movie-page-section reviews-container">
+                <button id="addReviewButton">Add Your Review</button>
+
+                <div id="myModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <h2>Add Your Review</h2>
+                        <form id="reviewForm"
+                              method="post"
+                              role="form"
+                              th:action="@{/add-review}">
+                            <label for="reviewText">Your Review:</label><br>
+                            <textarea id="reviewText" name="reviewText" rows="4" cols="50"></textarea><br>
+                            <label for="reviewScore">Your Score:</label><br>
+                            <input type="number" id="reviewScore" name="reviewScore" min="1" max="10"><br>
+                            <button type="submit">Submit Review</button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+<!--    -->
+
+
+
+    <p><strong>Год выпуска:</strong> <span th:text="${moviePage.year}">Год выпуска</span></p>
+
+
 </main>
-<footer class="bg-dark text-white">
-    <div class="container">
-        <p class="mb-0" >&copy; Filmoteka 2024</p>
-    </div>
-</footer>
+<!--import footer-->
+<div th:replace="~{fragments/footer.html :: footer}"></div>
+
+<script src="../static/js/moviPage.js"></script>
 
 </body>
 </html>

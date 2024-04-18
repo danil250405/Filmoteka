@@ -2,111 +2,171 @@ body{
     height: 100%;
     margin: 0;
     padding: 0;
-    background-image: url("../img/bgBlack.png");
-    background-size: 50% 100%;
+    background-color: var(--main-bg-color);
+}
+p{
+    margin: 0;
+}
+h1{
+    color: white;
+    text-align: center;
+}
+/*HERO section*/
+.bg-img-hero{
+
+    width: 100%;
+    height: auto;
+    margin-bottom: -135px;
 
 }
-
-/*nav*/
-
-.navbar {
-    background-color: rgba(0, 0, 0, 0.8) !important;
-    border-bottom: 3px solid #17a2b8;
+.img-wrap-hero{
+    position: relative;
+    z-index: -2;
 }
-.navbar-brand {
-    font-size: 1.8rem;
-    font-weight: bold;
+.hero-section{
+    background: rgb(20,20,20);
+    background: linear-gradient(0deg, rgba(20,20,20,1) 0%, rgba(20,20,20,0.8939950980392157) 19%, rgba(20,20,20,0) 100%);
+    z-index: 1;
 }
-.navbar-nav .nav-link {
-    color: #ffffff !important;
-    font-weight: bold;
-    margin-right: 1rem;
-    transition: color 0.3s;
+.second-line-hero{
+    display: flex;
+    justify-content: center;
 }
-.navbar-nav .nav-link:hover {
-    color: #17a2b8 !important;
+.btn-play{
+    padding: 7px !important;
 }
-.nav-link path {
-    fill: white !important;
+.hero-possibility{
+    margin-left: 10px;
+    background-color: var(--bg-pagination-color);
+    padding: 10px;
+    border-radius: 7px;
+    border: var(--border-color) 1px solid;
+}
+.hero-possibility svg{
+    width: 25px;
+    height: auto;
+}
+.hero-possibility path{
+    fill: white;
     transition: fill 0.3s;
 }
-.nav-link:hover path {
-    fill: #17a2b8 !important;
-}
-.navbar-nav .nav-link {
-    display: flex;
-    align-items: center;
-}
-.navbar-nav .nav-link svg {
-    margin-right: 0.5rem;
-}
-.spark-registration {
-    width: 30px;
-    height: 30px;
-    fill: #17a2b8;
-    margin-right: 10px;
+.hero-possibility:hover path{
+    fill: grey;
 
 }
-.spark-registration:hover {
-    fill: #17a2b8; /* Цвет SVG при наведении */
-}
-
-/*footer*/
-footer {
-    background-color: rgba(0, 0, 0, 0.8);
-    color: #ffffff;
+.short-description{
     text-align: center;
-    padding: 20px 0;
-    position: fixed;
-    left: 0;
-    bottom: 0;
+    color: var(--p-color);
+    padding-bottom: 10px    ;
+}
+/*main section*/
+.movie-page-section{
+    margin-top: 40px;
+    background-color: var(--bg-item-color);
+    padding: 20px;
+    border: var(--border-color) 1px solid;
+    color: white;
+}
+.movie-page-section h2{
+    color: var(--p-color);
+    margin-bottom: 15px;
+    font-size: 17px;
+}
+.movie-page-section p{
+    font-size: 15px;
+}
+.left-side-containers{
+    width: 75%;
+}
+/*description container*/
+
+/*cast section*/
+.cast-list{
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-gap: 20px;
+    list-style-type: none;
+    padding: 0;
+}
+.cast-item{
+    background-color: var(--back-item-1f);
+    border: var(--border-color) 1px solid;
+    border-radius: 10px;
+    text-align: center;
+
+}
+
+.cast-item img{
     width: 100%;
-    z-index: 4;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    z-index: -2;
+}
+.cast-item p{
+    font-size: 13px;
+    color: var(--p-color);
 }
 
-footer p {
-    margin-bottom: 0;
+#prevBtn,
+#nextBtn {
+    display: inline-block;
+    padding: 10px 10px;
+    margin-top: 10px;
+    cursor: pointer;
+    background-color: var(--bg-pagination-color);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    margin-right: 8px;
 }
 
-
-.navbar-nav .nav-link {
+#prevBtn:hover,
+#nextBtn:hover {
+    background-color: var(--main-bg-color);
+}
+.movie-page-section svg{
+    width: 30px;
+}
+.navigation-cast{
     display: flex;
+    justify-content: space-between;
     align-items: center;
+    margin-bottom: 10px;
 }
+/*Reviews*/
 
-.navbar-nav .nav-link svg {
-    margin-right: 0.5rem;
-}
-/*section with bg*/
-.item-bg{
-    position: absolute;
-    top: 0;
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
     left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: -1;
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover;
-    width: 100%;
-    height: 100%; /* Или любую другую высоту, которая вам нужна */
-    background-size: 100% 100%;
-    max-height: 1080px;
-}
-.section-with-bg{
-    position: relative;
-}
-.section-with-bg::before{
-    content: "";
-    display: block;
-    position: absolute;
     top: 0;
-    left: -1px;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, #000 3.31%, rgba(0, 0, 0, .99) 7.71%, rgba(0, 0, 0, .96) 12.11%,
-    rgba(0, 0, 0, .91) 16.51%, rgba(0, 0, 0, .85) 20.91%, rgba(0, 0, 0, .76) 25.31%, rgba(0, 0, 0, .67) 29.71%,
-    rgba(0, 0, 0, .55) 34.11%, rgba(0, 0, 0, .44) 38.52%, rgba(0, 0, 0, .33) 42.92%, rgba(0, 0, 0, .23) 47.32%,
-    rgba(0, 0, 0, .15) 51.72%, rgba(0, 0, 0, .08) 56.12%, rgba(0, 0, 0, .03) 60.52%, rgba(0, 0, 0, .01) 64.92%,
-    transparent 69.32%);
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
 }
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
