@@ -40,7 +40,7 @@ public class ReviewController {
         } else {
             roleAuthUser = "guest";
         }
-        // Проверяем, был ли введен текст отзыва
+        // Проверяем, был ли введен текст отзыв
         if (reviewText.trim().isEmpty()) {
             // Если текст отзыва пустой, возвращаем сообщение об ошибке
 
