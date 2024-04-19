@@ -11,6 +11,7 @@ h1{
     --border-color: #333;
     --bg-item-color:#1a1a1a;
     --bg-pagination-color: #0f0f0f;
+    --btn-bg-dark-color: #141414;
     --p-color: #999999;
 }
 .btn-primary {
@@ -47,4 +48,22 @@ h1{
 .btn-primary:hover path{
 
     transition: fill 0.3s;
+}
+.dark-btn{
+    background-color: var(--btn-bg-dark-color);
+    color: white;
+    border: var(--border-color) 1px solid;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 8px; /* Закругленные углы */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Тень */
+    transition: background-color 0.3s ease; /* Плавное изменение цвета при наведении */
+}
+.dark-btn:hover{
+    background-color: var(--back-item-1f);
 }

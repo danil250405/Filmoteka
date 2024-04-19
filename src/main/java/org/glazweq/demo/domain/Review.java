@@ -1,6 +1,9 @@
 package org.glazweq.demo.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,6 +26,10 @@ public class Review implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String reviewText;
+
+    @NotNull(message = "Please Enter Your Score")
+    @Min(value = 0)
+    @Max(value = 10)
     private double reviewScore;
     private Date date;
     @Column(name = "movie_id")

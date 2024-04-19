@@ -35,13 +35,15 @@ showPage(0);
 //Reviews
 // Получаем элементы модального окна и кнопку открытия
 var modal = document.getElementById("myModal");
-var addReviewButton = document.getElementById("addReviewButton");
+var addReviewButtons = document.getElementsByClassName("addReviewButton");
 var closeButton = document.getElementsByClassName("close")[0];
 
-// Когда пользователь кликает на кнопку, открываем модальное окно
-addReviewButton.onclick = function() {
-    modal.style.display = "block";
-}
+// Перебираем все кнопки и назначаем обработчик события на каждую
+Array.from(addReviewButtons).forEach(function(button) {
+    button.onclick = function() {
+        modal.style.display = "block";
+    }
+});
 
 // Когда пользователь кликает на кнопку закрытия, закрываем модальное окно
 closeButton.onclick = function() {
@@ -50,7 +52,70 @@ closeButton.onclick = function() {
 
 // Когда пользователь кликает вне модального окна, закрываем его
 window.onclick = function(event) {
-    if (event.target == modal) {
+    if (event.target === modal) {
         modal.style.display = "none";
     }
 }
+
+
+// reviews stars
+const ratings = document.querySelectorAll('.rating-wrap');
+if (ratings.length > 0){
+    initRatings();
+}
+
+//base func
+function initRatings(){
+    let ratingActive, ratingValue;
+    for (let index = 0; index < ratings.length; index++){
+        const rating = ratings[index];
+        initRating(rating);
+    }
+}
+//individual specific rating
+function initRating(rating){
+    initRatingVars(rating);
+    setRatingActiveWidth();
+}
+//initialization variables
+function initRatingVars(rating){
+    ratingActive = rating.querySelector('.rating__active');
+    ratingValue = rating.querySelector('.rating__value');
+}
+function setRatingActiveWidth(index = ratingValue.innerHTML) {
+    const ratingActiveWidth = index / 0.10;
+    ratingActive.style.width = `${ratingActiveWidth}%`;
+}
+
+//reviews pagination
+const prevBtnRev = document.querySelector('.prevBtn-reviews');
+const nextBtnRev = document.querySelector('.nextBtn-reviews');
+const reviewList = document.querySelector('.review-list');
+const reviewItem = reviewList.querySelectorAll('.review-item');
+
+let currentPageRev = 0;
+const itemsPerPageRev = 2;
+
+function showPageRev(page) {
+    currentPageRev = page;
+    for (let i = 0; i < reviewItem.length; i++) {
+        reviewItem[i].style.display = 'none';
+    }
+    for (let i = page * itemsPerPageRev; i < (page + 1) * itemsPerPageRev && i < reviewItem.length; i++) {
+        reviewItem[i].style.display = 'block';
+    }
+}
+
+prevBtnRev.addEventListener('click', () => {
+    if (currentPageRev > 0) {
+        showPageRev(currentPageRev - 1);
+    }
+});
+
+nextBtnRev.addEventListener('click', () => {
+    if (currentPageRev < Math.floor((reviewItem.length - 1) / itemsPerPageRev)) {
+        showPageRev(currentPageRev + 1);
+    }
+});
+
+showPageRev(0);

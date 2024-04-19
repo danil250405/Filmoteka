@@ -7,9 +7,12 @@ import org.glazweq.demo.domain.MovieCard;
 
 import org.glazweq.demo.domain.MoviePage;
 import org.glazweq.demo.domain.Poster;
+import org.glazweq.demo.domain.Review;
+import org.glazweq.demo.repos.ReviewRepo;
 import org.glazweq.demo.service.ApiKinopoiskDevService;
 import org.glazweq.demo.service.FiltersMovieService;
 import org.glazweq.demo.service.ImageService;
+import org.glazweq.demo.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.Cacheable;
@@ -29,7 +32,7 @@ public class MoviesController {
     private final FiltersMovieService filtersMovieService;
     private final  ImageService imageService;
     private final ApiKinopoiskDevService apiKinopoiskDevService;
-
+    private final ReviewService reviewService;
 
 //    constructor
     public List<String> getAllGenres(){
@@ -68,11 +71,13 @@ public class MoviesController {
      @Autowired
      public MoviesController(@Qualifier("imageService") ImageService imageService,
                              @Qualifier("filtersMovieService") FiltersMovieService filtersMovieService,
-                             @Qualifier("apiKinopoiskDevService") ApiKinopoiskDevService apiKinopoiskDevService) {
+                             @Qualifier("apiKinopoiskDevService") ApiKinopoiskDevService apiKinopoiskDevService,
+                             @Qualifier("reviewService")ReviewService reviewService) {
             this.imageService = imageService;
             this.filtersMovieService = filtersMovieService;
             this.apiKinopoiskDevService = apiKinopoiskDevService;
 
+         this.reviewService = reviewService;
      }
     @GetMapping("/")
     public String redirectToHome() {
@@ -95,7 +100,9 @@ public class MoviesController {
         MoviePage moviePage = filtersMovieService.getMovieById(movieId);
         model.addAttribute("moviePage", moviePage);
         model.addAttribute("backImg", moviePage.getBackdrop());
-
+//        add reviews on page
+        List<Review> reviewsList = reviewService.getReviewsByMovieId(movieId);
+        model.addAttribute(reviewsList);
 
         getAndSetUserRole(model);
 

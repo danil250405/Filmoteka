@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class ReviewService {
@@ -24,6 +25,9 @@ public class ReviewService {
     }
 
 
+    public List<Review> getReviewsByMovieId(int movieId){
+        return reviewRepo.findByMovieId(movieId);
+    }
     public void saveReviewInDB(String text, double score, int movieId, User authUser){
 //        User user = userRepo.findById(userId);
 //                .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId));

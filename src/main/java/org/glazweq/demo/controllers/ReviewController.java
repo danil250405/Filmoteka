@@ -30,7 +30,7 @@ public class ReviewController {
     @PostMapping("/add-review")
     public String addReview(@RequestParam("movieId") int movieId,
                             @RequestParam("reviewText") String reviewText,
-                            @RequestParam("reviewScore") double reviewScore,
+                            @RequestParam(value = "reviewScore", required = false) Double reviewScore,
                             Model model
                             ) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -40,26 +40,20 @@ public class ReviewController {
         } else {
             roleAuthUser = "guest";
         }
-        // Проверяем, был ли введен текст отзыв
-        if (reviewText.trim().isEmpty()) {
-            // Если текст отзыва пустой, возвращаем сообщение об ошибке
 
-            model.addAttribute("wrong", "Fill on fields please");
-
-
-        } else {
-            // Иначе сохраняем отзыв в базе данных (или выполняем другие действия)
-            // Здесь должен быть код сохранения отзыва в базе данных
-            System.out.println("good else");
-            UserDetails userDetails = (UserDetails) auth.getPrincipal();
-            System.out.println("UserDetails: " + userDetails);
-
-            String userMail = auth.getName();
-            User authUser = userServiceImpl.findUserByEmail(userMail);
-            if (authUser != null) reviewService.saveReviewInDB(reviewText, reviewScore, movieId, authUser);
-//            if (roleAuthUser.equals("admin"))
-
-        }
+       if (reviewScore > 0 && reviewScore <=10){
+           String userMail = auth.getName();
+           User authUser = userServiceImpl.findUserByEmail(userMail);
+           if (authUser != null) {
+               reviewService.saveReviewInDB(reviewText, reviewScore, movieId, authUser);
+           }
+       }
+       else {
+           System.out.println("scoreError");
+           model.addAttribute("scoreError", "Enter valid score");
+       }
+        // Сохраняем отзыв в базе данных
         return "redirect:/movieId=" + movieId;
+
     }
 }

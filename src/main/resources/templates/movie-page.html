@@ -62,6 +62,7 @@
                 <h2>Description</h2>
                 <p th:text="${moviePage.description}">Описание фильма</p>
             </div>
+            <!--cast-->
             <div class="movie-page-section cast-container">
                 <div class="navigation-cast">
                     <h2>Cast</h2>
@@ -89,14 +90,24 @@
                     </li>
                 </ul>
             </div>
+            <!--reviews container-->
             <div class="movie-page-section reviews-container">
+                <div class="wrap-upper-reviews">
+                <h2>Reviews</h2>
                 <div th:if="${userRole == 'admin'}">
-                    <button id="addReviewButton">Add Your Review</button>
+                    <button class="addReviewButton dark-btn">
+                        <span class="plus-review">+</span>
+                        <span class="add-review-text">Add Your Review</span>
+                    </button>
+                    <p  style="display: none">You can't add review. <a href="/login">Log in</a></p>
                 </div>
                 <div th:if="${userRole == 'guest'}">
+                    <button style="display: none" class="addReviewButton">Add Your Review</button>
                     <p>You can't add review. <a href="/login">Log in</a></p>
                 </div>
-              <p th:text="${wrong}"></p>
+                </div>
+                <!--                <p th:if="${ != null}" th:text="${scoreError}"></p>-->
+                <!--review modal-->
                 <div id="myModal" class="modal">
                     <div class="modal-content">
                         <span class="close">&times;</span>
@@ -108,15 +119,51 @@
                             <input type="hidden" id="movieId" name="movieId" th:value="${moviePage.id}">
                             <label for="reviewText">Your Review:</label><br>
                             <textarea id="reviewText" name="reviewText" rows="4" cols="50"></textarea><br>
-                            <label for="reviewScore">Your Score:</label><br>
-                            <input type="number" id="reviewScore" name="reviewScore" min="1" max="10"><br>
 
-                            <button type="submit">Submit Review</button>
+                            <label for="reviewScore">Your Score:</label><br>
+                            <input type="number" id="reviewScore" name="reviewScore" min="1" max="10" required><br>
+
+                            <button type="submit" class="btn btn-primary">Submit Review</button>
                         </form>
                     </div>
                 </div>
-                <div></div>
+                <div class="down-wrap-reviews">
+                <ul class="review-list">
+                    <li th:each="review : ${reviewList}" class="review-item">
+                        <div class="wrap-upper-review">
+                            <div>
+                                <div class="user-name-review" th:text="${review.user.name}"></div>
+                                <div class="username-review"><a href="#"><span>@</span><span  th:text="${review.user.username}"></span></a></div>
+                            </div>
+                        <div class="rating-wrap">
+                            <div class="rating-body">
+                                <div class="rating__active"></div>
+                                <div class="rating__items">
+                                    <input type="radio" class="rating__item" value="1" name="rating">
+                                    <input type="radio" class="rating__item" value="2" name="rating">
+                                    <input type="radio" class="rating__item" value="3" name="rating">
+                                    <input type="radio" class="rating__item" value="4" name="rating">
+                                    <input type="radio" class="rating__item" value="5" name="rating">
+                                </div>
+                            </div>
+                            <div class="rating__value" th:text="${review.reviewScore}"></div>
+                        </div>
+                        </div>
+                        <p class="review-text" th:text="${review.reviewText}"></p>
+                    </li>
 
+                </ul>
+                    <button class="prevBtn-reviews">
+                        <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M189.3 128.4 89 233.4c-6 5.8-9 13.7-9 22.4s3 16.5 9 22.4l100.3 105.4c11.9 12.5 31.3 12.5 43.2 0 11.9-12.5 11.9-32.7 0-45.2L184.4 288h217c16.9 0 30.6-14.3 30.6-32s-13.7-32-30.6-32h-217l48.2-50.4c11.9-12.5 11.9-32.7 0-45.2-12-12.5-31.3-12.5-43.3 0z" fill="#fff"/>
+                        </svg>
+                    </button>
+                    <button class="nextBtn-reviews">
+                        <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                            <path d="m322.7 128.4 100.3 105c6 5.8 9 13.7 9 22.4s-3 16.5-9 22.4L322.7 383.6c-11.9 12.5-31.3 12.5-43.2 0-11.9-12.5-11.9-32.7 0-45.2l48.2-50.4h-217c-17 0-30.7-14.3-30.7-32s13.7-32 30.6-32h217l-48.2-50.4c-11.9-12.5-11.9-32.7 0-45.2 12-12.5 31.3-12.5 43.3 0z" fill="#fff"/>
+                        </svg>
+                    </button>
+                </div>
             </div>
         </div>
     </section>
