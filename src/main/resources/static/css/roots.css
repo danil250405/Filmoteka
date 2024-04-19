@@ -1,6 +1,12 @@
 h1{
     font-family: cursive;
 }
+h2{
+    margin: 0;
+}
+ul{
+    padding: 0;
+}
 :root{
     --main-bg-color: #141414;
     --accent-color: #E50000;
