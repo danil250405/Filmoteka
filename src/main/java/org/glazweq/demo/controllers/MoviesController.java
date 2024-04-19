@@ -103,6 +103,7 @@ public class MoviesController {
 //        add reviews on page
         List<Review> reviewsList = reviewService.getReviewsByMovieId(movieId);
         model.addAttribute(reviewsList);
+        model.addAttribute("reviewListSize", reviewsList.size());
 
         getAndSetUserRole(model);
 

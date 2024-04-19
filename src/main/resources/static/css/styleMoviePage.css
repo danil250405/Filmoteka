@@ -210,6 +210,10 @@ h1{
 .down-wrap-reviews svg{
         width: 30px;
 }
+.reviews-is-null-text{
+    margin-bottom: 15px;
+    color: var(--p-color);
+}
 .modal {
     display: none;
     position: fixed;
