@@ -51,6 +51,7 @@ public class ReviewService {
             averageSVRating = Math.round(averageSVRating * 10.0) / 10.0;
             return averageSVRating;
         }
+
         return -1;
     }
     public List<Review> getReviewsByMovieId(int movieId){
