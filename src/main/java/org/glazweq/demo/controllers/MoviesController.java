@@ -98,10 +98,15 @@ public class MoviesController {
     public String showMoviePage(@PathVariable("id") int movieId, Model model) throws JsonProcessingException {
 
         MoviePage moviePage = filtersMovieService.getMovieById(movieId);
-        model.addAttribute("moviePage", moviePage);
-        model.addAttribute("backImg", moviePage.getBackdrop());
+
 //        add reviews on page
         List<Review> reviewsList = reviewService.getReviewsByMovieId(movieId);
+        double streamVibeRating = reviewService.getAverageSVRating(reviewsList);
+        if ( streamVibeRating != -1){
+            moviePage.setStreamVibeRating(streamVibeRating);
+        }
+        model.addAttribute("moviePage", moviePage);
+        model.addAttribute("backImg", moviePage.getBackdrop());
         model.addAttribute(reviewsList);
         model.addAttribute("reviewListSize", reviewsList.size());
 

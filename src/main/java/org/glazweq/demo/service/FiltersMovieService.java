@@ -201,6 +201,18 @@ public class FiltersMovieService {
 
         return allMoviesCard;
     }
+    private List<String> getListWithGenresToMoviePage(JsonNode jsonNode){
+        JsonNode genresNode = jsonNode.get("genres");
+        List<String> genresList = new ArrayList<>();
+        if (genresNode != null && genresNode.isArray()){
+            for (JsonNode genreNode : genresNode){
+                String genreName = genreNode.get("name").asText();
+                genreName = Character.toUpperCase(genreName.charAt(0)) + genreName.substring(1);
+                genresList.add(genreName);
+            }
+        }
+        return genresList;
+    }
     public MoviePage getMovieById(int movieId) throws JsonProcessingException {
         String urlFindById = "https://api.kinopoisk.dev/v1.4/movie/" + movieId;
         JsonNode movieNode = apiKinopoiskDevService.getResponseFromApi(urlFindById);
@@ -223,11 +235,13 @@ public class FiltersMovieService {
                 if (personName.equals("null")) personName = personNode.get("name").asText();
                 String profession  = personNode.get("enProfession").asText();
                 if (profession.equals("null")) profession = personNode.get("profession").asText();
+                profession = Character.toUpperCase(profession.charAt(0)) + profession.substring(1);
                 String personPhoto = personNode.get("photo").asText();
                 peopleFromMovieList.add(new ManFromMovie(personId, personName, personPhoto, profession));
             }
         }
         MoviePage moviePage = new MoviePage(id, name, previewImg, ratingKinopoisk, ratingImdb, description , reliesYear, backdropImg, shortDescription, peopleFromMovieList);
+        moviePage.setGenres(getListWithGenresToMoviePage(movieNode));
         return  moviePage;
     }
 

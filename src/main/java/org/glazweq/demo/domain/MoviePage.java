@@ -26,6 +26,7 @@ public class MoviePage {
     private String description ;
     @JsonProperty("imdbRating")
     private double imdbRating;
+    private double streamVibeRating;
     @JsonProperty("year")
     private int year;
     @JsonProperty("shortDescription")
@@ -35,6 +36,7 @@ public class MoviePage {
     @JsonProperty("id")
     private int id;
     private List<ManFromMovie> manFromMovieList;
+    private List<String> genres;
 
     public MoviePage(int id, String name, String previewUrlImg, double kinopoiskRating,
                      double imdbRating, String description, int year, String backdrop,
@@ -42,7 +44,7 @@ public class MoviePage {
         this.id = id;
         this.name = name;
         this.previewUrlImg = previewUrlImg;
-        this.kinopoiskRating = kinopoiskRating;
+        this.kinopoiskRating = Math.round(kinopoiskRating * 10.0) / 10.0;
         this.description = description;
         this.imdbRating = imdbRating;
         this.year = year;

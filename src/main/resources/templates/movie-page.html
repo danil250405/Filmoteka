@@ -7,10 +7,10 @@
 
     <title>Filter Page</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link href="../static/css/styleMoviePage.css" rel="stylesheet" />
+
     <link rel="stylesheet" href="../../static/css/roots.css">
     <link rel="stylesheet" href="../../static/css/headersAndFootersStyle.css">
-
+    <link href="../static/css/styleMoviePage.css" rel="stylesheet" />
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -139,6 +139,7 @@
                                 <div class="user-name-review" th:text="${review.user.name}"></div>
                                 <div class="username-review"><a href="#"><span>@</span><span  th:text="${review.user.username}"></span></a></div>
                             </div>
+                            <div class="container-rating-wrap">
                         <div class="rating-wrap">
                             <div class="rating-body">
                                 <div class="rating__active"></div>
@@ -152,6 +153,7 @@
                             </div>
                             <div class="rating__value" th:text="${review.reviewScore}"></div>
                         </div>
+                            </div>
                         </div>
                         <p class="review-text" th:text="${review.reviewText}"></p>
                     </li>
@@ -176,6 +178,135 @@
                     </div>
 
                 </div>
+            </div>
+        </div>
+        <div class="right-side-container general-movie-info-container">
+            <!--year-->
+            <div class="mini-section-info">
+                <div class="title-info-movie">
+                    <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4.75 1.5V3.75M15.25 1.5V3.75M1 17.25V6C1 4.75736 2.00736 3.75 3.25 3.75H16.75C17.9926 3.75 19 4.75736 19 6V17.25M1 17.25C1 18.4926 2.00736 19.5 3.25 19.5H16.75C17.9926 19.5 19 18.4926 19 17.25M1 17.25V9.75C1 8.50736 2.00736 7.5 3.25 7.5H16.75C17.9926 7.5 19 8.50736 19 9.75V17.25" stroke="#999999" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <h2>Released Year</h2>
+                </div>
+                <p th:text="${moviePage.year}">Year</p>
+            </div>
+            <!--Ratings-->
+            <div class="mini-section-info">
+                <div class="title-info-movie">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9.48073 1.9987C9.67288 1.53673 10.3273 1.53673 10.5195 1.9987L12.6454 7.11016C12.7264 7.30492 12.9096 7.43799 13.1199 7.45484L18.6381 7.89724C19.1368 7.93722 19.3391 8.55964 18.9591 8.88514L14.7548 12.4866C14.5946 12.6238 14.5246 12.8391 14.5736 13.0443L15.858 18.4292C15.9741 18.9159 15.4447 19.3005 15.0177 19.0397L10.2933 16.1541C10.1133 16.0441 9.8869 16.0441 9.70689 16.1541L4.98251 19.0397C4.55551 19.3005 4.02606 18.9159 4.14215 18.4292L5.42664 13.0443C5.47558 12.8391 5.40562 12.6238 5.24543 12.4866L1.04111 8.88514C0.661119 8.55964 0.863352 7.93723 1.36209 7.89724L6.88034 7.45484C7.0906 7.43799 7.27375 7.30492 7.35476 7.11016L9.48073 1.9987Z" stroke="#999999" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <h2>Ratings</h2>
+                </div>
+                <div class="ratings">
+                    <div class="container-rating-wrap">
+                        <h3>Kinopoisk</h3>
+                    <div class="rating-wrap">
+
+                        <div class="rating-body">
+                            <div class="rating__active"></div>
+                            <div class="rating__items">
+                                <input type="radio" class="rating__item" value="1" name="rating">
+                                <input type="radio" class="rating__item" value="2" name="rating">
+                                <input type="radio" class="rating__item" value="3" name="rating">
+                                <input type="radio" class="rating__item" value="4" name="rating">
+                                <input type="radio" class="rating__item" value="5" name="rating">
+                            </div>
+                        </div>
+                        <div class="rating__value" th:text="${moviePage.kinopoiskRating}"></div>
+                    </div>
+
+                    </div>
+                    <div class="container-rating-wrap">
+                        <h3>IMDb</h3>
+                    <div class="rating-wrap">
+                        <div class="rating-body">
+                            <div class="rating__active"></div>
+                            <div class="rating__items">
+                                <input type="radio" class="rating__item" value="1" name="rating">
+                                <input type="radio" class="rating__item" value="2" name="rating">
+                                <input type="radio" class="rating__item" value="3" name="rating">
+                                <input type="radio" class="rating__item" value="4" name="rating">
+                                <input type="radio" class="rating__item" value="5" name="rating">
+                            </div>
+                        </div>
+                        <div class="rating__value" th:text="${moviePage.imdbRating}"></div>
+                    </div>
+
+                    </div>
+                <div th:if="${moviePage.streamVibeRating != 0}" class="container-rating-wrap">
+                    <h3>StreamVibe</h3>
+                    <div class="rating-wrap">
+                        <div class="rating-body">
+                            <div class="rating__active"></div>
+                            <div class="rating__items">
+                                <input type="radio" class="rating__item" value="1" name="rating">
+                                <input type="radio" class="rating__item" value="2" name="rating">
+                                <input type="radio" class="rating__item" value="3" name="rating">
+                                <input type="radio" class="rating__item" value="4" name="rating">
+                                <input type="radio" class="rating__item" value="5" name="rating">
+                            </div>
+                        </div>
+                        <div class="rating__value" th:text="${moviePage.streamVibeRating}"></div>
+                    </div>
+
+                </div>
+                </div>
+            </div>
+            <!--Genres-->
+            <div class="mini-section-info">
+                <div class="title-info-movie">
+                    <svg  width="20" height="21" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm11-6h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zm-1 6h-4V5h4v4zm-9 4H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zm-1 6H5v-4h4v4zm8-6c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2z" fill="#999999" class="fill-000000"></path>
+                    </svg>
+                    <h2>Genres</h2>
+                </div>
+                <ul class="genres-list">
+                    <li class="genres-item" th:each="genre : ${moviePage.genres}">
+                        <p th:text="${genre}"></p>
+                    </li>
+                </ul>
+            </div>
+            <!--director/s-->
+            <div class="mini-section-info">
+                <div class="title-info-movie">
+                    <svg width="20" height="21" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M19 .586 23.414 5l-18 17.999H1.001v-4.413l18-18Zm-3.5 6.328-12.499 12.5V21h1.585l12.5-12.5L15.5 6.915Zm3 .172L16.915 5.5 19 3.414 20.586 5 18.5 7.086Z" fill="#999999" class="fill-000000"></path><path d="M23 23H11v-2h12v2Z" fill="#999999" class="fill-000000"></path>
+                    </svg>
+                    <div th:if="${moviePage.manFromMovieList.?[profession == 'Director'].size() > 1}">
+                        <h2>Directors</h2>
+                    </div>
+                    <div th:if="${moviePage.manFromMovieList.?[profession == 'Director'].size() == 1}">
+                        <h2>Director</h2>
+                    </div>
+                </div>
+                <ul class="director-list">
+                    <li class="director-item" th:each="directorFromMovie : ${moviePage.manFromMovieList.?[profession == 'Director']}">
+                            <img th:src="${directorFromMovie.photo}" alt="dude photo">
+                            <p th:text="${directorFromMovie.name}"></p>
+                    </li>
+                </ul>
+            </div>
+            <!--compositor/s-->
+            <div class="mini-section-info">
+                <div class="title-info-movie">
+                    <svg width="20" height="21" viewBox="0 0 64 64" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M23.727 16.403v24.134a8.296 8.296 0 0 0-4.35-1.233c-4.612 0-8.353 3.74-8.353 8.349a8.354 8.354 0 0 0 8.353 8.354c4.61 0 8.349-3.739 8.35-8.352V25.151l21.25-6.109V33.33a8.296 8.296 0 0 0-4.35-1.233c-4.614 0-8.353 3.739-8.353 8.348a8.354 8.354 0 0 0 8.353 8.354c4.344 0 7.914-3.325 8.31-7.57h.04V7.993l-29.25 8.41z" fill="#999999" class="fill-000000"></path>
+                    </svg>
+                    <div th:if="${moviePage.manFromMovieList.?[profession == 'Composer'].size() > 1}">
+                        <h2>Composers</h2>
+                    </div>
+                    <div th:if="${moviePage.manFromMovieList.?[profession == 'Composer'].size() == 1}">
+                        <h2>Composer</h2>
+                    </div>
+                </div>
+                <ul class="director-list">
+                    <li class="director-item" th:each="directorFromMovie : ${moviePage.manFromMovieList.?[profession == 'Composer']}">
+                        <img th:src="${directorFromMovie.photo}" alt="dude photo">
+                        <p th:text="${directorFromMovie.name}"></p>
+                    </li>
+                </ul>
             </div>
         </div>
     </section>

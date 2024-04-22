@@ -24,7 +24,21 @@ public class ReviewService {
         this.reviewRepo = reviewRepo;
     }
 
-
+    public double getAverageSVRating(List<Review> svReviews){
+        int count = 0;
+        double totalReviews = 0;
+        for (Review svReview : svReviews){
+            double svScore = svReview.getReviewScore();
+            totalReviews += svScore;
+            count++;
+        }
+        if (count != 0){
+            double averageSVRating = totalReviews/count;
+            averageSVRating = Math.round(averageSVRating * 10.0) / 10.0;
+            return averageSVRating;
+        }
+        return -1;
+    }
     public List<Review> getReviewsByMovieId(int movieId){
         return reviewRepo.findByMovieId(movieId);
     }
