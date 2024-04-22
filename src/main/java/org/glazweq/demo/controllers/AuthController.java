@@ -78,17 +78,11 @@ public class AuthController {
     @PostMapping("/login-success")
     public String loginCheck(@AuthenticationPrincipal UserDto userDto, @RequestParam("username") String username, @RequestParam("password") String password) {
         System.out.println("mamamaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-       // User logUser = userService.findUserByUsername(username);
+
         System.out.println("qwe---------------------------aaaaaaa--------------------------------------------");
-//
-//        if (logUser != null && passwordEncoder.matches(password, logUser.getPassword())){
-//            System.out.println("good job");
-//            return "redirect:/home";
-//        }else
-//            return "redirect:/login?error";
-//    }
-        return "redirect:/home-page";
-        // handler method to handle list of users
+
+        return "redirect:/home";
+
 
     }
 }

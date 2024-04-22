@@ -94,7 +94,7 @@
             <div class="movie-page-section reviews-container">
                 <div class="wrap-upper-reviews">
                 <h2>Reviews</h2>
-                <div th:if="${userRole == 'admin'}">
+                <div th:if="${userRole != 'guest'}">
                     <button class="addReviewButton dark-btn">
                         <span class="plus-review">+</span>
                         <span class="add-review-text">Add Your Review</span>

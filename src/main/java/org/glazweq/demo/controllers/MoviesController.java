@@ -63,6 +63,8 @@ public class MoviesController {
         String roleAuthUser;
         if (auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
             roleAuthUser = "admin";
+        } else if (auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_USER"))) {
+            roleAuthUser = "user";
         } else {
             roleAuthUser = "guest";
         }

@@ -59,7 +59,7 @@
 
             </a>
                 </div>
-                <div th:if="${userRole == 'admin'}">
+                <div th:if="${userRole != 'guest'}">
                     <a class="nav-link" href="/logout">
                         <div class="profile-icon">
                             <svg class="user-svg-nav" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
