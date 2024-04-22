@@ -1,5 +1,6 @@
 package org.glazweq.demo.controllers;
 
+import org.glazweq.demo.domain.Review;
 import org.glazweq.demo.domain.User;
 import org.glazweq.demo.service.FiltersMovieService;
 import org.glazweq.demo.service.ReviewService;
@@ -27,33 +28,83 @@ public class ReviewController {
 }
 
 
+
     @PostMapping("/add-review")
-    public String addReview(@RequestParam("movieId") int movieId,
+    public String addReview(
+                            @RequestParam("movieId") int movieId,
                             @RequestParam("reviewText") String reviewText,
                             @RequestParam(value = "reviewScore", required = false) Double reviewScore,
                             Model model
                             ) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String roleAuthUser;
-        if (auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
-            roleAuthUser = "admin";
+        System.out.println("мы в  AADD REVIEW");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        User authUser = userServiceImpl.findUserByEmail(currentPrincipalName);
+        Review existingReview = reviewService.findReviewByMovieIdAndUserId(movieId, authUser.getId());
+        if (existingReview != null) {
+            // Обновить поля существующего отзыва
+            existingReview.setReviewText(reviewText);
+            existingReview.setReviewScore(reviewScore);
+
+            // Сохранить обновленный отзыв
+            reviewService.updateReviewInDB(existingReview);
         } else {
-            roleAuthUser = "guest";
+            if (reviewScore > 0 && reviewScore <= 10) {
+
+
+                if (authUser != null) {
+                    reviewService.saveReviewInDB(reviewText, reviewScore, movieId, authUser);
+                }
+            } else {
+                System.out.println("scoreError");
+                model.addAttribute("scoreError", "Enter valid score");
+            }
+            // Сохраняем отзыв в базе данных
+
+
         }
-
-       if (reviewScore > 0 && reviewScore <=10){
-           String userMail = auth.getName();
-           User authUser = userServiceImpl.findUserByEmail(userMail);
-           if (authUser != null) {
-               reviewService.saveReviewInDB(reviewText, reviewScore, movieId, authUser);
-           }
-       }
-       else {
-           System.out.println("scoreError");
-           model.addAttribute("scoreError", "Enter valid score");
-       }
-        // Сохраняем отзыв в базе данных
         return "redirect:/movieId=" + movieId;
+    }
+    @PostMapping("/add-new-review")
+    public String addNewReview(
+            @RequestParam("movieIdNew") int movieId,
+            @RequestParam("reviewTextNew") String reviewText,
+            @RequestParam(value = "reviewScoreNew", required = false) Double reviewScore,
+            Model model
+    ) {
+        System.out.println("мы в  AADD new REVIEW");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        User authUser = userServiceImpl.findUserByEmail(currentPrincipalName);
+        Review existingReview = reviewService.findReviewByMovieIdAndUserId(movieId, authUser.getId());
+        if (existingReview != null) {
+            // Обновить поля существующего отзыва
+            existingReview.setReviewText(reviewText);
+            existingReview.setReviewScore(reviewScore);
 
+            // Сохранить обновленный отзыв
+            reviewService.updateReviewInDB(existingReview);
+        } else {
+            if (reviewScore > 0 && reviewScore <= 10) {
+
+
+                if (authUser != null) {
+                    reviewService.saveReviewInDB(reviewText, reviewScore, movieId, authUser);
+                }
+            } else {
+                System.out.println("scoreError");
+                model.addAttribute("scoreError", "Enter valid score");
+            }
+            // Сохраняем отзыв в базе данных
+
+
+        }
+        return "redirect:/movieId=" + movieId;
+    }
+    @PostMapping("/delete-review")
+    public String deleteReview(@RequestParam("userReviewId") Long reviewId,
+                               @RequestParam("movieId") Long movieId){
+    reviewService.deleteReview(reviewId);
+    return "redirect:/movieId=" + movieId;
     }
 }

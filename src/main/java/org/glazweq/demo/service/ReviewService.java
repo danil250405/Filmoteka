@@ -1,9 +1,11 @@
 package org.glazweq.demo.service;
 
+import jakarta.transaction.Transactional;
 import org.glazweq.demo.domain.Review;
 import org.glazweq.demo.domain.User;
 import org.glazweq.demo.repos.ReviewRepo;
 import org.glazweq.demo.repos.UserRepo;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,12 +20,24 @@ public class ReviewService {
    private UserServiceImpl userServiceImpl;
     private final UserRepo userRepo;
     private ReviewRepo reviewRepo;
-    public ReviewService(UserServiceImpl userServiceImpl, UserRepo userRepo, ReviewRepo reviewRepo) {
+    public ReviewService(@Qualifier("userServiceImpl") UserServiceImpl userServiceImpl, UserRepo userRepo, ReviewRepo reviewRepo) {
         this.userServiceImpl = userServiceImpl;
         this.userRepo = userRepo;
         this.reviewRepo = reviewRepo;
     }
 
+    public Review findReviewByMovieIdAndUserId(int movieId, Long userId ){
+        return reviewRepo.findByMovieIdAndUserId(movieId, userId);
+    }
+
+    public Review opportunityToLeaveFeedback(User authUser, List<Review> reviews){
+        for (Review review : reviews){
+            if (review.getUser().getId() == authUser.getId()){
+                return review;
+            }
+        }
+        return null;
+    }
     public double getAverageSVRating(List<Review> svReviews){
         int count = 0;
         double totalReviews = 0;
@@ -49,5 +63,14 @@ public class ReviewService {
         Review review = new Review(text, score, Timestamp.valueOf(LocalDateTime.now()), movieId, authUser);
 
         reviewRepo.save(review);
+    }
+    public void updateReviewInDB(Review review){
+//        User user = userRepo.findById(userId);
+//                .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId));
+        reviewRepo.save(review);
+    }
+    @Transactional
+    public void  deleteReview(Long reviewId){
+        reviewRepo.deleteReviewById(reviewId);
     }
 }

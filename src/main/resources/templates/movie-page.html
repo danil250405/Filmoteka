@@ -95,11 +95,20 @@
                 <div class="wrap-upper-reviews">
                 <h2>Reviews</h2>
                 <div th:if="${userRole != 'guest'}">
-                    <button class="addReviewButton dark-btn">
-                        <span class="plus-review">+</span>
-                        <span class="add-review-text">Add Your Review</span>
-                    </button>
-                    <p  style="display: none">You can't add review. <a href="/login">Log in</a></p>
+                    <div th:if="${userReview == null}">
+                        <button class="addReviewButton dark-btn">
+                            <span class="plus-review">+</span>
+                            <span class="add-review-text">Add Your Review</span>
+                        </button>
+                        <p style="display: none">You can't add review. <a href="/login">Log in</a></p>
+                    </div>
+                    <div th:if="${userReview != null}">
+                        <button class="addReviewButton dark-btn">
+                            <span class="plus-review">+</span>
+                            <span class="add-review-text">Change Your Review</span>
+                        </button>
+                        <p style="display: none">You can't add review. <a href="/login">Log in</a></p>
+                    </div>
                 </div>
                 <div th:if="${userRole == 'guest'}">
                     <button style="display: none" class="addReviewButton">Add Your Review</button>
@@ -113,21 +122,53 @@
                             <h2>Add Your Review</h2>
                             <span class="close">&times;</span>
                         </div>
+                        <div th:if="${userReview != null}">
                         <form id="reviewForm"
                               method="post"
                               role="form"
                               th:action="@{/add-review}">
                             <input type="hidden" id="movieId" name="movieId" th:value="${moviePage.id}">
                             <label for="reviewText">Your Review:</label><br>
-                            <textarea id="reviewText" name="reviewText" rows="4" cols="50"></textarea><br>
+
+                            <textarea th:text="${userReview.reviewText}" id="reviewText" name="reviewText" rows="4" cols="50"></textarea><br>
                             <div class="down-wrap-modal">
                                 <div>
                                     <label for="reviewScore">Your Score(1-10):</label><br>
-                                    <input type="number" id="reviewScore" name="reviewScore" min="1" max="10" required><br>
+                                    <input th:value="${userReview.reviewScore}" type="number" id="reviewScore" name="reviewScore" min="1" max="10" required><br>
                                 </div>
+
                                 <button type="submit" class="btn btn-primary">Submit Review</button>
                             </div>
+
+
                         </form>
+                            <form th:action="@{/delete-review}" method="post">
+                                <input type="hidden" name="userReviewId" th:value="${userReview.id}">
+                                <input type="hidden" name="movieId" th:value="${moviePage.id}">
+                                <button type="submit" class="dark-btn del-btn">Delete Review</button>
+                            </form>                        </div>
+                        <div th:if="${userReview == null}">
+                            <form id="reviewFormNew"
+                                  method="post"
+                                  role="form"
+                                  th:action="@{/add-new-review}">
+                                <input type="hidden" id="movieIdNew" name="movieIdNew" th:value="${moviePage.id}">
+                                <label for="reviewTextNew">Your Review:</label><br>
+
+                                <textarea id="reviewTextNew" name="reviewTextNew" rows="4" cols="50"></textarea><br>
+                                <div class="down-wrap-modal">
+                                    <div>
+                                        <label for="reviewScoreNew">Your Score(1-10):</label><br>
+                                        <input  type="number" id="reviewScoreNew" name="reviewScoreNew" min="1" max="10" required><br>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary">Submit Review</button>
+                                </div>
+
+
+                            </form>
+
+                        </div>
                     </div>
                 </div>
                 <!--down info review-->

@@ -256,8 +256,22 @@ h1{
 }
 #reviewForm textarea,
 #reviewForm input {
-    background-color: var(--bg-item-color);
+    background-color: var(--bg-pagination-color);
+    border: var(--border-color) 1px solid;
+    border-radius: 10px;
     color: var(--p-color);
+    padding: 10px;
+}
+#reviewFormNew{
+    margin-top: 10px;
+}
+#reviewFormNew textarea,
+#reviewFormNew input {
+    background-color: var(--bg-pagination-color);
+    border: var(--border-color) 1px solid;
+    border-radius: 10px;
+    color: var(--p-color);
+    padding: 10px;
 }
 .modal-content .btn-primary{
     margin-top: 8px;
@@ -283,6 +297,10 @@ h1{
     color: var(--p-color);
     text-decoration: none;
     cursor: pointer;
+}
+.del-btn{
+    display: block;
+    margin-left: auto;
 }
 /*stars*/
 .container-rating-wrap{

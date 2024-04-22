@@ -3,16 +3,11 @@ package org.glazweq.demo.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.servlet.http.HttpServletRequest;
-import org.glazweq.demo.domain.MovieCard;
+import org.glazweq.demo.domain.*;
 
-import org.glazweq.demo.domain.MoviePage;
-import org.glazweq.demo.domain.Poster;
-import org.glazweq.demo.domain.Review;
 import org.glazweq.demo.repos.ReviewRepo;
-import org.glazweq.demo.service.ApiKinopoiskDevService;
-import org.glazweq.demo.service.FiltersMovieService;
-import org.glazweq.demo.service.ImageService;
-import org.glazweq.demo.service.ReviewService;
+import org.glazweq.demo.repos.UserRepo;
+import org.glazweq.demo.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.Cacheable;
@@ -33,6 +28,7 @@ public class MoviesController {
     private final  ImageService imageService;
     private final ApiKinopoiskDevService apiKinopoiskDevService;
     private final ReviewService reviewService;
+    private final UserServiceImpl userServiceImpl;
 
 //    constructor
     public List<String> getAllGenres(){
@@ -74,12 +70,14 @@ public class MoviesController {
      public MoviesController(@Qualifier("imageService") ImageService imageService,
                              @Qualifier("filtersMovieService") FiltersMovieService filtersMovieService,
                              @Qualifier("apiKinopoiskDevService") ApiKinopoiskDevService apiKinopoiskDevService,
-                             @Qualifier("reviewService")ReviewService reviewService) {
+                             @Qualifier("reviewService")ReviewService reviewService,
+                             @Qualifier("userServiceImpl") UserServiceImpl userServiceImpl) {
             this.imageService = imageService;
             this.filtersMovieService = filtersMovieService;
             this.apiKinopoiskDevService = apiKinopoiskDevService;
 
          this.reviewService = reviewService;
+         this.userServiceImpl = userServiceImpl;
      }
     @GetMapping("/")
     public String redirectToHome() {
@@ -98,11 +96,16 @@ public class MoviesController {
     }
     @GetMapping("/movieId={id}")
     public String showMoviePage(@PathVariable("id") int movieId, Model model) throws JsonProcessingException {
-
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        User authUser = userServiceImpl.findUserByEmail(currentPrincipalName);
+        model.addAttribute("authUser", authUser);
         MoviePage moviePage = filtersMovieService.getMovieById(movieId);
 
 //        add reviews on page
         List<Review> reviewsList = reviewService.getReviewsByMovieId(movieId);
+        Review userReview = reviewService.opportunityToLeaveFeedback(authUser, reviewsList);
+        model.addAttribute("userReview", userReview);
         double streamVibeRating = reviewService.getAverageSVRating(reviewsList);
         if ( streamVibeRating != -1){
             moviePage.setStreamVibeRating(streamVibeRating);
