@@ -108,12 +108,25 @@ const prevBtn = document.querySelector('.prev-btn');
 const nextBtn = document.querySelector('.next-btn');
 
 let currentIndex = 0;
-const itemsPerPage = 5; // Количество жанров, отображаемых на одной странице
+let itemsPerPage = 5; // Количество жанров, отображаемых на одной странице
+
+// Функция для обновления количества отображаемых элементов в зависимости от ширины окна
+function updateItemsPerPage() {
+    const containerWidth = categoriesContainer.offsetWidth;
+    if (containerWidth < 1100) {
+        itemsPerPage = 6;
+    }else if(containerWidth < 1300 && containerWidth > 1200){
+        itemsPerPage = 4;
+    }
+    else if (containerWidth > 1400){
+        itemsPerPage = 5;
+    }
+
+}
 
 // Функция для отображения жанров на странице
 function showCategories(startIndex, endIndex) {
     const categoryItems = categoriesList.querySelectorAll('.categories-card');
-    const containerWidth = categoriesContainer.offsetWidth;
     const itemWidth = categoryItems[0].offsetWidth + categoryItems[0].offsetMargin;
     const translateX = -(startIndex * itemWidth);
 
@@ -130,6 +143,14 @@ function showCategories(startIndex, endIndex) {
     });
 }
 
+// Обновите itemsPerPage при загрузке страницы
+updateItemsPerPage();
+
+// Обновляйте itemsPerPage при изменении размера окна
+window.addEventListener('resize', updateItemsPerPage);
+
+// Вызовите showCategories с обновленным itemsPerPage
+showCategories(currentIndex, currentIndex + itemsPerPage);
 // Функция для обновления прогресс-индикатора
 function updateProgressIndicator(currentPage, totalPages) {
     const progressIndicator = document.querySelector('.progress-indicator');

@@ -169,7 +169,7 @@ p{
     padding: 0;
     display: flex;
     justify-content: space-between;
-
+    flex-wrap: wrap;
     margin-bottom: 30px;
 }
 .categories-card{
@@ -179,6 +179,7 @@ p{
     transition: transform 0.3s;
     border-radius: 7px;
     border: var(--border-color) 2px solid;
+    margin-bottom: 10px;
 }
 .categories-card:hover{
     transform: translateY(-10px);
@@ -226,7 +227,7 @@ p{
 .img-genre {
 
     border-radius: 10px;
-    max-width: 100px;
+    max-width: 100%;
     height: auto;
 
 }
