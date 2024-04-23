@@ -19,6 +19,7 @@ ul{
     align-items: center;
     padding: 20px 0;
     border-bottom: 3px solid var(--accent-color);
+    flex-wrap: nowrap;
 }
 
 .navbar-myBrand {
@@ -41,7 +42,7 @@ ul{
 
 .navbar-navigation {
     display: flex;
-    margin: 0 120px 0 0;
+    margin: 0 290px 0 0;
     border-radius: 5px;
     border: 2px solid #383838; /* Пример границы шириной 2 пикселя и белого цвета */
     padding: 10px 20px;
@@ -99,41 +100,88 @@ ul{
     width: 24px;
     height: 24px;
 }
-@media (max-width: 1200px) {
-    .navbar-navigation {
-        margin: 0;
+
+
+
+.nav-menu{
+    display: flex;
+
+}
+.hamburger{
+    display: none;
+    cursor: pointer;
+}
+.bar {
+    display: block;
+    width: 25px;
+    height: 3px;
+    margin: 5px auto;
+    -webkit-transition: all 0.3s ease-in-out;
+    background-color: white;
+
+}
+@media (max-width: 1400px){
+    .navbar-navigation{
+        margin: 0 200px 0 0;
     }
 }
-
-@media (max-width: 992px) {
+@media (max-width: 1200px){
     .navbar-navigation {
-        display: none;
+        margin: 0 65px 0 0;
     }
-
-    .navbar-toggler {
+}
+@media (max-width: 992px) {
+    .hamburger{
         display: block;
     }
-
-    .navbar-navigation.show {
-        display: flex;
-        flex-direction: column;
+    .hamburger.active .bar:nth-child(2){
+        opacity: 0;
+    }
+    .hamburger.active .bar:nth-child(1){
+        transform: translateY(8px) rotate(45deg);
+    }
+    .hamburger.active .bar:nth-child(3){
+        transform: translateY(-8px) rotate(-45deg);
+    }
+    .nav-menu {
         position: absolute;
-        top: 100%;
+        top: 100px; /* Высота заголовка */
         left: 0;
-        width: 100%;
-        background-color: #fff;
-        padding: 20px;
-        z-index: 1;
+        right: 0;
+        max-height: 0;
+        overflow: hidden;
+        flex-direction: column;
+        background-color: #0c0c0c;
+        /*text-align: center;*/
+        transition: max-height 0.5s ease-out;
+        z-index: 999;
+        border-bottom: var(--accent-color) 1px solid;
+
     }
 
     .nav-item {
-        margin-left: 0;
-        margin-bottom: 10px;
+        border-bottom: var(--border-color) 1px solid;
+        margin: 16px !important;
+        font-size: 23px;
+    }
+
+    .nav-menu.active {
+        max-height: 500px; /* Установите нужную высоту для открытого меню */
+    }
+    .navbar-navigation {
+        display: block;
+            background-color: #0c0c0c;
+        width: 100%;
+        border: none;
+
+    }
+    .search-and-profile{
+        display: none;
+    }
+    .navbar{
+        border: none;
     }
 }
-
-
-
 /* Общие стили */
 footer {
     margin-top: 244px;
@@ -241,15 +289,3 @@ footer {
 .footer-bottom ul li a:hover {
     color: #fff;
 }
-/*.nav-link path {*/
-/*    fill: white !important;*/
-/*    transition: fill 0.3s;*/
-/*}*/
-
-/*.navbar-nav .nav-link {*/
-/*    display: flex;*/
-/*    align-items: center;*/
-/*}*/
-/*.navbar-nav .nav-link svg {*/
-/*    margin-right: 0.5rem;*/
-/*}*/

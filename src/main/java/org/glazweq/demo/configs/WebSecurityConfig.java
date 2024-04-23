@@ -50,21 +50,19 @@ public class WebSecurityConfig {
                         authorize
                                 .requestMatchers("/").permitAll()
                                 .requestMatchers("/login").permitAll()
-                                .requestMatchers("/home").permitAll()
+
                                 .requestMatchers("/register/**").permitAll()
                                 .requestMatchers("/register").permitAll()
                                 .requestMatchers("/register/**").permitAll()
-                                .requestMatchers("/main").permitAll()
-                                .requestMatchers("/index").permitAll()
-                                .requestMatchers("/home-page").permitAll()
                                 .requestMatchers("/movies").permitAll()
-                                .requestMatchers("/movie").permitAll()
-                                .requestMatchers("/movie/page/{id}").permitAll()
+
+                                .requestMatchers("/home").permitAll()
                                 .requestMatchers("/movieId={id}").permitAll()
 
                                 .requestMatchers("/delete-review").permitAll()
                                 .requestMatchers("/add-review").permitAll()
                                 .requestMatchers("/add-new-review").permitAll()
+
                                 .requestMatchers("/userslist").hasRole("ADMIN")
                 ).formLogin(
                         form -> form
