@@ -18,13 +18,35 @@ main {
 }
 
 .card {
-
+    margin-top: 4em;
+    width: 45em;
+    margin-left: auto;
+    margin-right: auto;
     transition: transform 0.3s;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     border: black 2px solid;
     overflow: hidden;
     background-color: rgba(0, 0, 0, 0.4);
+}
+
+@media (max-width: 992px) {
+    h2{
+        font-size: 60px;
+    }
+    label{
+        font-size: 40px;
+    }
+    .form-control{
+        font-size: 3em;
+    }
+    .alert-success, .alert-danger, .btn-primary{
+        font-size: 40px !important;
+    }
+    span{
+        font-size: 25px;
+    }
+
 }
 .alert-danger{
     color: var(--accent-color);
