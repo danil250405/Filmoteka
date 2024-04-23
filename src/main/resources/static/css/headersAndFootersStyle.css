@@ -120,6 +120,9 @@ ul{
     background-color: white;
 
 }
+.user-link{
+    width: max-content;
+}
 @media (max-width: 1400px){
     .navbar-navigation{
         margin: 0 200px 0 0;
@@ -159,6 +162,9 @@ ul{
 
     }
 
+    .header-base .nav-menu{
+        background-color: rgb(0 0 0 / 0%);
+    }
     .nav-item {
         border-bottom: var(--border-color) 1px solid;
         margin: 16px !important;
@@ -175,8 +181,32 @@ ul{
         border: none;
 
     }
+    .header-base .navbar-navigation{
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+    .search-and-profile .nav-link{
+        margin-bottom: 8px;
+        border-bottom: var(--border-color) 1px solid;
+        font-size: 23px;
+    }
+   .search-link{
+       width: 50%;
+   }
+   .header-base .nav-link{
+       background-color: var(--bg-pagination-color);
+       border-radius: 10px;
+   }
     .search-and-profile{
-        display: none;
+        padding: 0 35px;
+        justify-content: space-between;
+        margin-left: 0;
+    }
+    .header-base .search-and-profile{
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+    .search-and-profile svg{
+        width: 40px;
+        height: auto;
     }
     .navbar{
         border: none;
