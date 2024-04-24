@@ -6,14 +6,38 @@ const castList = document.querySelector('.cast-list');
 const castItems = castList.getElementsByClassName('cast-item');
 
 let currentPage = 0;
-const itemsPerPage = 6;
+// Определяем переменную для хранения текущего значения itemsPerPage
+let currentItemsPerPage = 6;
 
+// Функция для обновления значения itemsPerPage
+function updateItemsPerPage(mediaQuery) {
+    if (mediaQuery.matches) {
+        // Если размер окна меньше 800px
+        currentItemsPerPage = 4;
+    } else {
+        // Если размер окна больше или равен 800px
+        currentItemsPerPage = 6;
+    }
+    // Здесь вы можете вызвать функцию showPage() с обновленным значением itemsPerPage
+    showPage(currentPage);
+}
+
+// Создаем экземпляр MediaQueryList
+const mediaQuery = window.matchMedia('(max-width: 768px)');
+
+// Вызываем функцию updateItemsPerPage() при загрузке страницы
+updateItemsPerPage(mediaQuery);
+
+// Добавляем обработчик события для отслеживания изменений размера окна
+mediaQuery.addListener(updateItemsPerPage);
+
+// Обновляем функцию showPage() с использованием currentItemsPerPage
 function showPage(page) {
     currentPage = page;
     for (let i = 0; i < castItems.length; i++) {
         castItems[i].style.display = 'none';
     }
-    for (let i = page * itemsPerPage; i < (page + 1) * itemsPerPage && i < castItems.length; i++) {
+    for (let i = page * currentItemsPerPage; i < (page + 1) * currentItemsPerPage && i < castItems.length; i++) {
         castItems[i].style.display = 'block';
     }
 }

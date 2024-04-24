@@ -93,7 +93,23 @@ p{
     margin-left: auto; /* Сбрасываем левый отступ для центрирования */
     margin-right: auto; /* Сбрасываем правый отступ для центрирования */
 }
-
+.hero-small-text{
+    display: none;
+}
+@media (max-width: 576px) {
+    .posters-list li{
+        flex: 0 0 calc(14.2% - 10px);
+    }
+    .start-watching{
+        margin: -166px auto 0;
+    }
+    .hero-big-text{
+        display: none;
+    }
+    .hero-small-text{
+        display: block;
+    }
+}
 .btn-primary {
     font-size: 20px;
     padding: 15px;
@@ -197,6 +213,11 @@ p{
         width:calc((100% /2) - (2 * 5px))
     }
     .navigation-bar{
+        width: fit-content;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .sub-top-section .toggle-container{
         width: fit-content;
         margin-left: auto;
         margin-right: auto;
@@ -523,6 +544,7 @@ margin-right: 30px;
     background-color: var(--bg-pagination-color);
     overflow: hidden;
     margin-left: 10px;
+    justify-content: center;
 }
 @media (max-width:1200px) {
     .toggle-container{
@@ -540,13 +562,22 @@ margin-right: 30px;
         text-align: center;
     }
 }
+
 .toggle-option {
     padding: 8px 16px;
     cursor: pointer;
     color: #999999;
     transition: background-color 0.3s;
 }
-
+.buttons-wrap{
+    display: flex;
+    justify-content: space-between;
+}
+.buttons-wrap button{
+    margin: 0;
+    padding: 10px;
+    /*width: -webkit-fill-available;*/
+}
 .toggle-option.active {
     background-color: var(--back-item-1f);
     border-radius: 7px;
@@ -560,6 +591,7 @@ margin-right: 30px;
 
 }
 .plan-item{
+    width: 33%;
     padding: 35px;
     border-radius: 7px;
     border: var(--border-color) 1px solid;
@@ -569,11 +601,51 @@ margin-right: 30px;
     margin-right: 20px;
 }
 .free-btn{
+    margin-left: 5px;
     background-color: var(--main-bg-color);
     border-color: var(--border-color);
     color: #d3d3d3;
     transition: background-color 0.3s, color 0.3s;
 }
+@media (max-width: 1200px) {
+    .plan-item{
+        text-align: center;
+    }
+    .buttons-wrap{
+        display: block;
+    }
+    .buttons-wrap button{
+        margin-left: 0 !important;
+    }
+    .free-btn{
+        margin-bottom: 10px !important;
+    }
+}
+@media (max-width: 992px) {
+    .plan-list{
+        display: block;
+    }
+    .plan-item{
+        width: 85%;
+        margin: 0 auto 10px  auto !important;
+    }
+    .free-btn{
+        margin: 0 10px 0 0 !important;
+    }
+}
+@media (max-width: 576px) {
+    .buttons-wrap{
+        display: grid;
+        justify-content: center;
+    }
+    .buttons-wrap button{
+        padding: 10px 30px;
+    }
+    .free-btn{
+        margin: 0 0 10px 0 !important;
+    }
+}
+
 .free-btn:hover{
     color: #ffffff;
     background-color: var(--back-item-1f);
@@ -590,6 +662,10 @@ margin-right: 30px;
     font-weight: bold;
     color: white;
 }
+
+.trial-wrap{
+    width: 67%;
+}
 .trial-section{
 
     margin-top: 244px;
@@ -602,7 +678,18 @@ margin-right: 30px;
     justify-content: space-between;
     background-image: url("../../static/img/startYourTrailBG.jpg");
 }
+@media (max-width: 768px) {
+    .trial-section{
+        display: block;
+        text-align: center;
+    }
+    .trial-wrap{
+        width: auto;
+        padding-top: 47px;
 
+    }
+
+}
 
 
 

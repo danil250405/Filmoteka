@@ -319,3 +319,11 @@ footer {
 .footer-bottom ul li a:hover {
     color: #fff;
 }
+@media (max-width: 770px) {
+    .footer-section{
+        flex: none;
+        width: 30%;
+        text-align: center;
+    }
+
+}

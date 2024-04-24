@@ -461,3 +461,55 @@ h1{
 .director-item p{
     margin: 0 0 0 10px;
 }
+@media (max-width: 1400px) {
+    .ratings{
+        display: block;
+
+    }
+    .mini-section-info .container-rating-wrap{
+        width: fit-content;
+        margin: 0 0 10px 0 !important;
+    }
+}
+@media (max-width: 992px) {
+    .main-section{
+        display: block;
+    }
+    .left-side-containers, .right-side-container{
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+
+    .ratings{
+        display: flex;
+        justify-content: flex-start;
+        flex-wrap: nowrap;
+    }
+
+    .mini-section-info .container-rating-wrap{
+        width: fit-content;
+
+        margin-right: 10px !important;
+    }
+    .director-item{
+        width: fit-content;
+        padding-right: 25px;
+    }
+}
+@media (max-width: 768px) {
+    .cast-list {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+@media (max-width: 576px) {
+    .ratings{
+        display: flex;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+    .cast-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
