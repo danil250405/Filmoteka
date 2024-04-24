@@ -41,7 +41,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">About</a>
                     </li>
-
+                    <li th:if="${userRole == 'admin'}">
+                        <a class="nav-link" href="/admin-home">Admin</a>
+                    </li>
                 </ul>
                 <div class="search-and-profile search-and-profile-base">
                 <a class="nav-link search-link" href="#">
@@ -61,8 +63,6 @@
                             </svg>
                             <span> Log in</span>
                         </div>
-
-
                     </a>
                 </div>
                 <div th:if="${userRole != 'guest'}">

@@ -63,6 +63,7 @@ public class WebSecurityConfig {
                                 .requestMatchers("/add-review").permitAll()
                                 .requestMatchers("/add-new-review").permitAll()
 
+                                .requestMatchers("/admin-home").hasRole("ADMIN")
                                 .requestMatchers("/userslist").hasRole("ADMIN")
                 ).formLogin(
                         form -> form

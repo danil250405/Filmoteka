@@ -96,7 +96,7 @@ public class UserServiceImpl implements UserService{
                 .collect(Collectors.toList()); // Результаты преобразования (то есть объекты UserDto) собираются
                                                 // обратно в список с помощью метода collect(), возвращая список UserDto.
     }
-    private UserDto mapToUserDto(User user){
+    private UserDto mapToUserDto(User user) {
         UserDto userDto = new UserDto();
         String[] str = user.getName().split(" ");
         userDto.setFirstName(str[0]);
@@ -104,6 +104,10 @@ public class UserServiceImpl implements UserService{
         userDto.setEmail(user.getEmail());
         userDto.setId(user.getId());
         userDto.setUsername(user.getUsername());
+        List<String> roleNames = user.getRoles().stream()
+                .map(Role::getName)
+                .collect(Collectors.toList());
+        userDto.setRole(String.join(", ", roleNames));
         return userDto;
     }
 private Role checkRoleExist(){
