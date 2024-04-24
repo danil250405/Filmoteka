@@ -113,14 +113,10 @@ let itemsPerPage = 5; // Количество жанров, отображаем
 // Функция для обновления количества отображаемых элементов в зависимости от ширины окна
 function updateItemsPerPage() {
     const containerWidth = categoriesContainer.offsetWidth;
-    if (containerWidth < 1100) {
+    if (containerWidth < 892) {
         itemsPerPage = 6;
-    }else if(containerWidth < 1300 && containerWidth > 1200){
-        itemsPerPage = 4;
     }
-    else if (containerWidth > 1400){
-        itemsPerPage = 5;
-    }
+
 
 }
 
@@ -197,3 +193,26 @@ nextBtn.addEventListener('click', handleNextClick);
 showCategories(0, itemsPerPage);
 updateProgressIndicator(1, Math.ceil(categoriesList.children.length / itemsPerPage));
 
+
+
+// Функция для перемещения пагинации
+function movePaginationOnResize() {
+    const categoriesSection = document.querySelector('.categories-section');
+    const paginationBar = document.querySelector('.navigation-bar');
+    const screenWidth = window.innerWidth;
+
+    if (screenWidth < 776) {
+        // Переместить пагинацию после категорий
+        categoriesSection.insertAdjacentElement('afterend', paginationBar);
+    } else {
+        // Вернуть пагинацию на исходное место
+        const categoriesTopSection = categoriesSection.querySelector('.categories-top-section');
+        categoriesTopSection.appendChild(paginationBar);
+    }
+}
+
+// Обработчик события изменения размера окна
+window.addEventListener('resize', movePaginationOnResize);
+
+// Вызвать функцию при загрузке страницы
+movePaginationOnResize();

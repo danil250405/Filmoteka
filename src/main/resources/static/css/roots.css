@@ -8,6 +8,7 @@ ul{
     padding: 0;
 }
 :root{
+
     --main-bg-color: #141414;
     --accent-color: #E50000;
     --text-color: white;
@@ -19,6 +20,7 @@ ul{
     --bg-pagination-color: #0f0f0f;
     --btn-bg-dark-color: #141414;
     --p-color: #999999;
+
 }
 .btn-primary {
     font-size: 20px;
