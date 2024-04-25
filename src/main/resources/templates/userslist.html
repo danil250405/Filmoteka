@@ -12,8 +12,6 @@
     <link rel="stylesheet" href="../../static/css/headersAndFootersStyle.css">
 <!--    <link href="../static/css/styleMoviePage.css" rel="stylesheet" />-->
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
 <!--import header-->
@@ -28,11 +26,12 @@
     <div class="form-group-filters">
         <label for="dbColumn">Select Column In Db</label>
         <select class="form-control" id="dbColumn" name="dbColumn">
-            <option>name</option>
-            <option>id</option>
-            <option>username</option>
-            <option>mail</option>
-            <option>roles</option>
+            <option th:value="all" th:selected="${oldDbColumn == 'all'}">all</option>
+            <option th:value="name" th:selected="${oldDbColumn == 'name'}">name</option>
+            <option th:value="id" th:selected="${oldDbColumn == 'id'}">id</option>
+            <option th:value="username" th:selected="${oldDbColumn == 'username'}">username</option>
+            <option th:value="email" th:selected="${oldDbColumn == 'email'}">email</option>
+            <option th:value="roles" th:selected="${oldDbColumn == 'roles'}">roles</option>
         </select>
     </div>
     <input
@@ -40,6 +39,7 @@
             id="keyword"
             name="keyword"
             class="form-control"
+            th:value="${oldKeyword}"
             placeholder="Enter keyword"
     />
     <button type="submit" class="btn btn-primary" >Submit</button>
@@ -52,30 +52,111 @@
         <thead class="table-dark">
         <tr>
             <th>ID</th>
-
             <th>First Name</th>
             <th>Last Name</th>
             <th>Email</th>
             <th>Username</th>
             <th>Role</th>
-
+            <th>Action</th>
         </tr>
         </thead>
         <tbody>
-            <tr th:each="user : ${users}">
-                <td  th:text="${user.id}"></td>
-
-                <td  th:text="${user.firstName}"></td>
-                <td  th:text="${user.lastName}"></td>
-                <td  th:text="${user.email}"></td>
-                <td  th:text="${user.username}"></td>
-                <td th:text="${user.role}"></td>
-            </tr>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.firstName}"></td>
+            <td th:text="${user.lastName}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.username}"></td>
+            <td th:text="${user.role}"></td>
+            <td>
+                <span th:if="${user.role == 'Banned'}">
+                    <a th:href="@{'/unban-user/' + ${user.id}}">Unban user</a>
+                </span>
+                <span th:if="${user.role != 'Banned'}">
+                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#banUserModal"
+                  th:data-user-id="${user.id}"
+                  th:data-user-email="${user.email}"
+                  th:data-user-username="${user.username}"
+                  th:data-user-role="${user.role}">
+                        Ban User
+                 </button>
+                </span>
+            </td>
+        </tr>
         </tbody>
     </table>
+    <!-- Modal -->
+    <div class="modal fade" id="banUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>User ID: <span id="userId"></span></p>
+                    <p>Email: <span id="email"></span></p>
+                    <p>Username: <span id="username"></span></p>
+                    <p>Role: <span id="role"></span></p>
+                </div>
+                <form
+                        method="post"
+                        role="form"
+                        th:action="@{/banUser/${}"
+                        class="form-horizontal"
+                >
+
+
+
+
+                        <label class="control-label"> Password</label>
+                        <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                class="form-control"
+                                placeholder="Enter password"
+                        />
+                    </div>
+                    </div>
+                </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<script src="../static/js/header.js"></script>
+
+
+
 </main>
+
+<!-- Bootstrap JavaScript и jQuery (если необходимо) -->
+<script src="../static/js/header.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    $('#banUserModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Button that triggered the modal
+
+        // Get user data from data-* attributes
+        var userId = button.data('user-id');
+        var email = button.data('user-email');
+        var username = button.data('user-username');
+        var role = button.data('user-role');
+
+        // Update the modal content with user data
+        var modal = $(this);
+        modal.find('#userId').text(userId);
+        modal.find('#email').text(email);
+        modal.find('#username').text(username);
+        modal.find('#role').text(role);
+    });
+</script>
 </body>
 
 </html>

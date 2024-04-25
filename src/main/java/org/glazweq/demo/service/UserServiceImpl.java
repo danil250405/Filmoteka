@@ -15,10 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -65,25 +62,7 @@ public class UserServiceImpl implements UserService{
         return userRepo.findByUsername(username);
     }
 
-//    @Override
-//    public User findUserByUsername(String inputUsername) {
-//
-//        if (userRepo.findByUsername(inputUsername) != null){
-//            System.out.println("111111111111111111111");
-//            // Получение имени пользователя из контекста безопасности
-//            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//            System.out.println("22222222222222222222222222");
-//            String username = userDetails.getUsername();
-//            System.out.println("333333333333333333333333");
-//            // сохранение информации о пользователе в сессии
-//            session.setAttribute("username", username);
-//            System.out.println(session.getAttribute("username")+"======================================");
-//            System.out.println("4444444444444444444444444");
-//            return userRepo.findByUsername(inputUsername);
-//        }
-//        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-//        return null;
-//    }
+
 
     @Override
     public List<UserDto> findAllUsers() {
@@ -95,6 +74,24 @@ public class UserServiceImpl implements UserService{
                                                     //  преобразуя необходимые данные.
                 .collect(Collectors.toList()); // Результаты преобразования (то есть объекты UserDto) собираются
                                                 // обратно в список с помощью метода collect(), возвращая список UserDto.
+    }
+
+//    @Override
+//    public List<UserDto> findAllUsersByRole(String role) {
+//        List<User> usersWithTargetRole =findAllUsers().stream()
+//                .filter(user -> userRepo. user.getRoles().stream()
+//                        .anyMatch(role -> role.getName().equals(targetRoleName)))
+//                .collect(Collectors.toList());
+//
+//        return null;
+//    }
+
+    public List<UserDto> remakeListFromUserToUserDto(List<User> listUsers){
+        List<UserDto> usersDtoList = new ArrayList<>();
+        for (User user : listUsers){
+            usersDtoList.add(mapToUserDto(user));
+        }
+        return usersDtoList;
     }
     private UserDto mapToUserDto(User user) {
         UserDto userDto = new UserDto();
