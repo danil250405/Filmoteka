@@ -76,8 +76,8 @@ public class AdminsController {
         return "userslist";
     }
     // Обработчик GET запроса для бана пользователя
-    @GetMapping("/ban-user/{userId}")
-    public String banUser(@PathVariable Long userId) {
+    @PostMapping("/ban-user")
+    public String banUser(@RequestParam("userId") Long userId) {
         System.out.println("user baned" + userId);
         // Здесь добавьте логику для бана пользователя с идентификатором userId
         // Например, вызов сервисного метода для установки соответствующего флага в базе данных или выполнение других действий

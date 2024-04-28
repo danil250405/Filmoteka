@@ -86,7 +86,7 @@
         </tbody>
     </table>
     <!-- Modal -->
-    <div class="modal fade" id="banUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal fade" id="banUserModal" tabindex="-1" role="dialog" aria-labelledby="banUserModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -96,21 +96,16 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>User ID: <span id="userId"></span></p>
                     <p>Email: <span id="email"></span></p>
                     <p>Username: <span id="username"></span></p>
                     <p>Role: <span id="role"></span></p>
-                </div>
-                <form
-                        method="post"
-                        role="form"
-                        th:action="@{/banUser/${}"
-                        class="form-horizontal"
-                >
-
-
-
-
+                    <form
+                            method="post"
+                            role="form"
+                            th:action="@{/ban-user}"
+                            class="form-horizontal"
+                    >
+                        <input type="hidden" id="userId" name="userId" />
                         <label class="control-label"> Password</label>
                         <input
                                 type="password"
@@ -119,20 +114,20 @@
                                 class="form-control"
                                 placeholder="Enter password"
                         />
-                    </div>
-                    </div>
-                </form>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </form>
+                </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+
                 </div>
             </div>
         </div>
     </div>
+
+
+
 </div>
-
-
-
 </main>
 
 <!-- Bootstrap JavaScript и jQuery (если необходимо) -->
@@ -151,7 +146,7 @@
 
         // Update the modal content with user data
         var modal = $(this);
-        modal.find('#userId').text(userId);
+        modal.find('#userId').val(userId);
         modal.find('#email').text(email);
         modal.find('#username').text(username);
         modal.find('#role').text(role);
