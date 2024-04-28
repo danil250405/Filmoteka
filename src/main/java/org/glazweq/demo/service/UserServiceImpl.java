@@ -10,6 +10,7 @@ import org.glazweq.demo.repos.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -51,7 +52,9 @@ public class UserServiceImpl implements UserService{
 
     }
 
-
+    public Role getBannedRole() {
+        return roleRepo.findByName("ROLE_BANNED");
+    }
     @Override
     public User findUserByEmail(String email) {
         return userRepo.findByEmail(email);
@@ -85,7 +88,12 @@ public class UserServiceImpl implements UserService{
 //
 //        return null;
 //    }
-
+    public User getAuthUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        User authUser = findUserByEmail(currentPrincipalName);
+        return authUser;
+    }
     public List<UserDto> remakeListFromUserToUserDto(List<User> listUsers){
         List<UserDto> usersDtoList = new ArrayList<>();
         for (User user : listUsers){

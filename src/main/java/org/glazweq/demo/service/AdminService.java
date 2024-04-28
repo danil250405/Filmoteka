@@ -2,10 +2,14 @@ package org.glazweq.demo.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.glazweq.demo.Dto.UserDto;
+import org.glazweq.demo.domain.Role;
 import org.glazweq.demo.domain.User;
+import org.glazweq.demo.domain.UserBan;
+import org.glazweq.demo.repos.UserBanRepo;
 import org.glazweq.demo.repos.UserRepo;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,15 +20,28 @@ public class AdminService {
     private UserRepo userRepo;
     private UserService userService;
     private UserServiceImpl userServiceImpl;
+    private UserBanRepo userBanRepo;
 
-    public AdminService(UserRepo userRepo, UserService userService, UserServiceImpl userServiceImpl) {
+    public AdminService(UserRepo userRepo, UserService userService, UserServiceImpl userServiceImpl, UserBanRepo userBanRepo) {
         this.userRepo = userRepo;
         this.userService = userService;
         this.userServiceImpl = userServiceImpl;
+        this.userBanRepo = userBanRepo;
     }
 
-    public void banUser(String reason){
+    public void banUser(Long userId, String reason){
+        User user = userRepo.findUserById(userId);
 
+        UserBan userBan = new UserBan();
+        userBan.setUser(user);
+        userBan.setBanDateTime(getCurrentDateTime());
+        userBan.setBanReason(reason);
+        userBan.setAdmin(userServiceImpl.getAuthUser());
+        Role bannedRole = userServiceImpl.getBannedRole();
+        System.out.println("BAN ROLE:  " + bannedRole);
+        user.getRoles().add(bannedRole);
+        userRepo.save(user);
+        userBanRepo.save(userBan);
     }
 
 
@@ -33,7 +50,9 @@ public class AdminService {
 
 
 
-
+    private LocalDateTime getCurrentDateTime() {
+        return LocalDateTime.now();
+    }
 
 //    filter section
     public List<UserDto> getUserListByFilters(String columnName, String keyword){
@@ -57,7 +76,7 @@ public class AdminService {
     // Фильтруем пользователей по наличию нужного id
     public List<UserDto> getUsersListById(Long id){
         List<User> usersWithTargetId = new ArrayList<>();
-        usersWithTargetId.add(userRepo.findUsersById(id));
+        usersWithTargetId.add(userRepo.findUserById(id));
         return userServiceImpl.remakeListFromUserToUserDto(usersWithTargetId);
     }
     // Фильтруем пользователей по наличию нужной почты

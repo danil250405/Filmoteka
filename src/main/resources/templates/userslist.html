@@ -69,10 +69,16 @@
             <td th:text="${user.username}"></td>
             <td th:text="${user.role}"></td>
             <td>
-                <span th:if="${user.role == 'Banned'}">
-                    <a th:href="@{'/unban-user/' + ${user.id}}">Unban user</a>
+                <span th:if="${user.role == 'ROLE_USER, ROLE_BANNED'}">
+                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#unbanUserModal"
+                             th:data-user-id="${user.id}"
+                             th:data-user-email="${user.email}"
+                             th:data-user-username="${user.username}"
+                             th:data-user-role="${user.role}">
+                        Unban User
+                 </button>
                 </span>
-                <span th:if="${user.role != 'Banned'}">
+                <span th:if="${user.role == 'ROLE_USER'}">
                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#banUserModal"
                   th:data-user-id="${user.id}"
                   th:data-user-email="${user.email}"
@@ -85,7 +91,7 @@
         </tr>
         </tbody>
     </table>
-    <!-- Modal -->
+    <!-- Modal for ban -->
     <div class="modal fade" id="banUserModal" tabindex="-1" role="dialog" aria-labelledby="banUserModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -99,6 +105,7 @@
                     <p>Email: <span id="email"></span></p>
                     <p>Username: <span id="username"></span></p>
                     <p>Role: <span id="role"></span></p>
+
                     <form
                             method="post"
                             role="form"
@@ -106,15 +113,15 @@
                             class="form-horizontal"
                     >
                         <input type="hidden" id="userId" name="userId" />
-                        <label class="control-label"> Password</label>
+                        <label class="control-label"> Ban reason</label>
                         <input
-                                type="password"
-                                id="password"
-                                name="password"
+                                type="text"
+                                id="banReason"
+                                name="banReason"
                                 class="form-control"
-                                placeholder="Enter password"
+                                placeholder="Enter ban reason"
                         />
-                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <button type="submit" class="btn btn-primary">Ban user</button>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -124,7 +131,46 @@
             </div>
         </div>
     </div>
+    <!-- unban user modal-->
+    <div class="modal fade" id="unbanUserModal" tabindex="-1" role="dialog" aria-labelledby="unbanUserModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="unbanTitle">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Email: <span id="unban-email"></span></p>
+                    <p>Username: <span id="unban-username"></span></p>
+                    <p>Role: <span id="unban-role"></span></p>
 
+                    <form
+                            method="post"
+                            role="form"
+                            th:action="@{/unban-user}"
+                            class="form-horizontal"
+                    >
+                        <input type="hidden" id="unban-userId" name="unban-userId" />
+                        <label class="control-label"> Unban reason</label>
+                        <input
+                                type="text"
+                                id="unbanReason"
+                                name="unbanReason"
+                                class="form-control"
+                                placeholder="Enter unban reason"
+                        />
+                        <button type="submit" class="btn btn-primary">Unban user</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 </div>
@@ -150,6 +196,20 @@
         modal.find('#email').text(email);
         modal.find('#username').text(username);
         modal.find('#role').text(role);
+    });
+    $('#unbanUserModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var userId = button.data('user-id'); // Get user ID from data-* attribute
+        var email = button.data('user-email');
+        var username = button.data('user-username');
+        var role = button.data('user-role');
+        // Set the value of the hidden input field
+        var modal = $(this);
+        modal.find('#unban-userId').val(userId);
+        modal.find('#unban-email').text(email);
+        modal.find('#unban-username').text(username);
+        modal.find('#unban-role').text(role);
+        // Update other modal content as needed
     });
 </script>
 </body>
