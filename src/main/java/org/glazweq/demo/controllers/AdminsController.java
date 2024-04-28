@@ -85,6 +85,17 @@ public class AdminsController {
         // Например, вызов сервисного метода для установки соответствующего флага в базе данных или выполнение других действий
         return "redirect:/userslist"; // Перенаправляем пользователя обратно на главную страницу после бана
     }
+    @PostMapping("/unban-user")
+    public String unbanUser(@RequestParam("unban-userId") Long userId,
+                          @RequestParam("unbanReason") String banReason) {
+        System.out.println("user baned: " + userId + " " + banReason);
+        User user = userRepo.findUserById(userId);
+        System.out.println("ban taime:" + user.getUserBans().get(0).getBanReason());
+//        adminService.banUser(userId, banReason);
+        // Здесь добавьте логику для бана пользователя с идентификатором userId
+        // Например, вызов сервисного метода для установки соответствующего флага в базе данных или выполнение других действий
+        return "redirect:/userslist"; // Перенаправляем пользователя обратно на главную страницу после бана
+    }
     @GetMapping("/userslist")
     public String users(Model model, Principal principal){
         getAndSetUserRole(model);

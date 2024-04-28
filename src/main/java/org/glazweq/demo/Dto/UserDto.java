@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -24,4 +26,6 @@ public class UserDto {
     @NotEmpty(message = "Password should not be empty")
     private String password;
     private String role;
+    private String banReason;
+    private String banDateTime;
 }

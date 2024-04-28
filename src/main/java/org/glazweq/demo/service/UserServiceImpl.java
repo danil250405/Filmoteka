@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpSession;
 import org.glazweq.demo.Dto.UserDto;
 import org.glazweq.demo.domain.Role;
 import org.glazweq.demo.domain.User;
+import org.glazweq.demo.domain.UserBan;
 import org.glazweq.demo.repos.RoleRepo;
 import org.glazweq.demo.repos.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -113,6 +116,14 @@ public class UserServiceImpl implements UserService{
                 .map(Role::getName)
                 .collect(Collectors.toList());
         userDto.setRole(String.join(", ", roleNames));
+        List<String> banReasons = user.getUserBans().stream()
+                .map(UserBan::getBanReason)
+                .collect(Collectors.toList());
+        userDto.setBanReason(String.join(", ", banReasons));
+        List<String> banTimes = user.getUserBans().stream()
+                .map(userBan -> userBan.getBanDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                .collect(Collectors.toList());
+        userDto.setBanDateTime(String.join(", ", banTimes));
         return userDto;
     }
 private Role checkRoleExist(){

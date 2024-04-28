@@ -70,11 +70,16 @@
             <td th:text="${user.role}"></td>
             <td>
                 <span th:if="${user.role == 'ROLE_USER, ROLE_BANNED'}">
+                    <input type="hidden" id="banReasons" th:text="${user.banReason}" />
+                    <input type="hidden" id="banTimes" th:value="${user.banDateTime}" />
+
                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#unbanUserModal"
                              th:data-user-id="${user.id}"
                              th:data-user-email="${user.email}"
                              th:data-user-username="${user.username}"
-                             th:data-user-role="${user.role}">
+                             th:data-user-role="${user.role}"
+                             th:data-user-banDateTime="${user.banDateTime}"
+                             th:data-user-banReason="${user.banReason}">
                         Unban User
                  </button>
                 </span>
@@ -145,6 +150,8 @@
                     <p>Email: <span id="unban-email"></span></p>
                     <p>Username: <span id="unban-username"></span></p>
                     <p>Role: <span id="unban-role"></span></p>
+                    <p>Ban Reasons: <span id="unban-banReasons"></span></p>
+                    <p>Ban Times: <span id="unban-banTimes"></span></p>
 
                     <form
                             method="post"
@@ -203,12 +210,22 @@
         var email = button.data('user-email');
         var username = button.data('user-username');
         var role = button.data('user-role');
+        // var sss = button.
+        //
+        // var banTimes = button.data('user-banDateTime');
+        // var banReasons = button.data('user-banReason');
+        var banReasons = $('#banReasons').text();
+        var banTimes = $('#banTimes').val();
+
         // Set the value of the hidden input field
+        console.log(userId, email, username, role, banTimes, banReasons)
         var modal = $(this);
         modal.find('#unban-userId').val(userId);
         modal.find('#unban-email').text(email);
         modal.find('#unban-username').text(username);
         modal.find('#unban-role').text(role);
+        modal.find('#unban-banReasons').text(banReasons);
+        modal.find('#unban-banTimes').text(banTimes);
         // Update other modal content as needed
     });
 </script>
