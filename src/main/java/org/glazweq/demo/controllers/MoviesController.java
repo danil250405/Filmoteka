@@ -98,8 +98,11 @@ public class MoviesController {
 
 //        add reviews on page
         List<Review> reviewsList = reviewService.getReviewsByMovieId(movieId);
-        Review userReview = reviewService.opportunityToLeaveFeedback(authUser, reviewsList);
-        model.addAttribute("userReview", userReview);
+        if (authUser != null){
+            Review userReview = reviewService.opportunityToLeaveFeedback(authUser, reviewsList);
+            model.addAttribute("userReview", userReview);
+        }
+
         double streamVibeRating = reviewService.getAverageSVRating(reviewsList);
         if ( streamVibeRating != -1){
             moviePage.setStreamVibeRating(streamVibeRating);

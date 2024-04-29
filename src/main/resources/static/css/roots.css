@@ -1,11 +1,18 @@
+
 h1{
-    font-family: cursive;
+    font-family: "Brush Script MT", cursive !important;
 }
 h2{
     margin: 0;
 }
 ul{
     padding: 0;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Quicksand", sans-serif;
 }
 :root{
 
@@ -74,4 +81,44 @@ ul{
 }
 .dark-btn:hover{
     background-color: var(--back-item-1f);
+}
+
+
+
+.custom-btn {
+    width: 130px;
+    height: 40px;
+    color: #fff;
+    border-radius: 5px;
+    padding: 10px 25px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 500;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+    box-shadow:inset 2px 2px 2px 0px rgba(255, 123, 123, 0.5),
+    7px 7px 20px 0px rgba(0,0,0,.1),
+    4px 4px 5px 0px rgba(0,0,0,.1);
+    outline: none;
+}
+
+.btn-2 {
+    background: var(--accent-color);
+    width: auto;
+    /*background-color: #fd1246;*/
+    background: linear-gradient(157deg, rgb(255 0 0) 0%, rgb(255 14 92) 98%, rgba(195, 55, 100, 1) 100%);
+    border: none;
+
+}
+.btn-2:before {
+    height: 0%;
+    width: 2px;
+}
+.btn-2:hover {
+    box-shadow:  4px 4px 6px 0 rgba(45, 34, 34, 0.5),
+    -4px -4px 6px 0 rgba(40, 36, 36, 0.5),
+    inset -4px -4px 6px 0 rgba(65, 52, 52, 0.2),
+    inset 4px 4px 6px 0 rgba(0, 0, 0, .4);
 }

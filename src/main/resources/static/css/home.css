@@ -84,8 +84,11 @@ p{
     color: var(--text-color);
     /*transform: translateX(-50%);*/
 }
+.start-watching .btn-2{
+    height: 50px;
+}
 .start-watching h2{
-    font-family: "Times New Roman";
+    font-family: "Times New Roman", sans-serif;
     font-weight: bold;
 }
 .start-watching h2,

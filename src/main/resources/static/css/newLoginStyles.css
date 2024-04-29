@@ -1,0 +1,390 @@
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap");
+
+@font-face {
+    font-family: "Geist Mono";
+    src: url("https://assets.codepen.io/605876/GeistMonoVariableVF.ttf") format("truetype");
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Quicksand", sans-serif;
+}
+body {
+
+}
+main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 88vh;
+    background: var(--main-bg-color);
+    width: 100%;
+    overflow: hidden;
+}
+.ring {
+    position: relative;
+    width: 450px;
+    height: 450px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.ring-register{
+    width: 550px;
+    height: 550px;
+}
+.ring i {
+    position: absolute;
+    inset: 0;
+    border: 2px solid #fff;
+    transition: 0.5s;
+}
+.ring i:nth-child(1) {
+    border-radius: 38% 62% 63% 37% / 41% 44% 56% 59%;
+    animation: animate 6s linear infinite;
+}
+.ring i:nth-child(2) {
+    border-radius: 41% 44% 56% 59%/38% 62% 63% 37%;
+    animation: animate 4s linear infinite;
+}
+.ring i:nth-child(3) {
+    border-radius: 41% 44% 56% 59%/38% 62% 63% 37%;
+    animation: animate2 10s linear infinite;
+}
+.ring:hover i {
+    border: 6px solid var(--clr);
+    filter: drop-shadow(0 0 20px var(--clr));
+}
+@keyframes animate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+@keyframes animate2 {
+    0% {
+        transform: rotate(360deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+.login {
+    position: absolute;
+    width: 300px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+}
+.login h2 {
+    font-size: 2em;
+    color: #fff;
+}
+.login .inputBx {
+    position: relative;
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+    font-family: 'Geist Mono', sans-serif, system-ui;
+    color: white;
+    background-color: transparent;
+    border: 2px solid #fff;
+    -webkit-text-fill-color: var(--text-color);
+    /*-webkit-box-shadow: 0 0 0px 1000px #000 inset;*/
+    transition: background-color 5000s ease-in-out 0s;
+    caret-color: transparent;
+}
+.login .inputBx input {
+    position: relative;
+    width: 100%;
+    padding: 12px 20px;
+    background: transparent;
+    border: 2px solid #fff;
+    border-radius: 15px;
+    font-size: 1.2em;
+    color: #fff;
+    box-shadow: none;
+    outline: none;
+}
+.login .inputBx input[type="submit"] {
+    width: 100%;
+    background: #0078ff;
+    background: linear-gradient(45deg, var(--bg-item-color), var(--accent-color));
+    border: none;
+    cursor: pointer;
+}
+.login .inputBx input::placeholder {
+    color: rgba(255, 255, 255, 0.75);
+}
+.login .links {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+.login .links a {
+    color: #fff;
+    text-decoration: none;
+}
+.login .links a:hover {
+    color: var(--accent-color);
+    font-weight: 800;
+}
+
+/* 2 */
+.btn-2{
+    /*transform: translate(40%, 0%);*/
+    width: 100%;
+    border-radius: 13px;
+    margin-top: 20px;
+}
+.register-link a{
+    margin: 0 auto;
+}
+
+
+
+
+
+
+
+
+
+
+:root {
+    --grid-offset: calc(50% + 80px);
+    --color: hsl(0, 0%, 100%);
+    --bg: #000;
+    --color-alpha: hsl(0 0% 60%);
+    --selection: hsl(0 0% 80%);
+    --bg-size: 180px;
+    --grid-line: hsl(0 0% 80%);
+    --input-bg: hsl(0 0% 100% / 0.2);
+    --grid-accent: hsl(280 0% 10% / 0.1);
+    --glint: white;
+    --button-shade: 80%;
+}
+
+:root:focus-within {
+    --grid-accent: hsl(280 0% 10% / 0.35);
+}
+
+@media(prefers-color-scheme: dark) {
+    :root {
+        --button-shade: 30%;
+        --glint: black;
+        --grid-accent: hsl(280 0% 80% / 0.1);
+        --selection: hsl(0 0% 20%);
+        --color: hsl(0 0% 98%);
+        --bg: hsl(0 0% 6%);
+        --color-alpha: hsl(0 0% 50%);
+        --grid-line: hsl(0 0% 12%);
+        --input-bg: hsl(0 0% 0% / 0.2);
+    }
+
+    :root:focus-within {
+        --grid-accent: hsl(280 0% 80% / 0.35);
+    }
+}
+
+*,
+*:after,
+*:before {
+    box-sizing: border-box;
+}
+
+*{
+    font-family: 'Geist Mono', sans-serif, system-ui;
+}
+main {
+    display: grid;
+    place-items: center;
+    min-height: 88vh;
+    font-family: 'Geist Mono', sans-serif, system-ui;
+    color: var(--color);
+    background: var(--bg);
+}
+
+body::before {
+    content: "";
+    transition: background 0.2s;
+
+    position: fixed;
+    inset: 0;
+    height: 100vh;
+    width: 100vw;
+    -webkit-mask: radial-gradient(circle at 0% 0%, hsl(0 0% 100% / 0.5), transparent);
+}
+
+.form-group:focus-within label {
+    color: var(--color);
+}
+
+.form-group:focus-within input {
+    border-color: var(--color);
+    color: var(--color);
+}
+
+.form-group:focus-within button {
+    color: var(--color);
+}
+
+input {
+    font-family: "Geist Mono", monospace;
+    font-size: 1.75rem;
+    padding: 1rem 2rem;
+    padding-right: 4rem;
+    letter-spacing: 0.2ch;
+    border-radius: 6px;
+    color: var(--color-alpha);
+    border-color: var(--color-alpha);
+    border-style: solid;
+    background: var(--input-bg);
+    outline: none;
+    transition: border-color 0.2s, color 0.2s
+}
+
+label {
+    position: absolute;
+    color: var(--color-alpha);
+    bottom: calc(100% + 0.5rem);
+    letter-spacing: 0.2ch;
+    transition: color 0.2s;
+}
+
+.form-group {
+    position: relative;
+}
+
+.eye circle:nth-of-type(2) {
+    fill: var(--glint);
+}
+
+button {
+    padding: 0;
+    display: grid;
+    place-items: center;
+    height: 100%;
+    aspect-ratio: 1;
+    border-radius: 12px;
+    border: 0;
+    background: linear-gradient(hsl(0 0% var(--button-shade) / calc(var(--active, 0) * 0.5)), hsl(0 0% var(--button-shade) / calc(var(--active, 0) * 0.5))) padding-box;
+    border: 6px solid transparent;
+    transition: background 0.125s;
+    color: var(--color-alpha);
+    position: absolute;
+    right: 0;
+    z-index: 2;
+    top: 50%;
+    cursor: pointer;
+    translate: 0 -50%;
+    outline: 0;
+}
+
+input::selection {
+    background: var(--selection);
+}
+
+button:is(:focus-visible, :hover) {
+    --active: 1;
+}
+
+button svg {
+    width: 75%;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+
+/* -- External Social Link CSS Styles -- */
+
+#source-link {
+    top: 120px;
+}
+
+#source-link>i {
+    color: rgb(94, 106, 210);
+}
+
+#yt-link {
+    top: 65px;
+}
+
+#yt-link>i {
+    color: rgb(219, 31, 106);
+
+}
+
+#Fund-link {
+    top: 10px;
+}
+
+#Fund-link>i {
+    color: rgb(255, 251, 0);
+
+}
+
+.meta-link {
+    align-items: center;
+    backdrop-filter: blur(3px);
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    display: inline-flex;
+    gap: 5px;
+    left: 10px;
+    padding: 10px 20px;
+    position: fixed;
+    text-decoration: none;
+    transition: background-color 600ms, border-color 600ms;
+    z-index: 10000;
+}
+
+.meta-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.meta-link>i,
+.meta-link>span {
+    height: 20px;
+    line-height: 20px;
+}
+
+.meta-link>span {
+    color: white;
+    font-family: "Rubik", sans-serif;
+    transition: color 600ms;
+}
