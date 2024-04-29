@@ -90,6 +90,7 @@ public class MoviesController {
 
     @GetMapping("/movieId={id}")
     public String showMoviePage(@PathVariable("id") int movieId, Model model) throws JsonProcessingException {
+        System.out.println("in show movie page method");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         User authUser = userServiceImpl.findUserByEmail(currentPrincipalName);
@@ -194,4 +195,12 @@ public class MoviesController {
         model.addAttribute("totalPages", pagesAmount); // max page
         return "filters-page";
     }
+    @PostMapping("/find-movie")
+    public String findMovies(@RequestParam String searchText,Model model){
+//        List<MovieCard> movies = movieService.findFilmsByText(searchText);
+//        model.addAttribute("movies", movies);
+        return null;
+    }
+
+
 }

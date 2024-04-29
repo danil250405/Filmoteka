@@ -22,7 +22,7 @@ public class ApiKinopoiskDevService {
           8HK60K1-GN54HEM-NA6DYES-5HQBVWJ vitalya
           Y8EGHT0-CSZ4PGE-QZ82S6C-KN2CVA7 sonya
      */
-    private static final String header1 = "H1CX9MG-T83MTC4-PPV7CQE-SYP1474";
+    private static final String header1 = "Y8EGHT0-CSZ4PGE-QZ82S6C-KN2CVA7";
     private static final String header2 = "application/json";
 
     @Autowired
@@ -44,6 +44,7 @@ public class ApiKinopoiskDevService {
 
         }catch (Exception e){
             log.error("something went wrong while getting value from KINOAPI", e);
+            System.out.println("REQUEST: "+ request);
             throw new ResponseStatusException(
                     HttpStatus.INTERNAL_SERVER_ERROR,
                     "Exception while calling end poing from KinoApi",

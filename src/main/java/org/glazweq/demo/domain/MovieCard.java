@@ -37,8 +37,6 @@ public class MovieCard {
     @JsonProperty("id")
     private int id;
 
-
-
     public MovieCard(int id, String name, String previewUrlImg, double kinopoiskRating, double imdbRating, String description, int year) {
         this.id = id;
         this.name = name;

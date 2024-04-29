@@ -42,7 +42,7 @@ ul{
 
 .navbar-navigation {
     display: flex;
-    margin: 0 290px 0 0;
+    margin: 0 100px 0 0;
     border-radius: 5px;
     border: 2px solid #383838; /* Пример границы шириной 2 пикселя и белого цвета */
     padding: 10px 20px;
@@ -61,7 +61,7 @@ ul{
 }
 
 .nav-link:hover {
-    color: var(--accent-color);
+    /*color: var(--accent-color);*/
 
 }
 
@@ -100,6 +100,54 @@ ul{
     width: 24px;
     height: 24px;
 }
+/*search*/
+.search-wrap {
+    display: flex;
+    position: relative;
+}
+
+.search-wrap input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    border-image: linear-gradient(90deg, rgba(229, 0, 0, 0) 0%, rgba(229, 0, 0, 1) 49%, rgba(229, 0, 0, 0) 100%);
+    border-image-slice: 1;
+    color: white;
+    padding: 3px 5px;
+    outline: none;
+    border-radius: 10px;
+    width: 0;
+    transition: width 0.3s ease;
+}
+
+
+
+.search-wrap input:focus,
+.search-wrap input:not(:placeholder-shown) {
+    width: 200px;
+}
+
+.search-icon {
+    cursor: pointer;
+}
+.search-results-container {
+    display: none;
+    position: fixed;
+    top: 105px;
+    left: 50%;
+    width: -webkit-fill-available;
+    height: 100%;
+    overflow-y: auto;
+    background-color: #000000d1;
+    padding: 5px;
+}
+.search-results-container img{
+    width: 115px;
+    height: auto;
+}
+
+
+
 
 
 

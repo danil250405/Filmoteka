@@ -58,6 +58,8 @@ public class WebSecurityConfig {
 
                                 .requestMatchers("/home").permitAll()
                                 .requestMatchers("/movieId={id}").permitAll()
+                                .requestMatchers("/find-movie").permitAll()
+
 
                                 .requestMatchers("/delete-review").permitAll()
                                 .requestMatchers("/add-review").permitAll()

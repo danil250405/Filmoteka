@@ -225,7 +225,11 @@ public class FiltersMovieService {
         String description = movieNode.get("description").asText();
         String shortDescription = movieNode.get("shortDescription").asText();
         int reliesYear = movieNode.get("year").asInt();
-        String name = movieNode.get("name").asText();
+
+        String name = movieNode.get("alternativeName").asText();
+        if (name.isEmpty() || name == null || name.equals("null")) name = movieNode.get("name").asText();
+
+
         List<ManFromMovie> peopleFromMovieList = new ArrayList<>();
         JsonNode personsNode = movieNode.get("persons");
         if (personsNode != null && personsNode.isArray()){
@@ -238,6 +242,7 @@ public class FiltersMovieService {
                 profession = Character.toUpperCase(profession.charAt(0)) + profession.substring(1);
                 String personPhoto = personNode.get("photo").asText();
                 peopleFromMovieList.add(new ManFromMovie(personId, personName, personPhoto, profession));
+
             }
         }
         MoviePage moviePage = new MoviePage(id, name, previewImg, ratingKinopoisk, ratingImdb, description , reliesYear, backdropImg, shortDescription, peopleFromMovieList);
@@ -246,6 +251,32 @@ public class FiltersMovieService {
     }
 
 
+    public List<SearchMovie> findMoviesByText(String text) throws JsonProcessingException {
+        String urlForApi = firstPartUrl + "/search?page=1&limit=20&query=" + text;
+        System.out.println(urlForApi);
+        JsonNode moviesNode = apiKinopoiskDevService.getResponseFromApi(urlForApi);
+//        /search?page=1&limit=7&query=ds'
+        JsonNode docsNode = moviesNode.get("docs");
+        List<SearchMovie> moviesList = new ArrayList<>();
+        if (docsNode != null && docsNode.isArray()){
+            for (JsonNode movieNode : docsNode){
+                SearchMovie movie = new SearchMovie();
+
+                String movieName = movieNode.get("alternativeName").asText();
+                if (movieName.isEmpty() || movieName == null) movieName = movieNode.get("name").asText();
+                if (!movieName.isEmpty() && movieName != null) movie.setName(movieName);
+
+                String moviePreview = movieNode.get("poster").get("previewUrl").asText();
+                if (!moviePreview.isEmpty() && moviePreview != null) movie.setPreviewUrl(moviePreview);
+
+                int movieId = movieNode.get("id").asInt();
+                movie.setId(movieId);
+                System.out.println(movieId + " " + movieName + " " + moviePreview);
+                moviesList.add(movie);
+            }
+        }
+        return moviesList;
+    }
 
     //get request by genre
     public String getGoodGenre(String genre){

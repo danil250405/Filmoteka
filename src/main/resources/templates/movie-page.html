@@ -23,11 +23,14 @@
 <main>
     <section class="container hero-section">
         <div class="bg-gradient-hero">
-            <div class="img-wrap-hero">
+            <div th:if="${moviePage.backdrop} != 'null'" class="img-wrap-hero">
                 <img class="bg-img-hero" th:src="${moviePage.backdrop}" alt="backdrop">
             </div>
+            <div th:if="${moviePage.backdrop} == 'null'" class="img-wrap-hero">
+                <img class="bg-img-hero" src="../static/img/StreamvibeBack.jpg" alt="backdrop">
+            </div>
             <h1 th:text="${moviePage.name}">Название фильма</h1>
-            <p class="short-description" th:text="${moviePage.shortDescription}"></p>
+            <p th:if="${moviePage.shortDescription} != 'null'" class="short-description" th:text="${moviePage.shortDescription}"></p>
             <div class="second-line-hero">
                 <button type="submit" class="btn btn-primary btn-play" >
                     <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -58,9 +61,13 @@
 
     <section class="container main-section">
         <div class="left-side-containers">
-            <div class="movie-page-section description-container">
+            <div th:if="${moviePage.description} != 'null'" class="movie-page-section description-container">
                 <h2>Description</h2>
                 <p th:text="${moviePage.description}">Описание фильма</p>
+            </div>
+            <div th:if="${moviePage.description} == 'null'" class="movie-page-section description-container">
+                <h2>Description</h2>
+                <p>We are extremely sorry, but at the moment there is no description for the film, you can write to us about it, and we will try to fix it</p>
             </div>
             <!--cast-->
             <div class="movie-page-section cast-container">

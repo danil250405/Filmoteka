@@ -24,112 +24,143 @@
 <!--import header-->
 <div th:replace="~{fragments/headerAuth.html :: header}"></div>
 
+<!--<main>-->
+<!--<div class="ring">-->
+<!--&lt;!&ndash;    <i style="&#45;&#45;clr:#00ff0a;"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;    <i style="&#45;&#45;clr:#ff0057;"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;    <i style="&#45;&#45;clr:#fffd44;"></i>&ndash;&gt;-->
+<!--        <i style="&#45;&#45;clr:var(&#45;&#45;accent-color);"></i>-->
+<!--        <i style="&#45;&#45;clr:#49156e;"></i>-->
+<!--        <i style="&#45;&#45;clr:#f5dd4b;"></i>-->
+<!--    <div class="login">-->
+<!--        <h2>Login</h2>-->
+<!--        <form method="post" role="form" th:action="@{/login}" class="form-horizontal">-->
+<!--            <div class="inputBx">-->
+<!--                <input type="text" id="username" name="username" class="form-control" placeholder="Enter username" autocomplete="off">-->
+<!--            </div>-->
+<!--            <div class="inputBx">-->
+<!--                <input type="password" id="password" placeholder="Enter password">-->
+<!--                <button type="button" id="revealButton" title="Reveal Password" aria-pressed="false">-->
+<!--                    <svg class="eye" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">-->
+<!--                        <defs>-->
+<!--                            <mask id="eye-open">-->
+<!--                                <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12V20H12H1V12Z" fill="#D9D9D9" stroke="black"-->
+<!--                                      stroke-width="1.5" stroke-linejoin="round" />-->
+<!--                            </mask>-->
+<!--                            <mask id="eye-closed">-->
+<!--                                <path d="M1 12C1 12 5 20 12 20C19 20 23 12 23 12V20H12H1V12Z" fill="#D9D9D9" />-->
+<!--                            </mask>-->
+<!--                        </defs>-->
+<!--                        <path class="lid lid&#45;&#45;upper" d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12" stroke="currentColor" stroke-width="1.5"-->
+<!--                              stroke-linecap="round" stroke-linejoin="round" />-->
+<!--                        <path class="lid lid&#45;&#45;lower" d="M1 12C1 12 5 20 12 20C19 20 23 12 23 12" stroke="currentColor"-->
+<!--                              stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />-->
+<!--                        <g mask="url(#eye-open)">-->
+<!--                            <g class="eye">-->
+<!--                                <circle cy="12" cx="12" r="4" fill="currentColor" />-->
+<!--                                <circle cy="11" cx="13" r="1" fill="black" />-->
+<!--                            </g>-->
+<!--                        </g>-->
+<!--                    </svg>-->
+<!--                    <span class="sr-only">Reveal</span>-->
+<!--                </button>-->
+<!--            </div>-->
+<!--            <div class="inputBx">-->
+<!--                <button type="submit" class="custom-btn btn-2"><span>Sign In</span></button>-->
+<!--            </div>-->
+<!--            <div class="links">-->
+<!--                <a href="#">Forget Password</a>-->
+<!--                <a href="/register">Signup</a>-->
+<!--            </div>-->
+<!--        </form>-->
+<!--    </div>-->
+<!--</div>-->
+<!--</main>-->
 <main>
-<div class="ring">
-<!--    <i style="&#45;&#45;clr:#00ff0a;"></i>-->
-<!--    <i style="&#45;&#45;clr:#ff0057;"></i>-->
-<!--    <i style="&#45;&#45;clr:#fffd44;"></i>-->
+    <div class="ring">
+        <!--    <i style="&#45;&#45;clr:#00ff0a;"></i>-->
+        <!--    <i style="&#45;&#45;clr:#ff0057;"></i>-->
+        <!--    <i style="&#45;&#45;clr:#fffd44;"></i>-->
         <i style="--clr:var(--accent-color);"></i>
         <i style="--clr:#49156e;"></i>
         <i style="--clr:#f5dd4b;"></i>
-    <div class="login">
-        <h2>Login</h2>
-        <form method="post" role="form" action="/login" class="form-horizontal">
-            <div class="inputBx">
-                <input type="text" id="username" name="username" class="form-control" placeholder="Enter username" autocomplete="off">
-            </div>
-            <div class="inputBx">
-                <input type="password" id="password" placeholder="Enter password">
-                <button type="button" id="revealButton" title="Reveal Password" aria-pressed="false">
-                    <svg class="eye" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <mask id="eye-open">
-                                <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12V20H12H1V12Z" fill="#D9D9D9" stroke="black"
-                                      stroke-width="1.5" stroke-linejoin="round" />
-                            </mask>
-                            <mask id="eye-closed">
-                                <path d="M1 12C1 12 5 20 12 20C19 20 23 12 23 12V20H12H1V12Z" fill="#D9D9D9" />
-                            </mask>
-                        </defs>
-                        <path class="lid lid--upper" d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12" stroke="currentColor" stroke-width="1.5"
-                              stroke-linecap="round" stroke-linejoin="round" />
-                        <path class="lid lid--lower" d="M1 12C1 12 5 20 12 20C19 20 23 12 23 12" stroke="currentColor"
-                              stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                        <g mask="url(#eye-open)">
-                            <g class="eye">
-                                <circle cy="12" cx="12" r="4" fill="currentColor" />
-                                <circle cy="11" cx="13" r="1" fill="black" />
+        <div class="login">
+            <h2>Login</h2>
+            <form
+                    method="post"
+                    role="form"
+                    th:action="@{/login}"
+                    class="form-horizontal"
+            >
+                <div class="inputBx">
+                    <!--                <label class="control-label"> Username</label>-->
+                    <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            class="form-control"
+                            placeholder="Enter username"
+                            autocomplete="off"
+                    />
+                </div>
+                <div class="inputBx">
+                    <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            class="form-control"
+                            placeholder="Enter password"
+                    />
+                    <button type="button" id="revealButton" title="Reveal Password" aria-pressed="false">
+                        <svg class="eye" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <mask id="eye-open">
+                                    <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12V20H12H1V12Z" fill="#D9D9D9" stroke="black"
+                                          stroke-width="1.5" stroke-linejoin="round" />
+                                </mask>
+                                <mask id="eye-closed">
+                                    <path d="M1 12C1 12 5 20 12 20C19 20 23 12 23 12V20H12H1V12Z" fill="#D9D9D9" />
+                                </mask>
+                            </defs>
+                            <path class="lid lid--upper" d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12" stroke="currentColor" stroke-width="1.5"
+                                  stroke-linecap="round" stroke-linejoin="round" />
+                            <path class="lid lid--lower" d="M1 12C1 12 5 20 12 20C19 20 23 12 23 12" stroke="currentColor"
+                                  stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <g mask="url(#eye-open)">
+                                <g class="eye">
+                                    <circle cy="12" cx="12" r="4" fill="currentColor" />
+                                    <circle cy="11" cx="13" r="1" fill="black" />
+                                </g>
                             </g>
-                        </g>
-                    </svg>
-                    <span class="sr-only">Reveal</span>
-                </button>
-            </div>
-            <div class="inputBx">
-                <button type="submit" class="custom-btn btn-2"><span>Sign In</span></button>
-            </div>
-            <div class="links">
-                <a href="#">Forget Password</a>
-                <a href="/register">Signup</a>
-            </div>
-        </form>
+                        </svg>
+                        <span class="sr-only">Reveal</span>
+                    </button>
+                </div>
+                <div th:if="${param.error}">
+                    <div class="alert alert-danger">Invalid Email or Password</div>
+                </div>
+                <div th:if="${param.logout}">
+                    <div class="alert alert-success"> You have been logged out.</div>
+                </div>
+                <!--        <div class="inputBx">-->
+                <!--            <input type="text" placeholder="Username">-->
+                <!--        </div>-->
+                <!--        <div class="inputBx">-->
+                <!--            <input type="password" placeholder="Password">-->
+                <!--        </div>-->
+
+                <div class="inputBx">
+                    <!--            <input type="submit" value="Sign in">-->
+                    <button class="custom-btn btn-2"><span>Sign In</span></button>
+                </div>
+                <div class="links">
+                    <a href="#">Forget Password</a>
+                    <a th:href="@{/register}">Signup</a>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 </main>
-
-<!--<div class="container">-->
-
-
-<!--            <div class="card">-->
-<!--                <div class="card-header">-->
-<!--                    <h2 class="text-center">Login Form</h2>-->
-<!--                </div>-->
-<!--                <div class="card-body">-->
-<!--&lt;!&ndash;                    <form&ndash;&gt;-->
-<!--&lt;!&ndash;                            method="post"&ndash;&gt;-->
-<!--&lt;!&ndash;                            role="form"&ndash;&gt;-->
-<!--&lt;!&ndash;                            th:action="@{/login}"&ndash;&gt;-->
-<!--&lt;!&ndash;                            class="form-horizontal"&ndash;&gt;-->
-<!--&lt;!&ndash;                    >&ndash;&gt;-->
-<!--&lt;!&ndash;                        <div class="form-group mb-3">&ndash;&gt;-->
-<!--&lt;!&ndash;                            <label class="control-label"> Username</label>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <input&ndash;&gt;-->
-<!--&lt;!&ndash;                                    type="text"&ndash;&gt;-->
-<!--&lt;!&ndash;                                    id="username"&ndash;&gt;-->
-<!--&lt;!&ndash;                                    name="username"&ndash;&gt;-->
-<!--&lt;!&ndash;                                    class="form-control"&ndash;&gt;-->
-<!--&lt;!&ndash;                                    placeholder="Enter username"&ndash;&gt;-->
-<!--&lt;!&ndash;                                    autocomplete="off"&ndash;&gt;-->
-<!--&lt;!&ndash;                            />&ndash;&gt;-->
-<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
-
-<!--&lt;!&ndash;                        <div class="form-group mb-3">&ndash;&gt;-->
-<!--&lt;!&ndash;                            <label class="control-label"> Password</label>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <input&ndash;&gt;-->
-<!--&lt;!&ndash;                                    type="password"&ndash;&gt;-->
-<!--&lt;!&ndash;                                    id="password"&ndash;&gt;-->
-<!--&lt;!&ndash;                                    name="password"&ndash;&gt;-->
-<!--&lt;!&ndash;                                    class="form-control"&ndash;&gt;-->
-<!--&lt;!&ndash;                                    placeholder="Enter password"&ndash;&gt;-->
-<!--&lt;!&ndash;                            />&ndash;&gt;-->
-<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <div th:if="${param.error}">&ndash;&gt;-->
-<!--&lt;!&ndash;                            <div class="alert alert-danger">Invalid Email or Password</div>&ndash;&gt;-->
-<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <div th:if="${param.logout}">&ndash;&gt;-->
-<!--&lt;!&ndash;                            <div class="alert alert-success"> You have been logged out.</div>&ndash;&gt;-->
-<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
-<!--                        <div class="form-group mb-3">-->
-<!--                            <button type="submit" class="btn btn-primary" >Submit</button>-->
-<!--                            <span> Not registered ?-->
-<!--                                <a class="reg-or-login-info" th:href="@{/register}">Register/Signup here</a>-->
-<!--                            </span>-->
-<!--                        </div>-->
-<!--&lt;!&ndash;                    </form>&ndash;&gt;-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-
 
 <script>
 
