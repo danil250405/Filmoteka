@@ -1,11 +1,13 @@
 
 window.addEventListener('beforeunload', function(e) {
-    var blockedUrl = 'gsap.com/requires-membership/?plugin=ScrambleTextPlugin&source=trial';
+    var gsapDomains = ['gsap.com', 'www.gsap.com', 'greensock.com', 'www.greensock.com'];
     var nextUrl = window.location.href;
-    var secondBlockedUrl = 'gsap.com/requires-membership/?plugin=MorphSVGPlugin&source=trial';
-    if (nextUrl.includes(blockedUrl) || nextUrl.includes(secondBlockedUrl)) {
-        e.preventDefault();
-        e.returnValue = '';
+
+    for (var i = 0; i < gsapDomains.length; i++) {
+        if (nextUrl.indexOf(gsapDomains[i]) !== -1) {
+            e.returnValue = 'Вы действительно хотите перейти на сайт GreenSock?';
+            return e.returnValue;
+        }
     }
 });
 gsap.registerPlugin(ScrambleTextPlugin, MorphSVGPlugin);
