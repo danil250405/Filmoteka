@@ -10,6 +10,7 @@ import org.glazweq.demo.service.AdminService;
 import org.glazweq.demo.service.UserService;
 import org.springframework.aop.ClassFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -60,6 +61,7 @@ public class AdminsController {
         getAndSetUserRole(model);
         return "admin-home";
     }
+
     @PostMapping("/searchUsersByFilters")
     public String searchUsersByFilters(Model model,
                                        @RequestParam("dbColumn") String dbColumn,
@@ -80,24 +82,22 @@ public class AdminsController {
     public String banUser(@RequestParam("userId") Long userId,
                           @RequestParam("banReason") String banReason) {
         System.out.println("user baned: " + userId + " " + banReason);
-        adminService.banUser(userId, banReason);;
+        adminService.banUser(userId, banReason);
         // Здесь добавьте логику для бана пользователя с идентификатором userId
         // Например, вызов сервисного метода для установки соответствующего флага в базе данных или выполнение других действий
         return "redirect:/userslist"; // Перенаправляем пользователя обратно на главную страницу после бана
     }
     @PostMapping("/unban-user")
     public String unbanUser(@RequestParam("unban-userId") Long userId,
-                          @RequestParam("unbanReason") String banReason) {
-        System.out.println("user baned: " + userId + " " + banReason);
-        User user = userRepo.findUserById(userId);
-        System.out.println("ban taime:" + user.getUserBans().get(0).getBanReason());
-//        adminService.banUser(userId, banReason);
+                          @RequestParam("unbanReason") String unbanReason) {
+        adminService.unbanUser(userId, unbanReason);
         // Здесь добавьте логику для бана пользователя с идентификатором userId
         // Например, вызов сервисного метода для установки соответствующего флага в базе данных или выполнение других действий
         return "redirect:/userslist"; // Перенаправляем пользователя обратно на главную страницу после бана
     }
+
     @GetMapping("/userslist")
-    public String users(Model model, Principal principal){
+    public String users(Model model, Principal principal) {
         getAndSetUserRole(model);
         List<UserDto> users = userService.findAllUsers();
         model.addAttribute("users", users);

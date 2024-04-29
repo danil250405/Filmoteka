@@ -9,6 +9,8 @@ import org.glazweq.demo.domain.UserBan;
 import org.glazweq.demo.repos.RoleRepo;
 import org.glazweq.demo.repos.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.event.EventListener;
 import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
 import org.springframework.security.core.Authentication;
@@ -38,6 +40,7 @@ public class UserServiceImpl implements UserService{
     /* save user in the memory*/
 
     @Override
+
     public void saveUser(UserDto userDto) {
         User user = new User();
         user.setUsername(userDto.getUsername());
@@ -58,6 +61,9 @@ public class UserServiceImpl implements UserService{
     public Role getBannedRole() {
         return roleRepo.findByName("ROLE_BANNED");
     }
+    public Role getUnbannedRole() {
+        return roleRepo.findByName("ROLE_UNBANNED");
+    }
     @Override
     public User findUserByEmail(String email) {
         return userRepo.findByEmail(email);
@@ -71,6 +77,7 @@ public class UserServiceImpl implements UserService{
 
 
     @Override
+
     public List<UserDto> findAllUsers() {
         List<User> users = (List<User>) userRepo.findAll(); //??????????????????
         return users.stream()
@@ -81,16 +88,6 @@ public class UserServiceImpl implements UserService{
                 .collect(Collectors.toList()); // Результаты преобразования (то есть объекты UserDto) собираются
                                                 // обратно в список с помощью метода collect(), возвращая список UserDto.
     }
-
-//    @Override
-//    public List<UserDto> findAllUsersByRole(String role) {
-//        List<User> usersWithTargetRole =findAllUsers().stream()
-//                .filter(user -> userRepo. user.getRoles().stream()
-//                        .anyMatch(role -> role.getName().equals(targetRoleName)))
-//                .collect(Collectors.toList());
-//
-//        return null;
-//    }
     public User getAuthUser(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();

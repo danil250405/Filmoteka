@@ -30,6 +30,7 @@ public class AdminService {
     }
 
     public void banUser(Long userId, String reason){
+        if (reason == null) reason = "We decided to ban you without explaining the reason for the ban, if you think that you received this ban undeservedly, then write to us";
         User user = userRepo.findUserById(userId);
 
         UserBan userBan = new UserBan();
@@ -43,7 +44,19 @@ public class AdminService {
         userRepo.save(user);
         userBanRepo.save(userBan);
     }
-
+    public void unbanUser(Long userId, String unbanReason){
+        User user = userRepo.findUserById(userId);
+        UserBan userBan = userBanRepo.findUserBanByUser(user);
+        if (unbanReason == null) unbanReason = "Our team decided that you still deserve to watch films on our website ☻";
+        userBan.setUnbanReason(unbanReason);
+        userBan.setUnbanDateTime(getCurrentDateTime());
+        Role bannedRole = userServiceImpl.getBannedRole();
+        user.getRoles().remove(bannedRole);
+        Role unbannedRole = userServiceImpl.getUnbannedRole();
+        user.getRoles().add(unbannedRole);
+        userRepo.save(user);
+        userBanRepo.save(userBan);
+    }
 
 
 
