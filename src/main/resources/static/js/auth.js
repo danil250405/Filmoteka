@@ -1,164 +1,24 @@
 
-window.addEventListener('beforeunload', function(e) {
-    var gsapDomains = ['gsap.com', 'www.gsap.com', 'greensock.com', 'www.greensock.com'];
-    var nextUrl = window.location.href;
+const revealButton = document.getElementById('revealButton');
+const passwordInput = document.getElementById('password');
+const eyeSvg = revealButton.querySelector('.eye');
+const upperLid = eyeSvg.querySelector('.lid--upper');
+const lowerLid = eyeSvg.querySelector('.lid--lower');
 
-    for (var i = 0; i < gsapDomains.length; i++) {
-        if (nextUrl.indexOf(gsapDomains[i]) !== -1) {
-            e.returnValue = 'Вы действительно хотите перейти на сайт GreenSock?';
-            return e.returnValue;
-        }
-    }
-});
-gsap.registerPlugin(ScrambleTextPlugin, MorphSVGPlugin);
+let revealed = false;
 
-const BLINK_SPEED = 0.075;
-const TOGGLE_SPEED = 0.125;
-const ENCRYPT_SPEED = 1;
+const toggleReveal = () => {
+    revealed = !revealed;
+    revealButton.setAttribute('aria-pressed', revealed);
+    passwordInput.type = revealed ? 'text' : 'password';
 
-let busy = false;
-
-const EYE = document.querySelector('.eye');
-const TOGGLE = document.querySelector('button');
-const INPUT = document.querySelector('#password');
-const PROXY = document.createElement('div');
-
-const chars =
-    'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789`~,.<>?/;":][}{+_)(*&^%$#@!±=-§';
-
-let blinkTl;
-const BLINK = () => {
-    const delay = gsap.utils.random(2, 8);
-    const duration = BLINK_SPEED;
-    const repeat = Math.random() > 0.5 ? 3 : 1;
-    blinkTl = gsap.timeline({
-        delay,
-        onComplete: () => BLINK(),
-        repeat,
-        yoyo: true
-    }).
-
-    to('.lid--upper', {
-        morphSVG: '.lid--lower',
-        duration
-    }).
-
-    to('#eye-open path', {
-            morphSVG: '#eye-closed path',
-            duration
-        },
-        0);
-};
-
-BLINK();
-
-const posMapper = gsap.utils.mapRange(-100, 100, 30, -30);
-let reset;
-const MOVE_EYE = ({ x, y }) => {
-    if (reset) reset.kill();
-    reset = gsap.delayedCall(2, () => {
-        gsap.to('.eye', { xPercent: 0, yPercent: 0, duration: 0.2 });
-    });
-    const BOUNDS = EYE.getBoundingClientRect();
-    gsap.set('.eye', {
-        xPercent: gsap.utils.clamp(-30, 30, posMapper(BOUNDS.x - x)),
-        yPercent: gsap.utils.clamp(-30, 30, posMapper(BOUNDS.y - y))
-    });
-
-};
-
-window.addEventListener('pointermove', MOVE_EYE);
-
-
-TOGGLE.addEventListener('click', () => {
-    if (busy) return;
-    const isText = INPUT.matches('[type=password]');
-    const val = INPUT.value;
-    busy = true;
-    TOGGLE.setAttribute('aria-pressed', isText);
-    const duration = TOGGLE_SPEED;
-
-    if (isText) {
-        if (blinkTl) blinkTl.kill();
-
-        gsap.timeline({
-            onComplete: () => {
-                busy = false;
-            }
-        })
-
-            .to('.lid--upper', {
-                morphSVG: '.lid--lower',
-                duration
-            }).
-
-        to('#eye-open path', {
-                morphSVG: '#eye-closed path',
-                duration
-            },
-            0)
-            .to(PROXY, {
-                    duration: ENCRYPT_SPEED,
-                    onStart: () => {
-                        INPUT.type = 'text';
-                    },
-                    onComplete: () => {
-                        PROXY.innerHTML = '';
-                        INPUT.value = val;
-                    },
-                    scrambleText: {
-                        chars,
-                        text:
-                            INPUT.value.charAt(INPUT.value.length - 1) === ' ' ?
-                                `${INPUT.value.slice(0, INPUT.value.length - 1)}${chars.charAt(
-                                    Math.floor(Math.random() * chars.length))
-                                }` :
-                                INPUT.value
-                    },
-
-                    onUpdate: () => {
-                        const len = val.length - PROXY.innerText.length;
-                        INPUT.value = `${PROXY.innerText}${new Array(len).fill('•').join('')}`;
-                    }
-                },
-                0);
+    if (revealed) {
+        upperLid.style.animationPlayState = 'paused';
+        lowerLid.style.animationPlayState = 'paused';
     } else {
-        gsap.timeline({
-            onComplete: () => {
-                BLINK();
-                busy = false;
-            }
-        }).
-
-        to('.lid--upper', {
-            morphSVG: '.lid--upper',
-            duration
-        }).
-
-        to('#eye-open path', {
-                morphSVG: '#eye-open path',
-                duration
-            },
-            0).
-        to(PROXY, {
-                duration: ENCRYPT_SPEED,
-                onComplete: () => {
-                    INPUT.type = 'password';
-                    INPUT.value = val;
-                    PROXY.innerHTML = '';
-                },
-                scrambleText: {
-                    chars,
-                    text: new Array(INPUT.value.length).fill('•').join('')
-                },
-
-                onUpdate: () => {
-                    INPUT.value = `${PROXY.innerText}${val.slice(
-                        PROXY.innerText.length,
-                        val.length)
-                    }`;
-                }
-            },
-            0);
+        upperLid.style.animationPlayState = 'running';
+        lowerLid.style.animationPlayState = 'running';
     }
-});
+};
+
+revealButton.addEventListener('click', toggleReveal);
