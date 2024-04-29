@@ -30,8 +30,10 @@ public class AdminService {
     }
 
     public void banUser(Long userId, String reason){
-        if (reason == null) reason = "We decided to ban you without explaining the reason for the ban, if you think that you received this ban undeservedly, then write to us";
-        User user = userRepo.findUserById(userId);
+        if (reason == null || reason.isEmpty()) {
+            reason = "We decided to ban you without explaining the reason for the ban, if you think that you received this ban undeservedly, then write to us";
+        }
+            User user = userRepo.findUserById(userId);
 
         UserBan userBan = new UserBan();
         userBan.setUser(user);
@@ -39,15 +41,21 @@ public class AdminService {
         userBan.setBanReason(reason);
         userBan.setAdmin(userServiceImpl.getAuthUser());
         Role bannedRole = userServiceImpl.getBannedRole();
+        Role unbannedRole = userServiceImpl.getUnbannedRole();
         System.out.println("BAN ROLE:  " + bannedRole);
         user.getRoles().add(bannedRole);
+        for (Role role : user.getRoles()){
+            if (role == unbannedRole) user.getRoles().remove(unbannedRole);
+        }
+
+        user.getRoles().remove(unbannedRole);
         userRepo.save(user);
         userBanRepo.save(userBan);
     }
     public void unbanUser(Long userId, String unbanReason){
         User user = userRepo.findUserById(userId);
         UserBan userBan = userBanRepo.findUserBanByUser(user);
-        if (unbanReason == null) unbanReason = "Our team decided that you still deserve to watch films on our website ☻";
+        if (unbanReason == null || unbanReason.isEmpty()) unbanReason = "Our team decided that you still deserve to watch films on our website ☻";
         userBan.setUnbanReason(unbanReason);
         userBan.setUnbanDateTime(getCurrentDateTime());
         Role bannedRole = userServiceImpl.getBannedRole();
