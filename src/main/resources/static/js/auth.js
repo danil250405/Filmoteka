@@ -1,8 +1,8 @@
 
 window.addEventListener('beforeunload', function(e) {
-    var blockedUrl = 'https://gsap.com/requires-membership/?plugin=ScrambleTextPlugin&source=trial';
+    var blockedUrl = 'gsap.com/requires-membership/?plugin=ScrambleTextPlugin&source=trial';
     var nextUrl = window.location.href;
-    var secondBlockedUrl = 'https://gsap.com/requires-membership/?plugin=MorphSVGPlugin&source=trial';
+    var secondBlockedUrl = 'gsap.com/requires-membership/?plugin=MorphSVGPlugin&source=trial';
     if (nextUrl.includes(blockedUrl) || nextUrl.includes(secondBlockedUrl)) {
         e.preventDefault();
         e.returnValue = '';
