@@ -1,3 +1,5 @@
+
+
 gsap.registerPlugin(ScrambleTextPlugin, MorphSVGPlugin);
 
 const BLINK_SPEED = 0.075;
@@ -150,7 +152,3 @@ TOGGLE.addEventListener('click', () => {
             0);
     }
 });
-
-
-const FORM = document.querySelector('form');
-FORM.addEventListener('submit', event => event.preventDefault());

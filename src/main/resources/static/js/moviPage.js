@@ -49,7 +49,7 @@ prevBtn.addEventListener('click', () => {
 });
 
 nextBtn.addEventListener('click', () => {
-    if (currentPage < Math.floor((castItems.length - 1) / itemsPerPage)) {
+    if (currentPage < Math.floor((castItems.length - 1) / currentItemsPerPage)) {
         showPage(currentPage + 1);
     }
 });
