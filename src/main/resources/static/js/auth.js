@@ -1,5 +1,21 @@
 
+window.addEventListener('beforeunload', function(e) {
+    var confirmationMessage = 'Вы действительно хотите покинуть этот сайт?';
 
+    e.returnValue = confirmationMessage; // Gecko, Trident, Chrome 34+
+    return confirmationMessage; // Gecko, WebKit, Chrome <34
+});
+
+window.onbeforeunload = function() {
+    var gsapDomains = ['gsap.com', 'www.gsap.com', 'greensock.com', 'www.greensock.com'];
+    var nextUrl = window.location.href;
+
+    for (var i = 0; i < gsapDomains.length; i++) {
+        if (nextUrl.indexOf(gsapDomains[i]) !== -1) {
+            return 'Вы действительно хотите перейти на сайт GreenSock?';
+        }
+    }
+};
 gsap.registerPlugin(ScrambleTextPlugin, MorphSVGPlugin);
 
 const BLINK_SPEED = 0.075;
