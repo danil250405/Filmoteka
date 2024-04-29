@@ -70,16 +70,16 @@
             <td th:text="${user.role}"></td>
             <td>
                 <span th:if="${user.role == 'ROLE_USER, ROLE_BANNED'}">
-                    <input type="hidden" id="banReasons" th:text="${user.banReason}" />
-                    <input type="hidden" id="banTimes" th:value="${user.banDateTime}" />
+                    <input type="hidden" id="forUnbanBanReasons" th:value="${user.banReason}" />
+<!--                    <input type="hidden" id="banTimes" th:value="${user.banDateTime}" />-->
 
                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#unbanUserModal"
                              th:data-user-id="${user.id}"
                              th:data-user-email="${user.email}"
                              th:data-user-username="${user.username}"
                              th:data-user-role="${user.role}"
-                             th:data-user-banDateTime="${user.banDateTime}"
-                             th:data-user-banReason="${user.banReason}">
+                             th:data-user-bandatetime="${user.banDateTime}"
+                             th:data-user-banreasonunb="${user.banReason}">
                         Unban User
                  </button>
                 </span>
@@ -93,6 +93,7 @@
                  </button>
                 </span>
             </td>
+
         </tr>
         </tbody>
     </table>
@@ -150,8 +151,8 @@
                     <p>Email: <span id="unban-email"></span></p>
                     <p>Username: <span id="unban-username"></span></p>
                     <p>Role: <span id="unban-role"></span></p>
-                    <p>Ban Reasons: <span id="unban-banReasons"></span></p>
-                    <p>Ban Times: <span id="unban-banTimes"></span></p>
+                    <p>Ban Reasons: <span id="unban-banreasonsunb"></span></p>
+                    <p>Ban Times: <span id="unban-bantimes"></span></p>
 
                     <form
                             method="post"
@@ -187,49 +188,7 @@
 <script src="../static/js/header.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    $('#banUserModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget); // Button that triggered the modal
-
-        // Get user data from data-* attributes
-        var userId = button.data('user-id');
-        var email = button.data('user-email');
-        var username = button.data('user-username');
-        var role = button.data('user-role');
-
-        // Update the modal content with user data
-        var modal = $(this);
-        modal.find('#userId').val(userId);
-        modal.find('#email').text(email);
-        modal.find('#username').text(username);
-        modal.find('#role').text(role);
-    });
-    $('#unbanUserModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget); // Button that triggered the modal
-        var userId = button.data('user-id'); // Get user ID from data-* attribute
-        var email = button.data('user-email');
-        var username = button.data('user-username');
-        var role = button.data('user-role');
-        // var sss = button.
-        //
-        // \
-        // var banTimes = button.data('user-banDateTime');
-        // var banReasons = button.data('user-banReason');
-        var banReasons = $('#banReasons').text();
-        var banTimes = $('#banTimes').val();
-
-        // Set the value of the hidden input field
-        console.log(userId, email, username, role, banTimes, banReasons)
-        var modal = $(this);
-        modal.find('#unban-userId').val(userId);
-        modal.find('#unban-email').text(email);
-        modal.find('#unban-username').text(username);
-        modal.find('#unban-role').text(role);
-        modal.find('#unban-banReasons').text(banReasons);
-        modal.find('#unban-banTimes').text(banTimes);
-        // Update other modal content as needed
-    });
-</script>
+<script src="../static/js/admin.js"></script>
 </body>
 
 </html>
