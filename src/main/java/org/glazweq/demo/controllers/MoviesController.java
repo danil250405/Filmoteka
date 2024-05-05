@@ -147,6 +147,7 @@ public class MoviesController {
         }
         return "redirect:/" + url;
     }
+
     @GetMapping("/movies")
     public String getFilteredMovies(HttpServletRequest request, @RequestParam(defaultValue = "1") int page,
                                       Model model) throws JsonProcessingException {
@@ -201,6 +202,5 @@ public class MoviesController {
 //        model.addAttribute("movies", movies);
         return null;
     }
-
 
 }

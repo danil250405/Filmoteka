@@ -145,6 +145,9 @@ ul{
     width: 115px;
     height: auto;
 }
+.search-results-container li{
+    padding: 5px;
+}
 
 
 

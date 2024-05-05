@@ -44,19 +44,7 @@ public class FiltersMovieService {
         return Integer.parseInt(rootNode.get("total").asText());
 
     }
-//    public MoviePage getMoviePage(JsonNode movieNode){
-//
-//        int id = movieNode.get("id").asInt();
-//        String name = movieNode.get("name").asText();
-//        String previewImg = movieNode.get("poster").get("previewUrl").asText();
-//        String backdropImg = movieNode.get("backdrop").get("url").asText();
-//        double ratingKinopoisk = movieNode.get("rating").get("kp").asDouble();
-//        double ratingImdb = movieNode.get("rating").get("imdb").asDouble();
-//        String description = movieNode.get("description").asText();
-//        int reliesYear = movieNode.get("year").asInt();
-//        MoviePage moviePage = new MoviePage(id, name, previewImg, ratingKinopoisk, ratingImdb, description , reliesYear, backdropImg);
-//        return  moviePage;
-//    }
+
     //dostaem List filmov тут dеlаем page
     public List<MovieCard> getMoviesList( JsonNode rootNode) throws JsonProcessingException {
         JsonNode docsNode = rootNode.get("docs"); // Получаем узел "docs"
@@ -166,6 +154,12 @@ public class FiltersMovieService {
         JsonNode jsonNode = apiKinopoiskDevService.getResponseFromApi(requestUrl);
         return jsonNode;
     }
+    public List<MovieCard> findMoviesByName(String movieName) throws JsonProcessingException {
+        String urlForApi = firstPartUrl + "/search?page=1&limit=20&query=" + movieName;
+        JsonNode jsonNode = apiKinopoiskDevService.getResponseFromApi(urlForApi);
+        List<MovieCard> movies = getMoviesCardsByFilter(jsonNode);
+        return movies;
+    }
     public int getTotalMoviesByFilters(JsonNode jsonNode){
         return jsonNode.get("total").asInt();
     }
@@ -271,7 +265,7 @@ public class FiltersMovieService {
 
                 int movieId = movieNode.get("id").asInt();
                 movie.setId(movieId);
-                System.out.println(movieId + " " + movieName + " " + moviePreview);
+
                 moviesList.add(movie);
             }
         }
