@@ -107,6 +107,7 @@ public class ImageService {
                 .queryParam("selectFields", "poster")
                 .toUriString();
 
+
         if (keyword.equals("genre")) {
             requestUrl = requestUrl.concat("&genres.name=" + keywordForDB);
             System.out.println("genres--------------    ");
